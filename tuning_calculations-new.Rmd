@@ -1,0 +1,382 @@
+---
+title: "tuning_calculations"
+output:
+  pdf_document: default
+  html_document: default
+date: "2023-08-08"
+---
+
+```{r setup, echo = FALSE, warning = FALSE, message = FALSE}
+knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, crop = TRUE)
+
+library(tidyverse)
+library(scales)
+library(ggdist)
+library(geomtextpath)
+library(stringr)
+
+size_data <- read_csv("data/tidy_data/size_tidy.csv")
+contrast_data <- read_csv("data/tidy_data/contrast_tidy.csv")
+additive_data <- read_csv("data/tidy_data/additive_tidy.csv")
+```
+
+For each factor, we only need the non-linear adjustment and the full contrast condition to compare it to. Let's also drop everything that we do not need for the tuning. We will then rename some columns, recode some conditions, and join the datasets together.
+
+```{r}
+size_data <- size_data %>% filter(size == "A" | size == "D") %>%
+  dplyr::select(c("size", "slider.response", "my_rs", "difference")) %>%
+  mutate("size" = recode(size,
+                         "D" = "standard_plot",
+                         "A" = "size_manipulated")) %>%
+  rename("factor" = "size")
+
+contrast_data <- contrast_data %>% filter(contrast == "A" | contrast == "D") %>%
+  dplyr::select(c("contrast", "slider.response", "my_rs", "difference")) %>%
+  mutate("contrast" = recode(contrast,
+                             "D" = "standard_plot",
+                             "A" = "contrast_manipulated")) %>%
+  rename("factor" = "contrast")
+
+additive_data <- additive_data %>% filter(condition_abs == "A") %>%
+  dplyr::select(c("condition_abs", "slider.response", "my_rs", "difference")) %>%
+  mutate("condition_abs" = recode(condition_abs,
+                                  "A" = "additive_manipulation")) %>%
+  rename("factor" = "condition_abs")
+
+combo_df <- rbind(size_data, contrast_data, additive_data) %>% group_by(factor, my_rs) %>%
+  summarise(difference = mean(difference, na.rm = T),
+            slider.response = mean(slider.response, na.rm = T))
+
+```
+
+First let's plot the *r* estimates and errors by condition, as we do in the papers.
+
+```{r facet-plots, out.width = "100%"}
+
+facet_plotter <- function(measure) {
+  
+combo_df %>%
+  drop_na() %>%
+  group_by(factor, my_rs) %>%
+  summarise(sd = sd(get(measure)), mean = mean(get(measure))) %>% 
+  ggplot(aes(x = my_rs, y = mean)) +
+  theme_ggdist() +
+  scale_y_continuous(breaks = seq(-0.4,1, 0.2)) +
+  theme(strip.text = element_text(size = 6, margin = margin(1,0,1,0, "mm")), aspect.ratio = 1,
+        axis.text = element_text(size = 6.5),
+        axis.title = element_text(size = 8)) +
+  facet_wrap(factor ~., ncol = 4) +
+    labs(x = "Objective r",
+         y = "Mean r estimation") +
+    geom_smooth() +
+    xlim(0.2,1)
+}  
+
+facet_plotter("slider.response") + geom_abline(intercept = 0, slope = 1) 
+facet_plotter("difference") + geom_hline(yintercept = 0, linetype = 2)
+```
+
+Now let's get a proxy of the power of each manipulation by calculating the 
+difference between the standard curve and the curve that appears when 
+subject to the manipulation in question.
+
+```{r}
+library(zoo)
+
+# Read the CSV data into a data frame
+data <- combo_df
+
+# Filter rows with "factor" equal to "standard_plot"
+filtered_data <- data %>%
+  filter(factor == "standard_plot")
+
+# Select every other row
+selected_data <- filtered_data %>%
+  filter(row_number() %% 2 == 1)
+
+vec <- selected_data$slider.response
+
+vec_rep <- rep(vec, times = 3)
+
+no_standard <- combo_df %>% filter(factor != "standard_plot")
+
+new_combo <- cbind(no_standard, vec_rep)%>%
+  rename("standard_curve" = "...5") %>%
+  mutate(power = slider.response - standard_curve) %>%
+  pivot_wider(names_from = factor, values_from = power) %>%
+  mutate(contrast_power = lead(contrast_manipulated, 45)) %>%
+  mutate(size_power = lead(size_manipulated, 90)) %>%
+  rename("additive_power" = "additive_manipulation") %>%
+  select(-c("contrast_manipulated", "size_manipulated", "slider.response")) %>%
+  slice(1:45)
+```
+
+
+```{r}
+just_estimates <- no_standard %>%
+  pivot_wider(names_from = factor, values_from = slider.response) %>%
+  mutate(contrast_raw = lead(contrast_manipulated, 45)) %>%
+  mutate(size_raw = lead(size_manipulated, 90)) %>%
+  rename("additive_raw_pl" = "additive_manipulation") %>%
+  select(-c("contrast_manipulated", "size_manipulated", "my_rs", "difference")) %>%
+  slice(1:45)
+ 
+power_and_raw_df <- cbind(just_estimates, new_combo) %>%
+  mutate(two_size_added =  standard_curve + 2*size_power) %>%
+  mutate(size_added =  standard_curve + size_power) %>%
+  mutate(contrast_added =  standard_curve + contrast_power) %>%
+  mutate(both_added =  standard_curve + size_power + contrast_power)
+```
+
+```{r}
+# returns intersection points of two curves
+
+# Sample xy coordinates for two curves
+curve1 <- data.frame(x = power_and_raw_df$my_rs, y = power_and_raw_df$additive_raw_pl)
+curve2 <- data.frame(x = power_and_raw_df$my_rs, y = power_and_raw_df$two_size_added)
+
+  curve_x <- power_and_raw_df$my_rs
+  curve_y <- power_and_raw_df$two_size_added
+
+# Function to find intersection points
+find_intersections <- function(curve1, curve2) {
+  intersections <- numeric(0)
+  
+  for (i in 2:nrow(curve1)) {
+    x1 <- curve1$x[i - 1]
+    y1 <- curve1$y[i - 1]
+    x2 <- curve1$x[i]
+    y2 <- curve1$y[i]
+    
+    for (j in 2:nrow(curve2)) {
+      x3 <- curve2$x[j - 1]
+      y3 <- curve2$y[j - 1]
+      x4 <- curve2$x[j]
+      y4 <- curve2$y[j]
+      
+      det <- (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+      
+      if (det != 0) {
+        intersection_x <- ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / det
+        intersection_y <- ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / det
+        
+        if (min(x1, x2) <= intersection_x && intersection_x <= max(x1, x2) &&
+            min(x3, x4) <= intersection_x && intersection_x <= max(x3, x4) &&
+            min(y1, y2) <= intersection_y && intersection_y <= max(y1, y2) &&
+            min(y3, y4) <= intersection_y && intersection_y <= max(y3, y4)) {
+          intersections <- c(intersections, c(intersection_x, intersection_y))
+        }
+      }
+    }
+  }
+  
+  return(matrix(intersections, ncol = 2, byrow = TRUE))
+}
+
+# Find intersection points
+intersection_points <- find_intersections(curve1, curve2)
+print(intersection_points)
+
+```
+
+```{r rotate-function}
+
+rotate_curve <- function(curve_x, curve_y, a, b, d) {
+  # Convert degrees to radians
+  angle_rad <- d * (pi / 180)
+  
+  num_points <- length(curve_x)
+  rotated_curve_x <- numeric(num_points)
+  rotated_curve_y <- numeric(num_points)
+  
+  for (i in 1:num_points) {
+    # Translate the point to the origin
+    translated_x <- curve_x[i] - a
+    translated_y <- curve_y[i] - b
+    
+    # Perform rotation
+    rotated_x <- cos(angle_rad) * translated_x - sin(angle_rad) * translated_y
+    rotated_y <- sin(angle_rad) * translated_x + cos(angle_rad) * translated_y
+    
+    # Translate the point back to its original position
+    final_x <- rotated_x + a
+    final_y <- rotated_y + b
+    
+    rotated_curve_x[i] <- final_x
+    rotated_curve_y[i] <- final_y
+  }
+  
+  return(list(x = rotated_curve_x, y = rotated_curve_y))
+}
+
+```
+
+```{r}
+  curve_x <- power_and_raw_df$my_rs
+  curve_y <- power_and_raw_df$two_size_added
+  a <- 0.51
+  b <- 0.63
+  angle_degrees <- -6
+
+  rotated_curve <- rotate_curve(curve_x, curve_y, a, b, angle_degrees)
+  
+x <- as_tibble(rotated_curve$x)
+y <- as_tibble(rotated_curve$y)
+
+x <- x %>% rename("x_curve" = "value")
+y <- y %>% rename("rotated_curve" = "value")
+
+```
+
+
+```{r, fig.asp = 1}
+curves <- power_and_raw_df %>%
+  cbind(y)
+
+write_csv(curves, "data/curves_df.csv")
+  
+  power_and_raw_df %>%
+  cbind(y) %>%
+  pivot_longer(cols = ends_with("raw") | 
+               ends_with("power") | 
+               ends_with("added") |
+               ends_with("curve") |
+               ends_with("pl") |
+               ends_with("case"),
+               names_to = "factor",
+               values_to = "value") %>%
+  filter(str_detect(factor, "two_size_added|additive_raw_pl|y_curve")) %>%
+  ggplot(aes(x = my_rs, y = value, group = factor, colour = factor)) +
+  #ggplot() +
+  #geom_smooth(aes(x = my_rs, y = additive_raw_pl), se = FALSE, colour = "green") +
+  #geom_smooth(aes(x = my_rs, y = y_curve), se = FALSE) +
+  #geom_smooth(aes(x = my_rs, y = two_size_added, colour = "green")) +
+  theme_ggdist() +
+  geom_abline(yintercept = 0, slope = 1) +
+  ylim(0.2,1) +
+  xlim(0.2,1) +
+  geom_textsmooth(aes(colour = factor, label = factor, vjust = "auto", hjust = "auto"), size = 2.5, linewidth = 1) +
+  theme(legend.position = "none") +
+  ggtitle("Contrast: Raw Estimates vs Prediction")
+
+```
+
+
+```{r}
+# Define the original curve points
+original_curve <- data.frame(
+  my_rs = c(0.2, 0.217954545, 0.235909091, 0.253863636, 0.271818182, 0.289772727,
+            0.307727273, 0.325681818, 0.343636364, 0.361590909, 0.379545455,
+            0.3975, 0.415454545, 0.433409091, 0.451363636, 0.469318182,
+            0.487272727, 0.505227273, 0.523181818, 0.541136364, 0.559090909,
+            0.577045455, 0.595, 0.612954545, 0.630909091, 0.648863636,
+            0.666818182, 0.684772727, 0.702727273, 0.720681818, 0.738636364,
+            0.756590909, 0.774545455, 0.7925, 0.810454545, 0.828409091,
+            0.846363636, 0.864318182, 0.882272727, 0.900227273, 0.918181818,
+            0.936136364, 0.954090909, 0.972045455, 0.99),
+  additive_raw_pl = c(0.436584972, 0.428137881, 0.440322865, 0.44843895, 0.4209724,
+                      0.462887, 0.4565028, 0.476242186, 0.468435006, 0.49468186,
+                      0.501255226, 0.508948239, 0.540518128, 0.541894185, 0.571524466,
+                      0.598377924, 0.613803984, 0.627925734, 0.628356385, 0.661664375,
+                      0.667911223, 0.690187326, 0.720237253, 0.725257871, 0.742904912,
+                      0.752182652, 0.750411327, 0.769129606, 0.7698507, 0.7816407,
+                      0.795899537, 0.814105965, 0.8242622, 0.83564156, 0.8400668,
+                      0.8525606, 0.8454884, 0.87096778, 0.86585419, 0.875587245,
+                      0.886211173, 0.905950869, 0.91910065, 0.9307017, 0.9483127)
+)
+
+# Define a function to translate points towards y=x line
+translate_to_y_equals_x <- function(x, y) {
+  translation_factor <- (y - x) / 2
+  translated_y <- y - translation_factor
+  return(translated_y)
+}
+
+# Translate the points
+translated_curve <- original_curve
+translated_curve$additive_raw_pl <- translate_to_y_equals_x(
+  original_curve$my_rs, original_curve$additive_raw_pl
+)
+
+# Plot the original and translated curves
+plot(original_curve$my_rs, original_curve$additive_raw_pl, type = "l", col = "blue", lwd = 2,
+     xlab = "my_rs", ylab = "additive_raw_pl", main = "Original Curve vs. Translated Curve") +
+lines(translated_curve$my_rs, translated_curve$additive_raw_pl, col = "red", lwd = 2) +
+legend("topright", legend = c("Original Curve", "Translated Curve"), col = c("blue", "red"), lwd = 2)
+
+# Print the translated curve
+print(translated_curve)
+
+```
+
+```{r}
+# Define the original curve points
+original_curve <- data.frame(
+  my_rs = c(0.2, 0.217954545, 0.235909091, 0.253863636, 0.271818182, 0.289772727,
+            0.307727273, 0.325681818, 0.343636364, 0.361590909, 0.379545455,
+            0.3975, 0.415454545, 0.433409091, 0.451363636, 0.469318182,
+            0.487272727, 0.505227273, 0.523181818, 0.541136364, 0.559090909,
+            0.577045455, 0.595, 0.612954545, 0.630909091, 0.648863636,
+            0.666818182, 0.684772727, 0.702727273, 0.720681818, 0.738636364,
+            0.756590909, 0.774545455, 0.7925, 0.810454545, 0.828409091,
+            0.846363636, 0.864318182, 0.882272727, 0.900227273, 0.918181818,
+            0.936136364, 0.954090909, 0.972045455, 0.99),
+  additive_raw_pl = c(0.436584972, 0.428137881, 0.440322865, 0.44843895, 0.4209724,
+                      0.462887, 0.4565028, 0.476242186, 0.468435006, 0.49468186,
+                      0.501255226, 0.508948239, 0.540518128, 0.541894185, 0.571524466,
+                      0.598377924, 0.613803984, 0.627925734, 0.628356385, 0.661664375,
+                      0.667911223, 0.690187326, 0.720237253, 0.725257871, 0.742904912,
+                      0.752182652, 0.750411327, 0.769129606, 0.7698507, 0.7816407,
+                      0.795899537, 0.814105965, 0.8242622, 0.83564156, 0.8400668,
+                      0.8525606, 0.8454884, 0.87096778, 0.86585419, 0.875587245,
+                      0.886211173, 0.905950869, 0.91910065, 0.9307017, 0.9483127)
+)
+
+# Define a function to calculate translation factors
+calculate_translation_factors <- function(x, y) {
+  translation_factor <- (y - x) / 2
+  return(translation_factor)
+}
+
+# Calculate translation factors
+translation_factors <- calculate_translation_factors(
+  original_curve$my_rs, original_curve$additive_raw_pl
+)
+
+# Create a dataframe for translation factors
+translation_factors_df <- data.frame(
+  my_rs = original_curve$my_rs,
+  translation_factor = translation_factors
+)
+
+# Print the translation factors dataframe
+print(translation_factors_df)
+
+translation_factor <- as_tibble(translation_factors_df$translation_factor)
+
+write_csv(translation_factor, "data/translation_factor.csv")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

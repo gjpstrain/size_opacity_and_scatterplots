@@ -300,7 +300,20 @@ of Science and Engineering, University of Manchester}
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
-Abstract goes here    
+It is paramount that the toolkit of the data visualization designer must
+continue to grow based on robust, reproducible experimental work. To
+this effect, we present a single-experiment study in which we combine
+previously explored data point size and contrast manipulations in
+scatterplots to influence viewer's estimates of correlation. We follow
+this with an extended exploration into how the combination of two
+established scatterplot manipulations can explain the relative
+contributions and mechanisms of each, in ways that the manipulations in
+isolation cannot. We make the case for more extensive testing of these
+manipulations such that they can be tuned to fully address a
+long-standing correlation underestimation bias by viewers of
+scatterplots in the literature. Simultaneously we present a rigorous
+experimental framework for fast, inexpensive, and empirical
+visualization design.    
 \end{abstract}
 
 %%
@@ -374,12 +387,12 @@ represents. As part of our ongoing effort to tune scatterplots for more
 accurate correlation perception, our next step is to combine our point
 size and contrast manipulations. In the present study we hypothesize
 that; an increased reduction in correlation estimation error will be
-observed when congruent non-linear functions are used; the use of
-congruent inverted conditions will produce the least accurate estimates
-of correlation; and that owing to the greater strength of the size
-channel observed in \citet{strain_2023b}, there will be a significant
-difference in correlation estimates between the two incongruent
-conditions.
+observed when standard orientation non-linear functions are used; the
+use of congruent inverted orientation conditions will produce the least
+accurate estimates of correlation; and that owing to the greater
+strength of the size channel observed in \citet{strain_2023b}, there
+will be a significant difference in correlation estimates between the
+two incongruent orientation conditions.
 
 \hypertarget{sec-related-work}{%
 \section{Related Work}\label{sec-related-work}}
@@ -396,37 +409,72 @@ Perception}\label{sec-testing-corr-percept}}
 Contrast}\label{sec-transparency-and-contrast}}
 
 Changing the contrast of scatterplot points is standard practice to deal
-with issues of overplotting or clutter (\citet{matejka_2015};
-\citet{bertini_2004}); scatterplots with very large numbers of points,
-especially with high degrees of overlap, suffer from low
+with issues of overplotting or clutter
+\citep{matejka_2015, bertini_2004}; scatterplots with very large numbers
+of points, especially with high degrees of overlap, suffer from low
 individual-point visibility caused by high point density. Lowering the
 contrast of all points addresses this, and makes data trends and
-distributions easier to see and interpret. Previous work has found that
-lowering the contrast of \emph{all} scatterplot points relative to the
-background can increase the level of underestimation error relative to
-full contrast, and that lowering point contrast \emph{as a function of
-distance from the regression line} is able to bias correlation estimates
-upwards to partially correct for the underestimation bias
-(\citet{strain_2023}). The balance of evidence points towards an
-uncertainty-based mechanism for these effects. Lower contrast can
-increase error in positional judgements (\citet{wehrhahn_1990}), can
-result in greater uncertainty in speed perception
-(\citet{champion_2017})
+distributions easier to see and interpret (see
+Figure~\ref{fig-overplotting-examples}).
 
-\begin{itemize}
-\item
-  formalising contrast
-\item
-  ggplot etc
-\item
-  use of contrast floor
-\item
-  rehash contrast paper main points about contrast/alpha
-\item
-  explain luminance, alpha, etc
-\item
-  clarify use of alpha = 0.2 floor
-\end{itemize}
+\begin{figure}
+
+\includegraphics[width=0.5\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-overplotting-examples-1.pdf} \hfill{}
+
+\caption{\label{fig-overplotting-examples}Adjusting point contrast to
+address overplotting. Contrast between the points and the background is
+full (alpha = 1, L) or low (alpha = 0.2, R). The dataset used has 40,000
+points.}
+
+\end{figure}
+
+\begin{figure}
+
+\includegraphics[width=0.5\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-alpha-examples-1.pdf} \hfill{}
+
+\caption{\label{fig-alpha-examples}Demonstrating the effects of
+different alpha values on point contrast.}
+
+\end{figure}
+
+In the present study we use the \textbf{ggplot2} package
+\citep{hadley_gg2016} to create our stimuli. This package uses an alpha
+parameter, or the level of linear interpolation \citep{stone_2008}
+between foreground and background pixel values, to set the contrast of
+points. As demonstrated in Figure~\ref{fig-alpha-examples}, an alpha
+value of 0 or 1 results in no interpolation and renders either the
+background or foreground pixel values respectively. Psychophysical
+definitions of perceived contrast are often based on what is being
+presented (i.e gratings) or are modelled to take into account phenomena
+of human vision (i.e visibility limits) \citep{zuffi_2007}. Our
+crowdsourced methodology gives us no control the exact luminances of our
+stimuli, only over the \emph{relative} differences in luminance between
+scatterplot points and backgrounds. For this reason we do not report
+absolute luminance nor make any attempt to adopt a formal definition of
+contrast; instead we simply report the alpha value used. Given that our
+work aims to improve correlation perception without removing data from
+the scatterplot, we incorporate point visibility testing (see
+Section~\ref{sec-VT}). Informal point visibility piloting suggested that
+our smallest, lowest contrast points had very low visibility. We
+therefore implemented an alpha = 0.2 floor for these points, which we
+felt conferred a sufficient level of point visibility.
+
+Previous work has found that lowering the contrast of \emph{all}
+scatterplot points relative to the background can increase the level of
+underestimation error relative to full contrast, and that lowering point
+contrast \emph{as a function of distance from the regression line} is
+able to bias correlation estimates upwards to partially correct for the
+underestimation bias (\citet{strain_2023}). Evidence suggests point
+salience/perceptual weighting and spatial uncertainty as drivers for
+this effect. Lower stimulus contrast is associated with lower salience
+\citep{healey_2012}, can bias judgements of mean point position
+\citep{hong_2021} and increase error in positional judgements
+\citep{wehrhahn_1990}, and can result in greater uncertainty in speed
+perception \citep{champion_2017}. Due to effects of both
+salience/perceptual weighting and spatial uncertainty operating in the
+same direction, previous work \citep{strain_2023} has been unable to
+determine the extent to which each is responsible for the observed
+reduction in correlation estimation error.
 
 \hypertarget{sec-point-size}{%
 \subsection{Point Size}\label{sec-point-size}}
@@ -465,11 +513,11 @@ experimental stimuli.
 \hypertarget{sec-open-research}{%
 \subsection{Open Research}\label{sec-open-research}}
 
-Both experiments were conducted according to the principles of open and
+This study was conducted according to the principles of open and
 reproducible research. All data and analysis code are available at
 (repository link removed for anon). This repository contains
 instructions for building a docker image to fully reproduce the
-computational environment used . This allows for full replications of
+computational environment used. This allows for full replications of
 stimuli, analysis, and the paper itself. Ethical approval for both
 experiments was granted by (removed for anon). Hypotheses and analysis
 plans were pre-registered with the OSF (links removed for anon).
@@ -478,7 +526,7 @@ plans were pre-registered with the OSF (links removed for anon).
 \subsection{Scatterplot Generation}\label{sec-scatter-gen}}
 
 The data used to generate the scatterplots were identical to that used
-in our previous work \citep{strain_2023, strain_2023b}. 45 scatterplot
+in previous work \citep{strain_2023, strain_2023b}. 45 scatterplot
 datasets were generated corresponding to 45 \emph{r} values uniformly
 distributed between 0.2 and 0.99, as there is evidence that very little
 correlation is perceived below \emph{r} = 0.2
@@ -493,61 +541,62 @@ occupied the same visual proportion. We used equation 1 to map residuals
 to size and contrast values.
 
 \begin{equation}
-  point_{size/contrast} = 1 - 0.25^{residual}
+  point_{size/contrast} = 1 - b^{residual}
 \end{equation}
 
-In experiment 1, we used 2x2 combinations of this equation in standard
-and inverted forms. Scatterplot examples can be seen in
-Figure~\ref{fig-examples}. In experiment 2 we fine tune this equation,
-adding the objective \emph{r} value and the previously observed biases
-into the equation in order to flatten the underestimation curve.
+0.25 was chosen as the value of \emph{b}. This is both due to its
+previous usage in studies that the present work builds upon, and its
+production of a curve approximating the inverse around the identity line
+of the underestimation curve reported in previous work
+{[}\citet{rensink_2017}; strain\_2023; strain\_2023b{]}. We also
+acknowledge that there may be other, more suitable values of \emph{b},
+however extensively testing these is outside the scope of the present
+work. We used 2x2 combinations of this equation applied to point size
+and contrast in standard and inverted orientation forms. Scatterplot
+examples can be seen in Figure~\ref{fig-examples}.
 
 \hypertarget{sec-gen-modelling}{%
 \subsection{Modelling}\label{sec-gen-modelling}}
 
-In both experiments we use linear mixed effects models to model the
-relationships between our independent variables (the combination of size
-and contrast decay conditions in experiment 1, and the use of the tuned
-manipulation in experiment 2) and participants' errors in correlation
-estimates. Models such as these allow us to compare differences in our
-IVs across the full range of participant responses, as opposed to
-relying purely on aggregate data, as in ANOVA. These models also afford
-us the ability to include random effects for participants and items. As
-per our pre-registrations we preferred maximal models, including random
-intercepts and slopes for participants and items. The structures of
-these models was identified using the \textbf{buildmer} package in R
-(version xx, \citet{voeten_buildmer}). This package takes a maximal
-random effects structure and then identifies the most complex model that
-converges, dropping random effects terms that fail to explain a
-significant amount of variance.
+We use linear mixed effects models to model the relationships between
+the combination of size and contrast decay conditions and participants'
+errors in correlation estimates. Models such as these allow us to
+compare differences in our IVs across the full range of participant
+responses, as opposed to relying purely on aggregate data, as in ANOVA.
+These models also afford us the ability to include random effects for
+participants and items. As per our pre-registrations we preferred
+maximal models, including random intercepts and slopes for participants
+and items. The structures of these models was identified using the
+\textbf{buildmer} package in R (version xx, \citep{voeten_buildmer}).
+This package takes a maximal random effects structure and then
+identifies the most complex model that converges, dropping terms that
+fail to explain a significant amount of variance.
 
 \hypertarget{sec-VT}{%
 \subsection{Point Visibility Testing}\label{sec-VT}}
 
 It is key that our manipulations do not remove data from the
-scatterplot. In order to ensure that our points were visible, we
-included visual threshold testing. Participants viewed six scatterplots
-that were made up of a certain number of points. These points were of
-the same size and contrast as the smallest and lowest contrast points to
-be used in that experiment. Participants were asked to enter in a
-textbox how many points were present. In experiment 1, participants
-scored an average of 74.89\% (\(SD\) = 32.25). Despite our use of the
-contrast floor detailed in Section~\ref{sec-transparency-and-contrast},
-it is clear that some of our small, low contrast points were not
-reliably visible, most likely due to low contrast between the point and
-background, as our previous work (strain\_2023b) found point visibility
-invariant to size. We suggest this is due to differences in monitors
-between participants. In reality this contrast floor would need to
-calibrated on a per-monitor basis. Figure~\ref{fig-VT-hist} shows
-distributions of participants' performances on the visual threshold
-tests. We also include performance as fixed effects in experimental
-models in Section~\ref{sec-results} and
+scatterplot. We therefore included point visibility testing to ensure
+this. Participants viewed six scatterplots that were made up of a
+certain number of points. These points were of the same size and
+contrast as the smallest and lowest contrast points used in the
+experimental items. Participants were asked to enter in a textbox how
+many points were present. Participants scored an average of 74.89\%
+(\(SD\) = 32.25). Despite our use of the contrast floor detailed in
+Section~\ref{sec-transparency-and-contrast}, it is clear that some of
+our small, low contrast points were not reliably visible, most likely
+due to low contrast between the point and background, as previous work
+(strain\_2023b) found point visibility invariant to size. We suggest
+this is due to differences in monitors between participants. In reality
+this contrast floor would need to be calibrated on a per-monitor basis.
+Figure~\ref{fig-VT-hist} shows distributions of participants'
+performances on the visual threshold tests. We also include performance
+on the point visibility test as a fixed effect in
+Section~\ref{sec-add-analyses}.
 
 \begin{figure}
 
-{\centering \includegraphics{size_and_contrast_new_files/figure-pdf/fig-VT-hist-1.pdf}
-
-}
+\includegraphics[width=0.5\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-VT-hist-1.pdf} \hfill{}
 
 \caption{\label{fig-VT-hist}Histograms of visual threshold testing
 performance for experiment 1 (L) and experiment 2 (R).}
@@ -564,8 +613,8 @@ scatterplot points. Participants were asked to hold a standard size
 credit/ debit/ID card (ISO/IEC 7810 ID-1) up to their screen and resize
 an on-screen card until the two matched. We assumed a widescreen 16:9
 aspect ratio and calculated dot pitch based on these measurements. Mean
-dot pitch in experiment 1 was 0.34 (\(SD\) = 0.05) and xx in experiment
-2. We include analyses with dot pitch as a fixed effect below.
+dot pitch was 0.34 (\(SD\) = 0.05). We include analyses with dot pitch
+as a fixed effect in Section~\ref{sec-add-analyses}.
 
 \hypertarget{sec-gen-procedure}{%
 \subsection{Procedure}\label{sec-gen-procedure}}
@@ -625,10 +674,9 @@ Figure~\ref{fig-examples}.
 
 \begin{figure}
 
-\includegraphics[width=0.5\textwidth,height=\textheight]{images/examples.png} \hfill{}
+\includegraphics[width=0.5\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-examples-1.pdf} \hfill{}
 
-\caption{\label{fig-examples}Examples of the experimental items used. NL
-= non-linear decay, Inv = inverted decay.}
+\caption{\label{fig-examples}\textbf{?(caption)}}
 
 \end{figure}
 
@@ -745,6 +793,9 @@ correlation estimation errors change as a function of the \emph{r} value
 for each combination of size and contrast decay factors.}
 
 \end{figure}
+
+\hypertarget{sec-add-analyses}{%
+\subsection{Additional Analyses}\label{sec-add-analyses}}
 
 We find no effects of graph literacy (\(\chi^2\)(1) = 3.50, \emph{p} =
 .061) or performance on the visual threshold task (\(\chi^2\)(1) = 1.29,

@@ -258,7 +258,7 @@ demographics <- anon_file %>%
 anon_file <- anon_file %>%
   mutate(images = str_replace(images, pattern = "A", replacement = "-S-S")) %>%
   mutate(images = str_replace(images, pattern = "B", replacement = "-I-I")) %>%
-  mutate(images = str_replace(images, pattern = "X", replacement = "-S-S")) %>%
+  mutate(images = str_replace(images, pattern = "X", replacement = "-S-I")) %>%
   mutate(images = str_replace(images, pattern = "Y", replacement = "-I-S")) %>%
   separate(images, c("item", "contrast", "size"), sep = "-") %>%
   mutate(size = str_replace(size, pattern = ".png", replacement = "")) %>%
@@ -547,6 +547,82 @@ make_sig_table <- function (model) {
 }
 ```
 
+```{r}
+#| label: plot-examples-function
+
+example_plots <- function () {
+  
+  set.seed(1234)
+  
+  my_sample_size = 128
+  
+  my_desired_r = 0.6
+  
+  mean_variable_1 = 0
+  sd_variable_1 = 1
+  
+  mean_variable_2 = 0
+  sd_variable_2 = 1
+  
+  mu <- c(mean_variable_1, mean_variable_2) 
+  
+  myr <- my_desired_r * sqrt(sd_variable_1) * sqrt(sd_variable_2)
+  
+  mysigma <- matrix(c(sd_variable_1, myr, myr, sd_variable_2), 2, 2) 
+  
+  corr_data = as_tibble(mvrnorm(my_sample_size, mu, mysigma, empirical = TRUE))
+  
+  corr_model <- lm(V2 ~ V1, data = corr_data)
+  
+  my_residuals <- abs(residuals(corr_model))
+  
+  data_with_resid <- round(cbind(corr_data, my_residuals), 2)
+  
+slopes <- data_with_resid %>%
+  mutate(slope_0.25 = 1-(0.25)^my_residuals) %>%
+  mutate(slope_inverted = (1 + (0.25)^ my_residuals)-1) %>%
+  mutate(slope_inverted_floored = pmax(0.1,(1+(0.25)^my_residuals)-1)) 
+  
+plot_example_function <- function (data, size, contrast, title) {
+  
+set.seed(1234)
+  
+  ggplot(data, aes(x = V1, y = V2)) +
+  scale_size_identity() +
+  geom_point(aes(size = 4*(size + 0.2), alpha = contrast), shape = 16)  +
+  labs(x = "", y = "") +
+  theme_classic() +
+  theme(axis.text = element_blank(),
+        plot.margin = unit(c(0,0,0,0), "cm"),
+        legend.position = "none",
+        plot.title = element_text(size = 13)) +
+  labs(title = title)
+
+}  
+
+plots <- ggarrange(plot_example_function(slopes,
+                                        (1-slopes$slope_0.25),
+                                        (1-slopes$slope_0.25),
+                                        "Standard Orientation Size\nStandard Orientation Contrast"),
+                   plot_example_function(slopes,
+                                         (1-slopes$slope_inverted),
+                                         (1-slopes$slope_inverted),
+                                         "Inverted Orientation Size\nInverted Orientation Contrast"),
+                   plot_example_function(slopes,
+                                         (1-slopes$slope_inverted),
+                                         (1-slopes$slope_0.25),
+                                         "Inverted Orientation Size\nStandard Orientation Contrast"),
+                   plot_example_function(slopes,
+                                         (1-slopes$slope_0.25),
+                                         (1-slopes$slope_inverted),
+                                         "Standard Orientation Size\nInverted Orientation Contrast"))
+
+return(plots)
+
+}
+```
+
+
 # Introduction
 
 - why study scatterplots?
@@ -566,7 +642,7 @@ study we hypothesize that; an increased reduction in correlation estimation erro
 observed when standard orientation non-linear functions are used; the use of 
 congruent inverted orientation conditions will produce 
 the least accurate estimates of correlation; and that owing to the greater strength
-of the size channel observed in @strain_2023b, there will be a significant difference in correlation
+of the size channel observed in  previous work [@strain_2023b], there will be a significant difference in correlation
 estimates between the two incongruent orientation conditions.
 
 # Related Work {#sec-related-work}
@@ -578,33 +654,101 @@ estimates between the two incongruent orientation conditions.
 ## Transparency and Contrast {#sec-transparency-and-contrast}
 
 Changing the contrast of scatterplot points is standard practice to deal with
-issues of overplotting or clutter (@matejka_2015; @bertini_2004); scatterplots
+issues of overplotting or clutter [@matejka_2015; @bertini_2004]; scatterplots
 with very large numbers of points, especially with high degrees of overlap, suffer
 from low individual-point visibility caused by high point density. Lowering
 the contrast of all points addresses this, and makes data trends and distributions
-easier to see and interpret. Previous work has found that lowering the contrast
-of *all* scatterplot points relative to the background can increase the level of
+easier to see and interpret (see @fig-overplotting-examples).
+
+```{r}
+#| label: fig-overplotting-examples
+#| include: true
+#| fig-asp: 0.75
+#| out-width: "50%"
+#| fig-align: "left"
+#| fig-cap: Adjusting point contrast to address overplotting. Contrast between the points and the background is full (alpha = 1, L) or low (alpha = 0.2, R). The dataset used has 40,000 points.
+ 
+set.seed(123)
+data <- data.frame(x = c(rnorm(20000, mean = -1), rnorm(20000, mean = 1)),
+                   y = rnorm(40000))
+
+ggplot(data, aes(x = x, y = y)) +
+  scale_alpha_identity() +
+  geom_point(aes(alpha = ifelse(x > -0.1 & x < 0.1, 0, ifelse(x > 0, 0.075, 1))),
+             shape = 16) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_ggdist() +
+  labs(x = "",
+       y = "") +
+  theme(axis.text = element_blank())
+```
+
+```{r}
+#| label: fig-alpha-examples
+#| include: true
+#| out-width: "50%"
+#| fig-cap: Demonstrating the effects of different alpha values on point contrast.
+#| fig-height: 2
+#| fig-align: "left"
+
+x1 <- seq(0,1, length.out = 11)
+y1 <- rep(1, times = 11)
+df <- data.frame(x1, y1)
+ggplot(aes(x1, y1), data = df) +
+  geom_point(alpha = x1, size = 18, shape = 16) +
+  theme(panel.background = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title = element_blank(),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_text(size = 14)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 11)) +
+rm(x1,y1,df)
+```
+
+In the present study we use the **ggplot2** package [@hadley_gg2016] to create
+our stimuli. This package uses an alpha parameter, or the level of linear
+interpolation [@stone_2008] between foreground and background pixel values, to
+set the contrast of points. As demonstrated in @fig-alpha-examples, an alpha value
+of 0 or 1 results in no interpolation and renders either the background or foreground
+pixel values respectively. Psychophysical definitions of perceived contrast are
+often based on what is being presented (i.e gratings) or are modelled to take
+into account phenomena of human vision (i.e visibility limits) [@zuffi_2007].
+Our crowdsourced methodology gives us no control the exact luminances
+of our stimuli, only over the *relative* differences in luminance between scatterplot
+points and backgrounds. For this reason we do not report absolute luminance nor
+make any attempt to adopt a formal definition of contrast; instead we simply
+report the alpha value used. Given that our work aims to improve correlation perception
+without removing data from the scatterplot, we incorporate point visibility testing 
+(see @sec-VT). Informal point visibility piloting suggested that our smallest,
+lowest contrast points had very low visibility. We therefore implemented an alpha = 0.2 floor
+for these points, which we felt conferred a sufficient level of point visibility.
+
+Previous work has found that lowering the contrast of *all* 
+scatterplot points relative to the background can increase the level of
 underestimation error relative to full contrast, and that lowering point
 contrast *as a function of distance from the regression line* is able to bias
 correlation estimates upwards to partially correct for the underestimation 
-bias (@strain_2023). The balance of evidence points towards an uncertainty-based
-mechanism for these effects. Lower contrast can increase error in positional 
-judgements (@wehrhahn_1990), can result in greater uncertainty in speed perception
-(@champion_2017)
-
-
-- formalising contrast
-- ggplot etc
-- use of contrast floor
-
-- rehash contrast paper main points about contrast/alpha
-- explain luminance, alpha, etc
-- clarify use of alpha = 0.2 floor
+bias [@strain_2023]. Evidence suggests point salience/perceptual weighting and
+spatial uncertainty as drivers for this effect. Lower stimulus contrast is
+associated with lower salience [@healey_2012], can bias judgements of mean point
+position [@hong_2021] and increase error in positional judgements [@wehrhahn_1990],
+and can result in greater uncertainty in speed perception [@champion_2017]. Due 
+to effects of both salience/perceptual weighting and spatial uncertainty operating
+in the same direction, previous work [@strain_2023] has been unable to determine the extent
+to which each is responsible for the observed reduction in correlation estimation
+error.
 
 ## Point Size {#sec-point-size}
 
+For discriminability reasons, scatterplots visualizing large datasets tend also to
+have smaller points. Bubble charts are a subclass of scatterplot which uses point
+size to describe a third variable. 
+
 - interplay between size and spatial uncertainty
 - hype up how strong the size effect was last time
+
+## Hypotheses
 
 # Methodology {#sec-methods}
 
@@ -666,7 +810,7 @@ responses, as opposed to relying purely on aggregate data, as in ANOVA. These mo
 the ability to include random effects for participants and items. As per our pre-registrations
 we preferred maximal models, including random intercepts and slopes for participants
 and items. The structures of these models was identified using the **buildmer** package
-in R (version xx, @voeten_buildmer). This package takes a maximal random effects
+in R (version xx, [@voeten_buildmer]). This package takes a maximal random effects
 structure and then identifies the most complex model that converges, dropping
 terms that fail to explain a significant amount of variance.
 
@@ -709,7 +853,7 @@ ggplot(size_and_contrast_exp_tidy, aes(x = VT_no_correct)) +
 
 ## Dot Pitch {#sec-dot-pitch}
 
-We employed a method for obtaining the dot pitch of participants' monitors (@screenscale).
+We employed a method for obtaining the dot pitch of participants' monitors [@screenscale].
 Combining this with monitor resolution information allows us to calculate the physical on-screen
 size of scatterplot points. Participants were asked to hold a standard size credit/
 debit/ID card (ISO/IEC 7810 ID-1) up to their screen and resize an on-screen card
@@ -720,12 +864,12 @@ We include analyses with dot pitch as a fixed effect in @sec-add-analyses.
 
 ## Procedure {#sec-gen-procedure}
 
-Both experiments were built using PsychoPy (@pierce_2019) and hosted on Pavlovia.org.
+Both experiments were built using PsychoPy [@pierce_2019] and hosted on Pavlovia.org.
 Participants were only permitted to complete the experiments on a desktop or laptop
 computer. Each participant was first shown the participant information sheet and provided
 consent through key presses in response to consent statements. They were asked to
 provide their age in a free text box, followed by their gender identity. Participants
-completed the 5-item Subjective Graph Literacy test (@garcia_2016), followed by the
+completed the 5-item Subjective Graph Literacy test [@garcia_2016], followed by the
 visual threshold task described in @sec-VT and the screen scale task described in 
 @sec-dot-pitch. Participants were given instructions, and were then shown examples
 of scatterplots with correlations of *r* = 0.2, 0.5, 0.8, and 0.95, as piloting of
@@ -742,9 +886,9 @@ asked participants to ignore the scatterplot and set the slider to 0 or 1.
 
 150 participants were recruited using the Prolific.co platform. Normal to 
 corrected-to-normal vision and English fluency were required for participation. To
-ensure high quality data, and in accordance with guidelines published in @peer_2021,
-participants were required to have successfully completed a minimum of 100 studies
-on Prolific. In addition, participants who had completed any of our previous studies
+ensure high quality data, and in accordance with previously published guidelines 
+[@peer_2021], participants were required to have successfully completed a minimum 
+of 100 studies on Prolific. In addition, participants who had completed any of our previous studies
 into correlation estimation in scatterplots [@strain_2023; @strain_2023b, and a
 previous pre-study] were prevented from participating.
 
@@ -771,68 +915,10 @@ items can be seen in @fig-examples.
 #| out-width: "50%"
 #| fig-asp: 1
 #| fig-align: "left"
+#| include: true
 
-example_plots <- function () {
-  
-  set.seed(1234)
-  
-  my_sample_size = 128
-  
-  my_desired_r = 0.6
-  
-  mean_variable_1 = 0
-  sd_variable_1 = 1
-  
-  mean_variable_2 = 0
-  sd_variable_2 = 1
-  
-  mu <- c(mean_variable_1, mean_variable_2) 
-  
-  myr <- my_desired_r * sqrt(sd_variable_1) * sqrt(sd_variable_2)
-  
-  mysigma <- matrix(c(sd_variable_1, myr, myr, sd_variable_2), 2, 2) 
-  
-  corr_data = as_tibble(mvrnorm(my_sample_size, mu, mysigma, empirical = TRUE))
-  
-  corr_model <- lm(V2 ~ V1, data = corr_data)
-  
-  my_residuals <- abs(residuals(corr_model))
-  
-  data_with_resid <- round(cbind(corr_data, my_residuals), 2)
-  
-slopes <- data_with_resid %>%
-  mutate(slope_0.25 = 1-(0.25)^my_residuals) %>%
-  mutate(slope_inverted = (1 + (0.25)^ my_residuals)-1) %>%
-  mutate(slope_inverted_floored = pmax(0.1,(1+(0.25)^my_residuals)-1)) 
-  
-plot_example_function <- function (data, size, contrast, title) {
-  
-set.seed(1234)
-  
-  ggplot(data, aes(x = V1, y = V2)) +
-  scale_size_identity() +
-  geom_point(aes(size = 4*(size + 0.2), alpha = contrast), shape = 16)  +
-  labs(x = "", y = "") +
-  theme_classic() +
-  theme(axis.text = element_blank(),
-        plot.margin = unit(c(0,0,0,0), "cm"),
-        legend.position = "none",
-        plot.title = element_text(size = 15)) +
-  labs(title = t)
-
-}  
-
-plots <- ggarrange(plot_example_function(slopes, (1-slopes$slope_0.25), (1-slopes$slope_0.25), "A"),
-                   plot_example_function(slopes, (1-slopes$slope_inverted), (1-slopes$slope_inverted), "B"),
-                   plot_example_function(slopes, (1-slopes$slope_inverted), (1-slopes$slope_0.25), "X"),
-                   plot_example_function(slopes, (1-slopes$slope_0.25),(1-slopes$slope_inverted), "Y"))
-
-return(plots)
-
-}
+example_plots()
 ```
-
-
 
 # Results {#sec-results}
 
@@ -995,11 +1081,11 @@ estimated marginal means for each combination of factors, and @fig-interaction-p
 shows the form the interaction takes. The interaction is driven by there being a
 greater difference in estimates between NL and inverted size decay conditions when
 the contrast decay condition is held as non-linear,
-as opposed to when it is inverted. This is parsimonious with our previous work 
+as opposed to when it is inverted. This is parsimonious with previous work 
 demonstrating the greater capacity of the size encoding channel to bias
-participants' estimates of *r* (@strain_2023b), and our findings that the inverted
+participants' estimates of *r* [@strain_2023b], and findings that the inverted
 channel is generally weaker at biasing correlation in the opposite direction 
-(@strain_2023; @strain_2023b). @tbl-contrasts shows statistics for pairwise
+[@strain_2023; @strain_2023b]. @tbl-contrasts shows statistics for pairwise
 comparisons.
 
 ```{r}

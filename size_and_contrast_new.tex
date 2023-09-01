@@ -385,14 +385,7 @@ the scatterplot relative to the center, which itself drives a reduction
 in the perceived width of the probability distribution said scatterplot
 represents. As part of our ongoing effort to tune scatterplots for more
 accurate correlation perception, our next step is to combine our point
-size and contrast manipulations. In the present study we hypothesize
-that; an increased reduction in correlation estimation error will be
-observed when standard orientation non-linear functions are used; the
-use of congruent inverted orientation conditions will produce the least
-accurate estimates of correlation; and that owing to the greater
-strength of the size channel observed in \citet{strain_2023b}, there
-will be a significant difference in correlation estimates between the
-two incongruent orientation conditions.
+size and contrast manipulations.
 
 \hypertarget{sec-related-work}{%
 \section{Related Work}\label{sec-related-work}}
@@ -401,8 +394,24 @@ two incongruent orientation conditions.
 \subsection{Testing Correlation
 Perception}\label{sec-testing-corr-percept}}
 
+The testing of correlation perception has a long and rich history. Very
+early work had participants make discriminative judgements between
+scatterplots with different correlations \citep{pollack_1960}, finding
+that performance on such a task became better as the objective \emph{r}
+value increased. Work
+
 \hypertarget{sec-drivers}{%
 \subsection{Drivers of Correlation Perception}\label{sec-drivers}}
+
+\begin{itemize}
+\tightlist
+\item
+  width of perceived prob distribution
+\item
+  shape of prediction ellipse
+\item
+  probably some others
+\end{itemize}
 
 \hypertarget{sec-transparency-and-contrast}{%
 \subsection{Transparency and
@@ -423,8 +432,8 @@ Figure~\ref{fig-overplotting-examples}).
 
 \caption{\label{fig-overplotting-examples}Adjusting point contrast to
 address overplotting. Contrast between the points and the background is
-full (alpha = 1, L) or low (alpha = 0.2, R). The dataset used has 40,000
-points.}
+full (alpha = 1, L) or low (alpha = .075, R). The dataset used has
+40,000 points.}
 
 \end{figure}
 
@@ -464,7 +473,7 @@ scatterplot points relative to the background can increase the level of
 underestimation error relative to full contrast, and that lowering point
 contrast \emph{as a function of distance from the regression line} is
 able to bias correlation estimates upwards to partially correct for the
-underestimation bias (\citet{strain_2023}). Evidence suggests point
+underestimation bias \citep{strain_2023}. Evidence suggests point
 salience/perceptual weighting and spatial uncertainty as drivers for
 this effect. Lower stimulus contrast is associated with lower salience
 \citep{healey_2012}, can bias judgements of mean point position
@@ -479,29 +488,62 @@ reduction in correlation estimation error.
 \hypertarget{sec-point-size}{%
 \subsection{Point Size}\label{sec-point-size}}
 
-\begin{itemize}
-\tightlist
-\item
-  interplay between size and spatial uncertainty
-\item
-  hype up how strong the size effect was last time
-\end{itemize}
+For discriminability reasons, scatterplots visualizing large datasets
+tend also to have smaller points. Bubble charts are a subclass of
+scatterplot which uses point size to describe a third variable, but what
+little experimental work there is on the impact of point size on
+correlation perception is inconclusive. Some work has found bias and
+variability in correlation perception to be invariant to changes in
+point size {[}\citet{rensink_2012}; rensink\_2014{]}, while elsewhere a
+strong effect of changing point size as a function of distance from the
+regression line has been reported \citep{strain_2023b}. Evidence points
+towards a salience-dominant mechanism in the latter case, albeit with a
+small effect of spatial uncertainty. There is evidence that stimulus
+size is associated with lower levels of spatial certainty
+\citep{alais_2004} but higher levels of salience \citep{healey_2011},
+and so the opposing directionality of predicted effects of
+salience/perceptual weighting and spatial uncertainty on correlation
+estimation has allowed researchers to provide evidence for the
+mechanistic dominance of salience when point size is used.
+
+\hypertarget{hypotheses}{%
+\subsection{Hypotheses}\label{hypotheses}}
+
+Based on previously established effects of adjusting point size and
+point contrast using identical decay functions in isolation, we
+presently make the following hypotheses about the combination of these
+functions. We hypothesize that; (H1) an increased reduction in
+correlation estimation error will be observed when standard orientation
+non-linear decay functions are used; (H2) the use of congruent inverted
+orientation decay functions will produce the least accurate estimates of
+correlation; and (H3) that owing to the greater strength of the size
+channel observed in previous work \citep{strain_2023b}, there will be a
+significant difference in correlation estimates between the two
+incongruent orientation conditions.
 
 \hypertarget{sec-methods}{%
 \section{Methodology}\label{sec-methods}}
 
-\hypertarget{crowdsourcing}{%
-\subsection{Crowdsourcing}\label{crowdsourcing}}
+\hypertarget{sec-crowdsourcing}{%
+\subsection{Crowdsourcing}\label{sec-crowdsourcing}}
 
-\begin{itemize}
-\tightlist
-\item
-  issues with crowdsourcing
-\item
-  how those issues were solved
-\item
-  why did we choose to crowdsource
-\end{itemize}
+Much prior work into correlation perception in scatterplots has taken
+place in-person, most often with graduate students with experience in
+statistics. While this work is valuable, especially to perception
+audiences, it can struggle to provide data that is resilient to
+different lay viewers and viewing contexts. In addition the ease and
+low-cost afforded to us by online, crowdsourced experimental work is
+unmatched. Given our intended HCI and design audience, we therefore
+choose to crowdsource all participants. We acknowledge however, that the
+technique has been affected by low quality data and skewed demographics
+in the past \citep{chmielewski_2020, charalambides_2021, peer_2021}. In
+light of these issues we follow published guidelines \citep{peer_2021}
+to ensure the collection of high quality data. Namely, we use the
+Prolific.co platform \citep{prolific} with stringent pre-screen
+restrictions; participants were required to have completed at least 100
+studies using Prolific, and were required to have a prolific score of at
+least 100, representing a 99\% approval rate. This is more strict than
+the 95\% suggestedin previous work \citep{peer_2021}, but
 
 Discussions about the transparency, contrast, and luminance is
 inherently difficult within the context of online, crowdsourced
@@ -538,7 +580,10 @@ deviations of 1 in each direction. Each scatterplot had a 1:1 aspect
 ratio, was generated as a 1000*1000 pixel .png image, and was scaled up
 or down according to a participant's monitor such that they always
 occupied the same visual proportion. We used equation 1 to map residuals
-to size and contrast values.
+to size and contrast values. When adjusting point size, we further
+transform values using a scaling factor of 4 and a constant of 0.2 t
+ensure that the minimum point size in the present study is consistent
+with that of previous work {[}\citet{strain_2023}; strain\_2023b{]}.
 
 \begin{equation}
   point_{size/contrast} = 1 - b^{residual}
@@ -575,31 +620,35 @@ fail to explain a significant amount of variance.
 \hypertarget{sec-VT}{%
 \subsection{Point Visibility Testing}\label{sec-VT}}
 
-It is key that our manipulations do not remove data from the
-scatterplot. We therefore included point visibility testing to ensure
-this. Participants viewed six scatterplots that were made up of a
-certain number of points. These points were of the same size and
-contrast as the smallest and lowest contrast points used in the
-experimental items. Participants were asked to enter in a textbox how
-many points were present. Participants scored an average of 74.89\%
-(\(SD\) = 32.25). Despite our use of the contrast floor detailed in
-Section~\ref{sec-transparency-and-contrast}, it is clear that some of
-our small, low contrast points were not reliably visible, most likely
-due to low contrast between the point and background, as previous work
-(strain\_2023b) found point visibility invariant to size. We suggest
-this is due to differences in monitors between participants. In reality
-this contrast floor would need to be calibrated on a per-monitor basis.
-Figure~\ref{fig-VT-hist} shows distributions of participants'
-performances on the visual threshold tests. We also include performance
-on the point visibility test as a fixed effect in
-Section~\ref{sec-add-analyses}.
+Discussions about the size and contrast of particular scatterplot points
+are inherently difficult in the context of online, crowdsourced
+experiments. In addition to measures implemented to ensure high quality
+participant data (see Section~\ref{sec-crowdsourcing}), it is also key
+that we do not inadvertently remove data from scatterplots by including
+points whose size or contrast renders them invisible. We therefore
+included point visibility testing to ensure this. Participants viewed
+six scatterplots that were made up of a certain number of points. These
+points were of the same size and contrast as the smallest and lowest
+contrast points used in the experimental items. Participants were asked
+to enter in a textbox how many points were present. Participants scored
+an average of 74.89\% (\(SD\) = 32.25). Despite our use of the contrast
+floor detailed in Section~\ref{sec-transparency-and-contrast}, it is
+clear that some of our small, low contrast points were not reliably
+visible, most likely due to low contrast between the point and
+background, as previous work (strain\_2023b) found point visibility
+invariant to size. We suggest this is due to differences in monitors
+between participants. In reality this contrast floor would need to be
+calibrated on a per-monitor basis. Figure~\ref{fig-VT-hist} shows
+distributions of participants' performances on the visual threshold
+tests. We also include performance on the point visibility test as a
+fixed effect in Section~\ref{sec-add-analyses}.
 
 \begin{figure}
 
 \includegraphics[width=0.5\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-VT-hist-1.pdf} \hfill{}
 
 \caption{\label{fig-VT-hist}Histograms of visual threshold testing
-performance for experiment 1 (L) and experiment 2 (R).}
+performance.}
 
 \end{figure}
 
@@ -607,7 +656,7 @@ performance for experiment 1 (L) and experiment 2 (R).}
 \subsection{Dot Pitch}\label{sec-dot-pitch}}
 
 We employed a method for obtaining the dot pitch of participants'
-monitors (\citet{screenscale}). Combining this with monitor resolution
+monitors \citep{screenscale}. Combining this with monitor resolution
 information allows us to calculate the physical on-screen size of
 scatterplot points. Participants were asked to hold a standard size
 credit/ debit/ID card (ISO/IEC 7810 ID-1) up to their screen and resize
@@ -619,15 +668,15 @@ as a fixed effect in Section~\ref{sec-add-analyses}.
 \hypertarget{sec-gen-procedure}{%
 \subsection{Procedure}\label{sec-gen-procedure}}
 
-Both experiments were built using PsychoPy (\citet{pierce_2019}) and
+Both experiments were built using PsychoPy \citep{pierce_2019} and
 hosted on Pavlovia.org. Participants were only permitted to complete the
 experiments on a desktop or laptop computer. Each participant was first
 shown the participant information sheet and provided consent through key
 presses in response to consent statements. They were asked to provide
 their age in a free text box, followed by their gender identity.
 Participants completed the 5-item Subjective Graph Literacy test
-(\citet{garcia_2016}), followed by the visual threshold task described
-in Section~\ref{sec-VT} and the screen scale task described in
+\citep{garcia_2016}, followed by the visual threshold task described in
+Section~\ref{sec-VT} and the screen scale task described in
 Section~\ref{sec-dot-pitch}. Participants were given instructions, and
 were then shown examples of scatterplots with correlations of \emph{r} =
 0.2, 0.5, 0.8, and 0.95, as piloting of a previous experiment indicated
@@ -646,12 +695,9 @@ scatterplot and set the slider to 0 or 1.
 
 150 participants were recruited using the Prolific.co platform. Normal
 to corrected-to-normal vision and English fluency were required for
-participation. To ensure high quality data, and in accordance with
-guidelines published in \citet{peer_2021}, participants were required to
-have successfully completed a minimum of 100 studies on Prolific. In
-addition, participants who had completed any of our previous studies
-into correlation estimation in scatterplots \citep[and a previous
-pre-study]{strain_2023, strain_2023b} were prevented from participating.
+participation. In addition, participants who had completed any of our
+previous studies into correlation estimation in scatterplots (references
+removed for anon) were prevented from participating.
 
 Data were collected from 158 participants. 8 failed more than 2 our of 6
 attention check questions, and, as per pre-registration stipulations,
@@ -775,12 +821,12 @@ shows the form the interaction takes. The interaction is driven by there
 being a greater difference in estimates between NL and inverted size
 decay conditions when the contrast decay condition is held as
 non-linear, as opposed to when it is inverted. This is parsimonious with
-our previous work demonstrating the greater capacity of the size
-encoding channel to bias participants' estimates of \emph{r}
-(\citet{strain_2023b}), and our findings that the inverted channel is
+previous work demonstrating the greater capacity of the size encoding
+channel to bias participants' estimates of \emph{r}
+\citep{strain_2023b}, and findings that the inverted channel is
 generally weaker at biasing correlation in the opposite direction
-(\citet{strain_2023}; \citet{strain_2023b}). Table~\ref{tbl-contrasts}
-shows statistics for pairwise comparisons.
+\citep{strain_2023, strain_2023b}. Table~\ref{tbl-contrasts} shows
+statistics for pairwise comparisons.
 
 \begin{figure}
 
@@ -864,44 +910,6 @@ underestimation curve from \citet{strain_2023} into the size and
 contrast underestimation curve we have found in the present study gives
 us some insight into the effect of adding the two manipulations
 together.
-
-\begin{figure}
-
-{\centering \includegraphics[width=1\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-transformation-1.pdf}
-
-}
-
-\caption{\label{fig-transformation}Transformations required to derive
-the Combination Curve observed in the present experiment using the size
-and contrast curves from previous work. The dotted line represents the
-size curve (A), two times the size curve (B), and two times the size
-curve rotated by 6 degrees clockwise.}
-
-\end{figure}
-
-Figure~\ref{fig-transformation} illustrates the transformations we must
-do to replicate the results we have found in the present study using
-results from previous work (\citet{strain_2023}; \citet{strain_2023b}).
-Given the similarity between the shape of the combination curve found in
-the present study and that of the size only manipulation found in
-\citet{strain_2023b}, we use this as a starting point. Adding the
-contrast manipulation has the effect of doubling the power of the size
-curve, followed by a change in orientation that can be approximated by a
-6\textdegree clockwise rotation. With the knowledge that the addition of
-the contrast manipulation can be thought of as doubling and rotating the
-size factor, and having worked out \emph{t}, a translation function to
-approximate the \(y = x\) optimum estimation line, we are able to
-generate the following set of equations. S = size, C = contrast, O =
-observed (present study), r = rotation function, t = translation
-function.
-
-\begin{equation}
-  S + C = O
-  r(S + C) = O
-  C = S
-  r(2S) = O
-  tr(2S) = tO
-\end{equation}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{size-contrast-new.bib}

@@ -167,6 +167,7 @@ library(ggpubr)
 library(conflicted)
 library(EMAtools)
 library(geomtextpath)
+
 # fix conflicts now using the conflicted package
 
 conflicts_prefer(dplyr::select(), dplyr::filter(), lme4::lmer())
@@ -214,9 +215,15 @@ wrangle <- function(anon_file) {
   
 visual_thresholds <- anon_file %>%
     filter(!is.na(VT_with_labels)) %>%
-    select(c("VT_with_labels", "participant", "VT_textbox2.text")) %>%
-    mutate(VT_answer = str_replace(VT_with_labels, pattern = "vis_threshold_plots/", replacement = "")) %>%
-    mutate(VT_answer = str_replace(VT_answer, pattern = "_VT.png", replacement = "")) %>%
+    select(c("VT_with_labels",
+             "participant",
+             "VT_textbox2.text")) %>%
+    mutate(VT_answer = str_replace(VT_with_labels,
+                                   pattern = "vis_threshold_plots/",
+                                   replacement = "")) %>%
+    mutate(VT_answer = str_replace(VT_answer,
+                                   pattern = "_VT.png",
+                                   replacement = "")) %>%
     mutate(correct_VT = case_when(
       VT_answer == VT_textbox2.text ~ "y",
       VT_answer != VT_textbox2.text ~ "n",
@@ -224,7 +231,9 @@ visual_thresholds <- anon_file %>%
     group_by(participant) %>% 
     summarise(VT_no_correct = sum(correct_VT == "y")) %>%
     mutate(VT_perc_correct = (VT_no_correct/6)*100) %>%
-    select("VT_perc_correct", "VT_no_correct", "participant")
+    select("VT_perc_correct",
+           "VT_no_correct",
+           "participant")
   
 # extract and process monitor and dot pitch information
 # we assume standard 16:9 aspect ratio for monitors
@@ -234,7 +243,9 @@ monitor_information <- anon_file %>%
   mutate(res_height = res_width*0.5625,
          width = height*0.5625,
          dot_pitch = ((sqrt(height^2 + width^2))/(sqrt(res_height^2 + res_width^2))) * 25.4) %>%
-         select(c("dot_pitch", "participant", "res_width")) %>%
+         select(c("dot_pitch",
+                  "participant",
+                  "res_width")) %>%
   na.omit()
   
 # extract demographic information
@@ -247,8 +258,8 @@ demographics <- anon_file %>%
                                          `2` = "M",
                                          `3` = "NB")) %>%
   select(matches(c("participant",
-                          "age_textbox.text",
-                          "gender_slider.response")))
+                    "age_textbox.text",
+                    "gender_slider.response")))
 
 # split images column into item and condition columns
 # additionally create "condition_abs" column
@@ -260,7 +271,10 @@ anon_file <- anon_file %>%
   mutate(images = str_replace(images, pattern = "B", replacement = "-I-I")) %>%
   mutate(images = str_replace(images, pattern = "X", replacement = "-S-I")) %>%
   mutate(images = str_replace(images, pattern = "Y", replacement = "-I-S")) %>%
-  separate(images, c("item", "contrast", "size"), sep = "-") %>%
+  separate(images, c("item",
+                     "contrast",
+                     "size"),
+           sep = "-") %>%
   mutate(size = str_replace(size, pattern = ".png", replacement = "")) %>%
   mutate(condition_abs = case_when(
     contrast == "S" & size == "S" ~ "A",
@@ -278,16 +292,16 @@ anon_file <- anon_file %>%
 
 anon_file %>%
   select(c("participant",
-                  "item",
-                  "size",
-                  "contrast",
-                  "slider.response",
-                  "my_rs",
-                  "total_residuals",
-                  "unique_item_no",
-                  "session",
-                  "trials.thisN",
-                  "condition_abs")) %>%
+            "item",
+            "size",
+            "contrast",
+            "slider.response",
+            "my_rs",
+            "total_residuals",
+            "unique_item_no",
+            "session",
+            "trials.thisN",
+            "condition_abs")) %>%
   mutate(half = case_when(
     trials.thisN < 93 ~ "First",
     trials.thisN > 92 ~ "Second" )) %>% # used for training testing later on
@@ -378,7 +392,8 @@ comparison <- function(model) {
 #| label: anova-results-function
 
 # this function takes two nested models, runs an anova, and the outputs the 
-# Chi-square statistic, the degrees of freedom, and the p value to the global environment
+# Chi-square statistic, the degrees of freedom, and the p value to the global 
+# environment
 
 anova_results <- function(model, cmpr_model) {
   
@@ -445,7 +460,8 @@ get_effects_sizes <- function(model, d) {
 ```{r}
 #| label: dot-plot-function
 
-# function to create dot plots showing average correlation estimation errors and 95% CIs
+# function to create dot plots showing average correlation estimation 
+# errors and 95% CIs
 
 dot_plot_function <- function(df, xlabel) {
 
@@ -485,10 +501,14 @@ plot_error_bars_function <- function(df, measure, l){
   summarise(sd = sd(get(measure)), mean = mean(get(measure))) %>% 
   ggplot(aes(x = my_rs, y = mean)) +
   geom_point(size = 0.2) + 
-  geom_errorbar(mapping = aes(ymin = mean + sd, ymax = mean - sd),width = 0.01, size = 0.3) +
+  geom_errorbar(mapping = aes(ymin = mean + sd, ymax = mean - sd),
+                width = 0.01,
+                size = 0.3) +
   theme_ggdist() +
   scale_y_continuous(breaks = seq(-0.4,1, 0.2)) +
-  theme(strip.text = element_text(size = 6, margin = margin(1,0,1,0, "mm")), aspect.ratio = 1,
+  theme(strip.text = element_text(size = 6,
+                                  margin = margin(1,0,1,0, "mm")),
+        aspect.ratio = 1,
         axis.text = element_text(size = 6.5),
         axis.title = element_text(size = 8)) +
   facet_wrap(condition_abs ~., ncol = 4, labeller = labeller(condition_abs = l)) +
@@ -513,6 +533,10 @@ labels_all_exp <- c(additive_manipulation = "Size and Contrast Manipulated",
                     contrast_manipulated = "Contrast Manipulated",
                     size_manipulated = "Size Manipulated",
                     standard_plot = "No Manipulation Present")
+
+labels_power <- c(size_power = "Size\nPower",
+                  contrast_power = "Contrast\nPower",
+                  additive_power = "Size and Contrast\nCombined Power")
 ```
 
 ```{r}
@@ -539,7 +563,10 @@ make_sig_table <- function (model) {
   
   # tidy up row names
   
-  rownames(table_df) <- c("(Intercept)", "Size Decay", "Contrast Decay", "Size Decay x Contrast Decay")
+  rownames(table_df) <- c("(Intercept)",
+                          "Size Decay",
+                          "Contrast Decay",
+                          "Size Decay x Contrast Decay")
   
   table <- kable(table_df, booktabs = TRUE, digits = c(2,3,2,2,2))
   
@@ -589,7 +616,9 @@ set.seed(1234)
   
   ggplot(data, aes(x = V1, y = V2)) +
   scale_size_identity() +
-  geom_point(aes(size = 4*(size + 0.2), alpha = contrast), shape = 16)  +
+  geom_point(aes(size = 4*(size + 0.2),
+                 alpha = contrast),
+             shape = 16)  +
   labs(x = "", y = "") +
   theme_classic() +
   theme(axis.text = element_blank(),
@@ -622,7 +651,6 @@ return(plots)
 }
 ```
 
-
 # Introduction
 
 - why study scatterplots?
@@ -637,19 +665,23 @@ that we have seen is an increase in spatial uncertainty at the edges of
 the scatterplot relative to the center, which itself drives a reduction in the 
 perceived width of the probability distribution said scatterplot represents. As part
 of our ongoing effort to tune scatterplots for more accurate correlation perception,
-our next step is to combine our point size and contrast manipulations. In the present
-study we hypothesize that; an increased reduction in correlation estimation error will be
-observed when standard orientation non-linear functions are used; the use of 
-congruent inverted orientation conditions will produce 
-the least accurate estimates of correlation; and that owing to the greater strength
-of the size channel observed in  previous work [@strain_2023b], there will be a significant difference in correlation
-estimates between the two incongruent orientation conditions.
+our next step is to combine our point size and contrast manipulations. 
 
 # Related Work {#sec-related-work}
 
 ## Testing Correlation Perception {#sec-testing-corr-percept}
 
+The testing of correlation perception has a long and rich history. Very early work 
+had participants make discriminative judgements between scatterplots with different
+correlations [@pollack_1960], finding that performance on such a task became better
+as the objective *r* value increased. Work
+
+
 ## Drivers of Correlation Perception {#sec-drivers}
+
+- width of perceived prob distribution
+- shape of prediction ellipse
+- probably some others
 
 ## Transparency and Contrast {#sec-transparency-and-contrast}
 
@@ -666,17 +698,21 @@ easier to see and interpret (see @fig-overplotting-examples).
 #| fig-asp: 0.75
 #| out-width: "50%"
 #| fig-align: "left"
-#| fig-cap: Adjusting point contrast to address overplotting. Contrast between the points and the background is full (alpha = 1, L) or low (alpha = 0.2, R). The dataset used has 40,000 points.
+#| fig-cap: Adjusting point contrast to address overplotting. Contrast between the points and the background is full (alpha = 1, L) or low (alpha = .075, R). The dataset used has 40,000 points.
  
 set.seed(123)
-data <- data.frame(x = c(rnorm(20000, mean = -1), rnorm(20000, mean = 1)),
+
+data <- data.frame(x = c(rnorm(20000, mean = -1),
+                         rnorm(20000, mean = 1)),
                    y = rnorm(40000))
 
 ggplot(data, aes(x = x, y = y)) +
   scale_alpha_identity() +
-  geom_point(aes(alpha = ifelse(x > -0.1 & x < 0.1, 0, ifelse(x > 0, 0.075, 1))),
+  geom_point(aes(alpha = ifelse(x > -0.1 & x < 0.1, 0,
+                         ifelse(x > 0, 0.075, 1))),
              shape = 16) +
-  geom_vline(xintercept = 0, linetype = "dashed") +
+  geom_vline(xintercept = 0,
+             linetype = "dashed") +
   theme_ggdist() +
   labs(x = "",
        y = "") +
@@ -743,20 +779,50 @@ error.
 
 For discriminability reasons, scatterplots visualizing large datasets tend also to
 have smaller points. Bubble charts are a subclass of scatterplot which uses point
-size to describe a third variable. 
-
-- interplay between size and spatial uncertainty
-- hype up how strong the size effect was last time
+size to describe a third variable, but what little experimental work there
+is on the impact of point size on correlation perception is inconclusive. Some work
+has found bias and variability in correlation perception to be invariant to changes in
+point size [@rensink_2012; rensink_2014], while elsewhere a strong effect of
+changing point size as a function of distance from the regression line has been
+reported [@strain_2023b]. Evidence points towards a salience-dominant mechanism 
+in the latter case, albeit with a small effect of spatial uncertainty. There
+is evidence that stimulus size is associated with lower levels of spatial certainty [@alais_2004]
+but higher levels of salience [@healey_2011], and so the opposing
+directionality of predicted effects of salience/perceptual weighting and spatial uncertainty
+on correlation estimation has allowed researchers to provide evidence for the mechanistic
+dominance of salience when point size is used.
 
 ## Hypotheses
 
+Based on previously established effects of adjusting point size and point
+contrast using identical decay functions in isolation, we presently 
+make the following hypotheses about the combination of these functions. 
+We hypothesize that; (H1) an increased reduction in correlation estimation error will be
+observed when standard orientation non-linear decay functions are used; (H2) the use of 
+congruent inverted orientation decay functions will produce 
+the least accurate estimates of correlation; and (H3) that owing to the greater strength
+of the size channel observed in previous work [@strain_2023b], there will be a 
+significant difference in correlation estimates between the two incongruent orientation conditions.
+
 # Methodology {#sec-methods}
 
-## Crowdsourcing
+## Crowdsourcing {#sec-crowdsourcing}
 
-- issues with crowdsourcing
-- how those issues were solved
-- why did we choose to crowdsource
+Much prior work into correlation perception in scatterplots has taken place
+in-person, most often with graduate students with experience in statistics. While
+this work is valuable, especially to perception audiences, it can struggle
+to provide data that is resilient to different lay viewers and viewing contexts.
+In addition the ease and low-cost afforded to us by online, crowdsourced
+experimental work is unmatched. Given our intended HCI and design audience, we therefore
+choose to crowdsource all participants. We acknowledge however, that the 
+technique has been affected by low quality data and skewed demographics
+in the past [@chmielewski_2020; @charalambides_2021; @peer_2021]. In light of these
+issues we follow published guidelines [@peer_2021] to ensure the collection of high quality 
+data. Namely, we use the Prolific.co platform [@prolific] with stringent pre-screen
+restrictions; participants were required to have completed at least 100 studies
+using Prolific, and were required to have a prolific score of at least 100, representing a 99%
+approval rate. This is more strict than the 95% suggestedin previous work [@peer_2021],
+but 
 
 Discussions about the transparency, contrast, and luminance is inherently difficult
 within the context of online, crowdsourced experimental work. While the ease, low-cost,
@@ -785,7 +851,9 @@ bivariate normal distributions with standard deviations of 1 in each direction. 
 scatterplot had a 1:1 aspect ratio, was generated as a 1000*1000 pixel .png image,
 and was scaled up or down according to a participant's monitor such that they
 always occupied the same visual proportion. We used equation 1 to map residuals 
-to size and contrast values.
+to size and contrast values. When adjusting point size, we further transform values
+using a scaling factor of 4 and a constant of 0.2 t ensure that the minimum point
+size in the present study is consistent with that of previous work [@strain_2023; strain_2023b].
 
 \begin{equation}
   point_{size/contrast} = 1 - b^{residual}
@@ -816,8 +884,11 @@ terms that fail to explain a significant amount of variance.
 
 ## Point Visibility Testing {#sec-VT}
 
-It is key that our manipulations do not remove data from the scatterplot. We therefore
-included point visibility testing to ensure this. Participants
+Discussions about the size and contrast of particular scatterplot points are inherently
+difficult in the context of online, crowdsourced experiments. In addition to measures
+implemented to ensure high quality participant data (see @sec-crowdsourcing), it is also key that we do not
+inadvertently remove data from scatterplots by including points whose size or contrast
+renders them invisible. We therefore included point visibility testing to ensure this. Participants
 viewed six scatterplots that were made up of a certain number of points. These points
 were of the same size and contrast as the smallest and lowest contrast points used
 in the experimental items. Participants were asked to enter in a textbox how many points
@@ -836,12 +907,11 @@ visibility test as a fixed effect in @sec-add-analyses.
 #| label: fig-VT-hist
 #| include: true
 #| fig-asp: 0.5
-#| fig-cap: Histograms of visual threshold testing performance for experiment 1 (L) and experiment 2 (R).
+#| fig-cap: Histograms of visual threshold testing performance.
 #| out-width: "50%"
 #| fig-align: "left"
 
-# histograms of visual threshold testing performance for each experiment
-
+# histograms of visual threshold testing performance for
 
 ggplot(size_and_contrast_exp_tidy, aes(x = VT_no_correct)) +
   geom_histogram(binwidth = 1,colour = "grey", fill = "darkgrey") +
@@ -885,12 +955,10 @@ asked participants to ignore the scatterplot and set the slider to 0 or 1.
 ## Participants {#sec-participants}
 
 150 participants were recruited using the Prolific.co platform. Normal to 
-corrected-to-normal vision and English fluency were required for participation. To
-ensure high quality data, and in accordance with previously published guidelines 
-[@peer_2021], participants were required to have successfully completed a minimum 
-of 100 studies on Prolific. In addition, participants who had completed any of our previous studies
-into correlation estimation in scatterplots [@strain_2023; @strain_2023b, and a
-previous pre-study] were prevented from participating.
+corrected-to-normal vision and English fluency were required for participation.
+In addition, participants who had completed any of our previous studies
+into correlation estimation in scatterplots (references removed for anon) 
+were prevented from participating.
 
 Data were collected from 158 participants. 8 failed more than 2 our of 6 attention
 check questions, and, as per pre-registration stipulations, were rejected from the
@@ -1197,28 +1265,25 @@ curves <- read_csv("data/curves_df.csv")
 
   curves %>% 
     drop_na() %>%
-    select(c("contrast_power", "size_power", "additive_power", "standard_curve", "additive_raw_pl", "my_rs")) %>%
-    pivot_longer(cols = c("additive_raw_pl",
-                          "contrast_power",
+    select(c("contrast_power", "size_power", "additive_power", "my_rs")) %>%
+    pivot_longer(cols = c("contrast_power",
                           "size_power",
-                          "additive_power",
-                          "standard_curve"), names_to = "factor", values_to = "power") %>%
+                          "additive_power"),
+                 names_to = "factor", values_to = "power") %>%
     group_by(factor, my_rs) %>% 
     summarise(sd = sd(power), mean = mean(power)) %>% 
     ggplot(aes(x = my_rs, y = mean)) + 
-    #geom_point(size = 0.2) + 
-    #geom_errorbar(mapping = aes(ymin = mean + sd, ymax = mean - sd),width = 0.01, size = 0.3) +
     theme_ggdist() +
     scale_y_continuous(breaks = seq(-0.4,1, 0.2)) +
     theme(strip.text = element_text(size = 6, margin = margin(1,0,1,0, "mm")), aspect.ratio = 1,
         axis.text = element_text(size = 6.5),
         axis.title = element_text(size = 8)) +
-    facet_wrap(factor ~., ncol = 5) +
+    facet_wrap(factor ~., ncol = 5, labeller = labeller(factor = labels_power)) +
     labs(x = "Objective r",
          y = "Power") +
     geom_smooth(se = FALSE, colour = "black", size = 0.4) +
-    xlim(0.2,1) 
-    #geom_hline(yintercept = 0, linetype = 2)
+    xlim(0.2,1) +
+    ylim(-0.1,0.3)
 
 
 ```
@@ -1230,109 +1295,6 @@ of the effect and the orientation of the curve itself. Transforming the size und
 curve from @strain_2023 into the size and contrast underestimation curve we have
 found in the present study gives us some insight into the effect of adding 
 the two manipulations together.
-
-```{r}
-#| label: fig-transformation
-#| include: true
-#| out-width: "100%"
-#| fig-asp: 0.333
-#| fig-cap: Transformations required to derive the Combination Curve observed in the present experiment using the size and contrast curves from previous work. The dotted line represents the size curve (A), two times the size curve (B), and two times the size curve rotated by 6 degrees clockwise.
-
-
-
-p1 <- curves %>%
-  select(c("my_rs", "size_raw", "additive_raw_pl", "standard_curve")) %>%
-  pivot_longer(cols = -c("my_rs", "size_raw"), names_to = "factor", values_to = "value") %>%
-  ggplot(aes(x = my_rs, y = value, group = factor)) +
-  theme_ggdist() +
-  geom_abline(slope = 1, size = 0.2) +
-  ylim(0.2,1) +
-  xlim(0.2,1) +
-  geom_smooth(aes(x = my_rs, y = size_raw), se = F, size = 0.4, colour = "black", linetype = "dotted") +
-  geom_smooth(colour = "black", se = F, size = 0.4) +
-  theme(legend.position = "none") +
-  labs(x = "",
-       y = "Estimate") +
-  theme(plot.title = element_text(size = 7),
-        axis.title = element_text(size = 8),
-        axis.text = element_text(size = 6),
-        legend.position = "none") +
-  annotate(label = "Combination Curve\n(present experiment)", geom = "text", x = 0.38, y = 0.85, size = 1.75) +
-  annotate(label = "No Manipulation", geom = "text", x = 0.8, y = 0.3, size = 1.75) +
-  annotate("segment", x = 0.52, y = 0.78, xend = 0.55, yend = 0.7, arrow = arrow(length = unit(0.1, "cm")), linewidth = 0.25) +
-  annotate("segment", x = 0.8, y = 0.325, xend = 0.65, yend = 0.41, arrow = arrow(length = unit(0.1, "cm")), linewidth = 0.25) +
-  annotate("label", x = 0.25, y = 0.975, label = "A", size = 2)
-
-p2 <- curves %>%
-  select(c("my_rs", "two_size_added", "additive_raw_pl", "standard_curve")) %>%
-  pivot_longer(cols = -c("my_rs", "two_size_added"), names_to = "factor", values_to = "value") %>%
-  ggplot(aes(x = my_rs, y = value, group = factor)) +
-  theme_ggdist() +
-  geom_abline(slope = 1, size = 0.2) +
-  ylim(0.2,1) +
-  xlim(0.2,1) +
-  geom_smooth(aes(x = my_rs, y = two_size_added), se = F, size = 0.4, colour = "black", linetype = "dotted") +
-  geom_smooth(colour = "black", se = F, size = 0.4) +
-  theme(legend.position = "none") +
-  labs(x = "Objective r",
-       y = "") +
-  theme(plot.title = element_text(size = 7),
-        axis.title = element_text(size = 8),
-        axis.text = element_text(size = 6),
-        legend.position = "none") +
-  annotate(label = "Combination Curve\n(present experiment)", geom = "text", x = 0.38, y = 0.85, size = 1.75) +
-  annotate(label = "No Manipulation", geom = "text", x = 0.8, y = 0.3, size = 1.75) +
-  annotate("segment", x = 0.52, y = 0.78, xend = 0.55, yend = 0.7, arrow = arrow(length = unit(0.1, "cm")), linewidth = 0.25) +
-  annotate("segment", x = 0.8, y = 0.325, xend = 0.65, yend = 0.41, arrow = arrow(length = unit(0.1, "cm")), linewidth = 0.25) +
-  annotate("label", x = 0.25, y = 0.975, label = "B", size = 2)
-
-p3 <- curves %>%
-  select(c("my_rs", "rotated_curve", "additive_raw_pl", "standard_curve")) %>%
-  pivot_longer(cols = -c("my_rs", "rotated_curve"), names_to = "factor", values_to = "value") %>%
-  ggplot(aes(x = my_rs, y = value, group = factor)) +
-  theme_ggdist() +
-  geom_abline(slope = 1, size = 0.2) +
-  ylim(0.2,1) +
-  xlim(0.2,1) +
-  geom_smooth(aes(x = my_rs, y = rotated_curve), se = F, size = 0.4, colour = "black", linetype = "dotted") +
-  geom_smooth(colour = "black", se = F, size = 0.4) +
-  labs(x = "",
-       y = "") +
-  theme(plot.title = element_text(size = 7),
-        axis.title = element_text(size = 8),
-        axis.text = element_text(size = 6),
-        legend.position = "none") +
-  annotate(label = "Combination Curve\n(present experiment)", geom = "text", x = 0.38, y = 0.85, size = 1.75) +
-  annotate(label = "No Manipulation", geom = "text", x = 0.8, y = 0.3, size = 1.75) +
-  annotate("segment", x = 0.52, y = 0.78, xend = 0.55, yend = 0.7, arrow = arrow(length = unit(0.1, "cm")), linewidth = 0.25) +
-  annotate("segment", x = 0.8, y = 0.325, xend = 0.65, yend = 0.41, arrow = arrow(length = unit(0.1, "cm")), linewidth = 0.25) +
-  annotate("label", x = 0.25, y = 0.975, label = "C", size = 2)
-
-
-
-ggarrange(p1,p2,p3, ncol = 3)
-```
-
-@fig-transformation illustrates the transformations we must do to replicate the 
-results we have found in the present study using results from previous work 
-(@strain_2023; @strain_2023b). Given the similarity between the shape of the
-combination curve found in the present study and that of the size only manipulation
-found in @strain_2023b, we use this as a starting point. Adding the contrast manipulation
-has the effect of doubling the power of the size curve, followed by a change in
-orientation that can be approximated by a 6\textdegree clockwise rotation. With the
-knowledge that the addition of the contrast manipulation can be thought of
-as doubling and rotating the size factor, and having worked out *t*, a translation
-function to approximate the $y = x$ optimum estimation line, we are able to generate
-the following set of equations. S = size, C = contrast, O = observed (present study),
-r = rotation function, t = translation function.
-
-\begin{equation}
-  S + C = O
-  r(S + C) = O
-  C = S
-  r(2S) = O
-  tr(2S) = tO
-\end{equation}
 
 
 # References {-}

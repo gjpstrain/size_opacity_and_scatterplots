@@ -576,8 +576,6 @@ make_sig_table <- function (model) {
 
 ```{r}
 #| label: plot-examples-function
-
-example_plots <- function () {
   
   set.seed(1234)
   
@@ -627,34 +625,92 @@ set.seed(1234)
         plot.title = element_text(size = 13)) +
   labs(title = title)
 
-}  
-
-plots <- ggarrange(plot_example_function(slopes,
-                                        (1-slopes$slope_0.25),
-                                        (1-slopes$slope_0.25),
-                                        "Standard Orientation Size\nStandard Orientation Contrast"),
-                   plot_example_function(slopes,
-                                         (1-slopes$slope_inverted),
-                                         (1-slopes$slope_inverted),
-                                         "Inverted Orientation Size\nInverted Orientation Contrast"),
-                   plot_example_function(slopes,
-                                         (1-slopes$slope_inverted),
-                                         (1-slopes$slope_0.25),
-                                         "Inverted Orientation Size\nStandard Orientation Contrast"),
-                   plot_example_function(slopes,
-                                         (1-slopes$slope_0.25),
-                                         (1-slopes$slope_inverted),
-                                         "Standard Orientation Size\nInverted Orientation Contrast"))
-
-return(plots)
-
-}
+} 
 ```
+
 
 # Introduction
 
-- why study scatterplots?
-- correlation perception
+Scatterplots are common bivariate representations of data. They have been extensively
+studied and are used for a variety of communicative tasks. They are most commonly
+used to represent linear correlation, or the degree of linear relatedness between two variables,
+but are also used to represent different groups (clustering), to aid in the detection of outliers,
+to characterize distributions, or of course to visualize non-linear correlations.
+@fig-tasks contains examples of scatterplots optimised for different tasks.
+
+```{r}
+#| label: fig-tasks
+#| include: true
+#| fig-asp: 0.25
+#| out-width: "100%"
+#| fig-cap: Tasks etc
+
+set.seed(123)
+
+## Create correlation plot
+
+corr_plot <- plot_example_function(slopes, 1, 0,  "Correlation Perception")
+
+## Create cluster separation plot
+
+n <- 128
+
+cluster_sep_data <- data.frame(
+  x = c(rnorm(n, mean = 0, sd = 1), rnorm(n, mean = 4, sd = 1), rnorm(n, mean = 8, sd = 1)),
+  y = c(rnorm(n, mean = 0, sd = 1), rnorm(n, mean = 4, sd = 1), rnorm(n, mean = 0, sd = 1)),
+  cluster = factor(rep(1:3, each = n))
+)
+
+color_palette <- c("#1F77B4", "#FF7F0E", "#2CA02C")
+
+cluster_sep_plot <- ggplot(cluster_sep_data, aes(x = x, y = y, color = cluster)) +
+  geom_point(size = 2) +
+  scale_color_manual(values = color_palette) +
+  labs(
+    x = "",
+    y = "",
+    title = "Cluster Separation"
+  ) +
+  theme_classic() +
+  theme(
+    legend.position = "none",
+    legend.title = element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text = element_blank())
+
+## Outlier detection plot
+
+n <- 127
+x <- runif(n, 0, 100)
+y <- 2 * x + 5 + rnorm(n, 0, 10) 
+x <- c(x, 80) 
+y <- c(y, 400) 
+
+data <- data.frame(x, y)
+
+outlier_plot <- ggplot(data, aes(x, y)) +
+  geom_point() +
+  geom_text(aes(label = ifelse(x == 80 & y == 400, "Outlier", "")), vjust = -0.5, hjust = 0.5) +
+  theme_classic() +
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text = element_blank())
+  labs(title = "Scatterplot with an Obvious Outlier")
+
+## Non-linear correlation plot
+  
+V1 <- seq(-10, 10, length.out = 128)
+
+V2 <- 2 * V1^2 + rnorm(length(V1), mean = 0, sd = 10)
+
+data <- data.frame(V1, V2)
+
+NL_corr_plot <- plot_example_function(data, 1, 0, "Non-linear correlation/relationship")
+
+ggarrange(corr_plot, cluster_sep_plot, outlier_plot, NL_corr_plot, nrow = 1)
+```
+
 
 We have previously demonstrated the potential for changes in point size and
 point contrast to bias peoples' estimates of correlation in scatterplots. Lowering the
@@ -671,17 +727,73 @@ our next step is to combine our point size and contrast manipulations.
 
 ## Testing Correlation Perception {#sec-testing-corr-percept}
 
-The testing of correlation perception has a long and rich history. Very early work 
-had participants make discriminative judgements between scatterplots with different
-correlations [@pollack_1960], finding that performance on such a task became better
-as the objective *r* value increased. Work
-
+The testing of linear correlation perception in scatterplots has a long and rich history, having
+explored a wide variety of plot types, tasks, and methods of modelling. Work 
+has had participants make discriminative judgements between scatterplots with different
+correlations [@pollack_1960; @doherty_2007], finding that performance on such a task became better
+as the objective *r* value increased. This performance on a discriminative judgement
+task can also be modelled by deep neural networks [@yang_2023]. Extensive work throughout the 1970's to 1990's 
+focused primarily on having participants produce a numerical estimate of correlation,
+finding evidence for a systematic underestimation for positive *r* values besides
+0 and 1. This underestimation was especially pronounced for 0.2 < *r* < 0.6
+[@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989; @collyer_1990; @meyer_1992].
+More recent work has attempted to model participants' correlation estimation performance
+by using a combination of bisection, in which participants were asked to adjust a
+plot until its correlation is halfway between two reference plots, and a staircase
+task designed to produce Just Noticeable Differences between scatterplots such
+that they are discriminable 75% of the time [@rensink_2010]. This work has
+also been extended to incorporate Bayesian data analysis. The current experiment
+takes similar techniques from previous work [@strain_2023; @strain_2023b] and 
+combines them to further push the envelope of how systematically adjusting visual
+features in scatterplots can radically alter people's perceptions of correlation.
+For this reason we use the same direct estimation paradigm  to collect responses.
+This paradigm allows for a large number of judgements to be collected,
+and is simple enough that participants need little to no training.
 
 ## Drivers of Correlation Perception {#sec-drivers}
 
-- width of perceived prob distribution
-- shape of prediction ellipse
-- probably some others
+Evidence points towards correlation perception being driven by the shape of the
+underlying probability distribution represented by scatterplot points, however it should
+be noted that this is very much still an open question, and it may be the case that
+there are different contributory perceptual mechanisms operating at different levels
+based on task-specific differences such as viewing time and levels of graph-training.
+Increasing the *x* and *y* scales on a scatterplot such that the size of the point
+cloud decreases [@cleveland_1982] is associated with an increase in a viewer's
+judgement of bivariate association, despite the objective *r* value remaining the same. It
+was suggested in this case that viewers may have been using the area of the point
+cloud to judge association. Later work found that the relationship between objective
+and perceived *r* values could be described by a function that included the mean of 
+geometric distances between the points and the regression line [@meyer_1997]. Investigation
+of the idea that people use visual features to judge correlation provided
+evidence that, among others features, the standard deviation of all perpendicular
+distances from points to the regression line was predictive of performance
+on a correlation estimation task [@yang_2019]. Equations for both discrimination
+and magnitude estimation of *r* in scatterplots include a quantity that is small
+when *r* = 1 and increases as *r* approaches 0 [@rensink_2017]. This quantity is indifferent
+to the type of visualization used, and is descriptively similar to that found
+in work mentioned above [@cleveland_1982; @meyer_1997; @yang_2019]. Regarding
+scatterplots, this quantity represents the average distance between data points
+and the regression line, and can be thought of as representing the width
+of the underlying distribution. Findings from deep neural networks also support 
+the idea that viewers are using an aspect of scatterplot shape to judge correlation,
+or some measure of what has been termed *dot entropy* [@yang_2023], again considered a candidate
+visual proxy for correlation judgements [@rensink_2017; @rensink_2022].
+
+Recent work investigating the use of decay functions that alter point size or contrast
+in scatterplots as a function of residual distance provide further evidence for 
+both point density and salience/perceptual weighting being drivers of correlation perception.
+The use of an inverted contrast decay function [@strain_2023] resulted in significantly
+lower and less accurate correlation estimates compared to data-identical plots
+with the same overall shape, implying that the center of the scatterplot not
+being **filled** is biasing viewers' perceptions down. When point contrast
+or size are reduced as a function of distance from the regression line 
+[@strain_2023; @strain_2023b] viewers rate correlation as significantly higher
+and are significantly more accurate, which supports a low-level data salience
+account. It is more difficult to comment on higher level perceptual mechanisms,
+and in any case this is not the intended contribution of the present work; we aim
+to test the impact of systematically altering visual features on correlation perception, 
+and to provide empirically-derived tools for visualization designers to design better
+visualizations through the use of a reproducible, simple framework.
 
 ## Transparency and Contrast {#sec-transparency-and-contrast}
 
@@ -820,9 +932,9 @@ in the past [@chmielewski_2020; @charalambides_2021; @peer_2021]. In light of th
 issues we follow published guidelines [@peer_2021] to ensure the collection of high quality 
 data. Namely, we use the Prolific.co platform [@prolific] with stringent pre-screen
 restrictions; participants were required to have completed at least 100 studies
-using Prolific, and were required to have a prolific score of at least 100, representing a 99%
-approval rate. This is more strict than the 95% suggestedin previous work [@peer_2021],
-but 
+using Prolific, and were required to have a prolific score of 100, representing a 99%
+approval rate. This is more strict than the 95% suggested in previous work [@peer_2021],
+but has served the authors well in prior studies.
 
 Discussions about the transparency, contrast, and luminance is inherently difficult
 within the context of online, crowdsourced experimental work. While the ease, low-cost,
@@ -853,7 +965,7 @@ and was scaled up or down according to a participant's monitor such that they
 always occupied the same visual proportion. We used equation 1 to map residuals 
 to size and contrast values. When adjusting point size, we further transform values
 using a scaling factor of 4 and a constant of 0.2 t ensure that the minimum point
-size in the present study is consistent with that of previous work [@strain_2023; strain_2023b].
+size in the present study is consistent with that of previous work [@strain_2023; @strain_2023b].
 
 \begin{equation}
   point_{size/contrast} = 1 - b^{residual}
@@ -947,7 +1059,7 @@ a previous experiment indicated some of the lay population may be unfamiliar
 with the visual character of scatterplots. @sec-results contains further
 discussion of the potential training effects of this. Two practice trials were
 given before the experiment began. Participants worked through a randomly
-presented series of 180 experimental trials (90 in experiment 2?) and were asked to
+presented series of 180 experimental trials and were asked to
 use a slider to estimate correlation to 2 decimal places. Visual masks preceded
 each scatterplot. Interspersed were 6 attention check trials which explicitly
 asked participants to ignore the scatterplot and set the slider to 0 or 1.
@@ -985,7 +1097,24 @@ items can be seen in @fig-examples.
 #| fig-align: "left"
 #| include: true
 
-example_plots()
+example_plots <- ggarrange(plot_example_function(slopes,
+                                        (1-slopes$slope_0.25),
+                                        (1-slopes$slope_0.25),
+                                        "Standard Orientation Size\nStandard Orientation Contrast"),
+                   plot_example_function(slopes,
+                                         (1-slopes$slope_inverted),
+                                         (1-slopes$slope_inverted),
+                                         "Inverted Orientation Size\nInverted Orientation Contrast"),
+                   plot_example_function(slopes,
+                                         (1-slopes$slope_inverted),
+                                         (1-slopes$slope_0.25),
+                                         "Inverted Orientation Size\nStandard Orientation Contrast"),
+                   plot_example_function(slopes,
+                                         (1-slopes$slope_0.25),
+                                         (1-slopes$slope_inverted),
+                                         "Standard Orientation Size\nInverted Orientation Contrast"))
+
+example_plots
 ```
 
 # Results {#sec-results}

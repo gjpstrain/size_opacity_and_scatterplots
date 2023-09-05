@@ -300,20 +300,18 @@ of Science and Engineering, University of Manchester}
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
-It is paramount that the toolkit of the data visualization designer must
-continue to grow based on robust, reproducible experimental work. To
-this effect, we present a single-experiment study in which we combine
-previously explored data point size and contrast manipulations in
-scatterplots to influence viewer's estimates of correlation. We follow
-this with an extended exploration into how the combination of two
-established scatterplot manipulations can explain the relative
-contributions and mechanisms of each, in ways that the manipulations in
-isolation cannot. We make the case for more extensive testing of these
-manipulations such that they can be tuned to fully address a
-long-standing correlation underestimation bias by viewers of
-scatterplots in the literature. Simultaneously we present a rigorous
-experimental framework for fast, inexpensive, and empirical
-visualization design.    
+Changing the size and contrast of points on scatterplots can be used to
+systematically alter viewers' perceptions of correlation. Point size and
+contrast adjustments operate on correlation percetion through different
+perceptual mechanisms, and combining them produces effects that are not
+additive in nature. We present a fully reproducible study in which we
+combine previously established techniques for influencing correlation
+perception to show that there are few limits to the extent to which we
+can use visual features to change viewers' perceptions of data
+visualizations. We follow this with an extended discussion into how our
+findings corroborate previous work on correlation perception in
+scatterplots and can be used to correct for a historic perceptual
+bias.    
 \end{abstract}
 
 %%
@@ -371,17 +369,40 @@ been extensively studied and are used for a variety of communicative
 tasks. They are most commonly used to represent linear correlation, or
 the degree of linear relatedness between two variables, but are also
 used to represent different groups (clustering), to aid in the detection
-of outliers, to characterize distributions, or of course to visualize
-non-linear correlations. Figure~\ref{fig-tasks} contains examples of
-scatterplots optimised for different tasks.
+of outliers, to characterize distributions, and to visualize non-linear
+correlations. Figure~\ref{fig-tasks} contains examples of scatterplots
+optimised for different tasks. There is evidence that people generally
+interpret them in similar ways \citep{kay_2015}, and that they support
+the interpretation of correlation significantly better than other data
+visualizations \citep{li_2010}. Rapid interpretation by viewers
+\citep{rensink_2014} along with low levels of interindividual variance
+render scatterplots particularly suited for experimental work; they
+provide important insights into perception and visualization design
+while being simple to study.
 
-\begin{verbatim}
-$title
-[1] "Scatterplot with an Obvious Outlier"
-
-attr(,"class")
-[1] "labels"
-\end{verbatim}
+While our interpretations of scatterplots are generally similar, the
+accuracy of those interpretations is generally low. Viewers
+systematically underestimate the correlation displayed in positively
+correlated scatterplots. This holds true for direct estimation tasks
+\citep{strahan_1978, bobko_1979, cleveland_1982, lane_1985, lauer_1989, collyer_1990, meyer_1992},
+and estimation via bisection tasks \citep{rensink_2017}, and is
+particularly pronounced between 0.2 \textless{} \emph{r} \textless{}
+0.6. The COVID-19 pandemic demonstrated that even outside of
+professional/office environments, lay populations are now expected to be
+able to use and accurately interpret data visualizations on a daily
+basis. This expectation confers a responsibility on the part of data
+visualization designers to design in such a way that people with little
+statistical or graph training can be expected to correctly interpret
+data visualizations. Doing this requires us to understand human
+perception and perceptual phenomena, apply this understanding to data
+visualization design, and test those designs in rigorous empirical work.
+We therefore present a fully-reproducible, crowdsourced online
+experiment in which we systematically alter visual features in
+scatterplots to correct for a historic bias. We combine two techniques
+for correcting for correlation underestimation in scatterplots and show
+that the combined effect is stronger than one would expect were they
+linearly additive. Through this work we also present a framework for
+visualization design that takes into account human perception.
 
 \begin{figure}
 
@@ -389,22 +410,23 @@ attr(,"class")
 
 }
 
-\caption{\label{fig-tasks}Tasks etc}
+\caption{\label{fig-tasks}Examples of scatterplots designed for
+different scatterplot-associated tasks. Both colour and point shape have
+been used to delineate different clusters in the cluster separation
+plot.}
 
 \end{figure}
 
-We have previously demonstrated the potential for changes in point size
-and point contrast to bias peoples' estimates of correlation in
-scatterplots. Lowering the size and contrast of scatterplot points as
-they move further from the regression line partially corrects for the
-underestimation bias described above. We have hypothesized in our
-previous work that what is driving the changes in correlation estimation
-that we have seen is an increase in spatial uncertainty at the edges of
-the scatterplot relative to the center, which itself drives a reduction
-in the perceived width of the probability distribution said scatterplot
-represents. As part of our ongoing effort to tune scatterplots for more
-accurate correlation perception, our next step is to combine our point
-size and contrast manipulations.
+\begin{figure}
+
+\includegraphics[width=0.5\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-underestimation-curve-1.pdf} \hfill{}
+
+\caption{\label{fig-underestimation-curve}Using a function relating
+objective to perceived \textbackslash textit\{r\}
+\textbackslash cite\{rensink\_2017\} provides a visualization of the
+nature of correlation underestmiation reported in previous work.}
+
+\end{figure}
 
 \hypertarget{sec-related-work}{%
 \section{Related Work}\label{sec-related-work}}
@@ -433,14 +455,15 @@ participants were asked to adjust a plot until its correlation is
 halfway between two reference plots, and a staircase task designed to
 produce Just Noticeable Differences between scatterplots such that they
 are discriminable 75\% of the time \citep{rensink_2010}. This work has
-also been extended to incorporate Bayesian data analysis. The current
-experiment takes similar techniques from previous work
-\citep{strain_2023, strain_2023b} and combines them to further push the
-envelope of how systematically adjusting visual features in scatterplots
-can radically alter people's perceptions of correlation. For this reason
-we use the same direct estimation paradigm to collect responses. This
-paradigm allows for a large number of judgements to be collected, and is
-simple enough that participants need little to no training.
+also been extended to incorporate Bayesian data analysis
+\citep{kay_2015}. The current experiment takes similar techniques from
+previous work \citep{strain_2023, strain_2023b} and combines them to
+further push the envelope of how systematically adjusting visual
+features in scatterplots can radically alter people's perceptions of
+correlation. For this reason we use the same direct estimation paradigm
+to collect responses. This paradigm allows for a large number of
+judgements to be collected, and is simple enough that participants need
+little to no training.
 
 \hypertarget{sec-drivers}{%
 \subsection{Drivers of Correlation Perception}\label{sec-drivers}}
@@ -454,21 +477,21 @@ task-specific differences such as viewing time and levels of
 graph-training. Increasing the \emph{x} and \emph{y} scales on a
 scatterplot such that the size of the point cloud decreases
 \citep{cleveland_1982} is associated with an increase in a viewer's
-judgement of bivariate association, despite the objective \emph{r} value
-remaining the same. It was suggested in this case that viewers may have
-been using the area of the point cloud to judge association. Later work
-found that the relationship between objective and perceived \emph{r}
-values could be described by a function that included the mean of
-geometric distances between the points and the regression line
-\citep{meyer_1997}. Investigation of the idea that people use visual
-features to judge correlation provided evidence that, among others
+judgements of bivariate association, despite the objective \emph{r}
+value remaining the same. It was suggested in this case that viewers may
+have been using the area of the point cloud to judge association. Later
+work found that the relationship between objective and perceived
+\emph{r} values could be described by a function that included the mean
+of the geometric distances between the points and the regression line
+\citep{meyer_1997}. Investigations of the idea that people use visual
+features to judge correlation provide evidence that, among others
 features, the standard deviation of all perpendicular distances from
-points to the regression line was predictive of performance on a
-correlation estimation task \citep{yang_2019}. Equations for both
+scatterplot points to the regression line was predictive of performance
+on a correlation estimation task \citep{yang_2019}. Equations for both
 discrimination and magnitude estimation of \emph{r} in scatterplots
 include a quantity that is small when \emph{r} = 1 and increases as
 \emph{r} approaches 0 \citep{rensink_2017}. This quantity is indifferent
-to the type of visualization used, and is descriptively similar to that
+to the type of visualization used, and is functionally similar to that
 found in work mentioned above
 \citep{cleveland_1982, meyer_1997, yang_2019}. Regarding scatterplots,
 this quantity represents the average distance between data points and
@@ -483,12 +506,13 @@ Recent work investigating the use of decay functions that alter point
 size or contrast in scatterplots as a function of residual distance
 provide further evidence for both point density and salience/perceptual
 weighting being drivers of correlation perception. The use of an
-inverted contrast decay function \citep{strain_2023} resulted in
-significantly lower and less accurate correlation estimates compared to
-data-identical plots with the same overall shape, implying that the
-center of the scatterplot not being \textbf{filled} is biasing viewers'
+inverted contrast decay function \citep{strain_2023}, such that point
+contrast decreased as a point approached the regression line, resulted
+in significantly lower and less accurate correlation estimates compared
+to data-identical plots with the same overall shape, implying that the
+center of the scatterplot not being \textbf{filled} biased viewers'
 perceptions down. When point contrast or size are reduced as a function
-of distance from the regression line \citep{strain_2023, strain_2023b}
+of distance from the regression line \citep{strain_2023, strain_2023b},
 viewers rate correlation as significantly higher and are significantly
 more accurate, which supports a low-level data salience account. It is
 more difficult to comment on higher level perceptual mechanisms, and in
@@ -517,8 +541,8 @@ Figure~\ref{fig-overplotting-examples}).
 
 \caption{\label{fig-overplotting-examples}Adjusting point contrast to
 address overplotting. Contrast between the points and the background is
-full (alpha = 1, L) or low (alpha = .075, R). The dataset used has
-40,000 points.}
+full (alpha = 1, L) or low (alpha = .1, R). The dataset used has 40,000
+points.}
 
 \end{figure}
 
@@ -547,7 +571,7 @@ scatterplot points and backgrounds. For this reason we do not report
 absolute luminance nor make any attempt to adopt a formal definition of
 contrast; instead we simply report the alpha value used. Given that our
 work aims to improve correlation perception without removing data from
-the scatterplot, we incorporate point visibility testing (see
+the scatterplot, we also incorporate point visibility testing (see
 Section~\ref{sec-VT}). Informal point visibility piloting suggested that
 our smallest, lowest contrast points had very low visibility. We
 therefore implemented an alpha = 0.2 floor for these points, which we
@@ -561,7 +585,7 @@ able to bias correlation estimates upwards to partially correct for the
 underestimation bias \citep{strain_2023}. Evidence suggests point
 salience/perceptual weighting and spatial uncertainty as drivers for
 this effect. Lower stimulus contrast is associated with lower salience
-\citep{healey_2012}, can bias judgements of mean point position
+\citep{healey_2011}, can bias judgements of mean point position
 \citep{hong_2021} and increase error in positional judgements
 \citep{wehrhahn_1990}, and can result in greater uncertainty in speed
 perception \citep{champion_2017}. Due to effects of both
@@ -579,8 +603,8 @@ scatterplot which uses point size to describe a third variable, but what
 little experimental work there is on the impact of point size on
 correlation perception is inconclusive. Some work has found bias and
 variability in correlation perception to be invariant to changes in
-point size {[}\citet{rensink_2012}; rensink\_2014{]}, while elsewhere a
-strong effect of changing point size as a function of distance from the
+point size \citep{rensink_2012, rensink_2014}, while elsewhere a strong
+effect of changing point size as a function of distance from the
 regression line has been reported \citep{strain_2023b}. Evidence points
 towards a salience-dominant mechanism in the latter case, albeit with a
 small effect of spatial uncertainty. There is evidence that stimulus
@@ -616,7 +640,7 @@ Much prior work into correlation perception in scatterplots has taken
 place in-person, most often with graduate students with experience in
 statistics. While this work is valuable, especially to perception
 audiences, it can struggle to provide data that is resilient to
-different lay viewers and viewing contexts. In addition the ease and
+different lay viewers and viewing contexts. In addition to the ease and
 low-cost afforded to us by online, crowdsourced experimental work is
 unmatched. Given our intended HCI and design audience, we therefore
 choose to crowdsource all participants. We acknowledge however, that the

@@ -1346,21 +1346,15 @@ emm %>%
 table_df <- contrasts_extract(model) %>%
   mutate(p.value = scales::pvalue(p.value)) %>%
   mutate('Contrast' = recode(Contrast,
-                             "N I - I I" = "Non-linear Size x Inverted Contrast <-> Inverted Size x Inverted Contrast", #
-                             "N I - N N" = "Non-linear Size x Inverted Contrast <-> Non-Linear Size x Non-linear Contrast",
-                             "N I - I N" = "Non-linear Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast",
-                             "I I - N N" = "Inverted Size x Inverted Contrast <-> Non-linear Size x Non-linear Contrast",
-                             "I I - I N" = "Inverted Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast",
-                             "N N - I N" = "Non-linear Size x Non-linear Contrast <-> Inverted Size x Non-linear Contrast"))
+                             "S I - I I" = "Non-linear Size x Inverted Contrast <-> Inverted Size x Inverted Contrast",
+                             "S I - S S" = "Non-linear Size x Inverted Contrast <-> Non-Linear Size x Non-linear Contrast",
+                             "S I - I S" = "Non-linear Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast",
+                             "I I - S S" = "Inverted Size x Inverted Contrast <-> Non-linear Size x Non-linear Contrast",
+                             "I I - I S" = "Inverted Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast",
+                             "S S - I S" = "Non-linear Size x Non-linear Contrast <-> Inverted Size x Non-linear Contrast"))
 
 kable(table_df, booktabs = TRUE, digits = c(0,2,3))
 ```
-
-The **emmeans** (cite) package was used to run pairwise comparisons. @fig-emm-plot shows
-estimated marginal means for each combination of factors. The interaction is driven by
-the non-additive nature of combining point size and contrast manipulations; the effects
-of either on performance on the correlation estimation task depend on the presence
-of the other. @tbl-contrasts shows statistics for pairwise comparisons.
 
 ```{r}
 #| label: fig-diff-error-bars-plot

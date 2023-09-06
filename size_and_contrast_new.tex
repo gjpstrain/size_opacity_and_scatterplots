@@ -892,7 +892,7 @@ a random slope for the size decay factor with regards to participants.
 
 }
 
-\caption{\label{fig-emm-plot}Estimates marginal means for each
+\caption{\label{fig-emm-plot}Estimated marginal means for each
 combination of size and contrast decay conditions, including asymptotic
 lower and upper confidence limits calcualted by emmeans}
 
@@ -910,24 +910,16 @@ contrast against Inv size/NL contrast comparison. }\tabularnewline
 \toprule
 Contrast & Z.ratio & p.value\\
 \midrule
-S I - I I & -10.95 & <0.001\\
-S I - S S & 72.29 & <0.001\\
-S I - I S & -2.26 & 0.108\\
-I I - S S & 46.13 & <0.001\\
-I I - I S & 17.84 & <0.001\\
+Non-linear Size x Inverted Contrast <-> Inverted Size x Inverted Contrast & -10.95 & <0.001\\
+Non-linear Size x Inverted Contrast <-> Non-Linear Size x Non-linear Contrast & 72.29 & <0.001\\
+Non-linear Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast & -2.26 & 0.108\\
+Inverted Size x Inverted Contrast <-> Non-linear Size x Non-linear Contrast & 46.13 & <0.001\\
+Inverted Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast & 17.84 & <0.001\\
 \addlinespace
-S S - I S & -37.44 & <0.001\\
+Non-linear Size x Non-linear Contrast <-> Inverted Size x Non-linear Contrast & -37.44 & <0.001\\
 \bottomrule
 \end{tabular}
 \end{table}
-
-The \textbf{emmeans} (cite) package was used to run pairwise
-comparisons. Figure~\ref{fig-emm-plot} shows estimated marginal means
-for each combination of factors. The interaction is driven by the
-non-additive nature of combining point size and contrast manipulations;
-the effects of either on performance on the correlation estimation task
-depend on the presence of the other. Table~\ref{tbl-contrasts} shows
-statistics for pairwise comparisons.
 
 \begin{figure}
 

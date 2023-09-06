@@ -129,7 +129,7 @@ acm-metadata:
 
 abstract: |
   Changing the size and contrast of points on scatterplots can be used to systematically
-  alter viewers' perceptions of correlation. Point size and contrast adjustments operate on correlation percetion
+  alter viewers' perceptions of correlation. Point size and contrast adjustments operate on correlation perception
   through different perceptual mechanisms, and combining them produces effects
   that are not additive in nature. We present a fully reproducible 
   study in which we combine previously established techniques for
@@ -163,6 +163,7 @@ library(ggdist)
 library(ggpubr)
 library(conflicted)
 library(EMAtools)
+library(ggtext)
 library(geomtextpath)
 
 # fix conflicts now using the conflicted package
@@ -173,7 +174,7 @@ conflicts_prefer(dplyr::select(), dplyr::filter(), lme4::lmer())
 ```{r}
 #| label: lazyload-cache
 
-if (!params$eval_models){ lazyload_cache_dir("size_and_contrast_new/") }
+if (!params$eval_models){ lazyload_cache_dir("size_and_contrast_new_cache/") }
 ```
 
 ```{r}
@@ -476,11 +477,11 @@ data <- df %>%
     mutate(condition_abs = fct_reorder(condition_abs, mean)) %>%
     ggplot(aes(x = condition_abs, y = mean)) +
     geom_point(stat = "identity", size = 1) +
-    geom_errorbar(aes(ymin=lci, ymax=hci), colour="black", width=0.01, linewidth =0.5) +
+    geom_errorbar(aes(ymin=lci, ymax=hci), colour="black", width=0.01, linewidth=0.5) +
     theme_ggdist() +
     labs(x = xlabel,
          y = "Mean Error") +
-    theme(axis.text = element_text(size = 13),
+    theme(axis.text = element_text(size = 14),
           axis.title = element_text(size = 16))
 }
 ```
@@ -506,7 +507,7 @@ plot_error_bars_function <- function(df, measure, l){
   theme(strip.text = element_text(size = 6,
                                   margin = margin(1,0,1,0, "mm")),
         aspect.ratio = 1,
-        axis.text = element_text(size = 6.5),
+        axis.text = element_text(size = 7),
         axis.title = element_text(size = 8)) +
   facet_wrap(condition_abs ~., ncol = 4, labeller = labeller(condition_abs = l)) +
     labs(x = "Objective r",
@@ -648,7 +649,7 @@ estimation tasks [@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @laue
 is particularly pronounced between 0.2 < *r* < 0.6. The COVID-19 pandemic demonstrated
 that even outside of professional/office environments, lay 
 populations are now expected to be able to use and accurately interpret data
-visualizations on a daily basis. This expectation confers a responsibility on
+visualizations on a daily basis [@bbc_2022]. This expectation confers a responsibility on
 the part of data visualization designers to design in such a way that people with
 little statistical or graph training can be expected to correctly interpret
 data visualizations. Doing this requires us to understand human perception and
@@ -659,7 +660,7 @@ in scatterplots to correct for a historic bias. We combine two techniques for
 correcting for correlation underestimation in scatterplots and show that the combined
 effect is stronger than one would expect were they linearly additive. Through
 this work we also present a framework for visualization design 
-that takes into account human perception.
+informed from the ground up by human perception.
 
 ```{r}
 #| label: fig-tasks
@@ -727,7 +728,7 @@ outlier_plot <- ggplot(data, aes(x, y)) +
   geom_point(size = 0.2) +
   scale_size_identity() +
   tasks_theme() +
-  labs(title = "Scatterplot with\nan Obvious Outlier") +
+  labs(title = "Scatterplot with\nObvious Outlier") +
   ylim(0,300)
 
 ## Non-linear correlation plot
@@ -749,34 +750,13 @@ NL_corr_plot <- plot_example_function(NL_data, 0.05, 0, "Non-linear\ncorrelation
 ggarrange(corr_plot, cluster_sep_plot, outlier_plot, NL_corr_plot, nrow = 1)
 ```
 
-```{r}
-#| label: fig-underestimation-curve
-#| include: true
-#| out-width: "50%"
-#| fig-asp: 1
-#| fig-align: "left"
-#| fig-cap: Using a function relating objective to perceived \\textit{r} \\cite{rensink_2017} provides a visualization of the nature of correlation underestmiation reported in previous work.
-
-my_rs <- seq(from = 0, to = 1, length.out = 100)
-
-as_tibble(my_rs) %>%
-  mutate(under_est = (log(1-0.88*my_rs)/log(1-0.88))) %>%
-  ggplot() +
-  geom_smooth(aes(x = my_rs, y = under_est), colour = "black") +
-  ylim(0,1) +
-  xlim(0,1) +
-  theme_ggdist() + tasks_theme() +
-  labs(x = "Objective r value",
-       y = "Subjective r value")
-
-```
 
 # Related Work {#sec-related-work}
 
 ## Testing Correlation Perception {#sec-testing-corr-percept}
 
-The testing of linear correlation perception in scatterplots has a long and rich history, having
-explored a wide variety of plot types, tasks, and methods of modelling. Work 
+The testing of linear correlation perception in scatterplots has a long and rich history, and has
+explored a wide variety of plot types, tasks, and modelling methods. Work 
 has had participants make discriminative judgements between scatterplots with different
 correlations [@pollack_1960; @doherty_2007], finding that performance on such a task became better
 as the objective *r* value increased. This performance on a discriminative judgement
@@ -784,10 +764,11 @@ task can also be modelled by deep neural networks [@yang_2023]. Extensive work t
 focused primarily on having participants produce a numerical estimate of correlation,
 finding evidence for a systematic underestimation for positive *r* values besides
 0 and 1. This underestimation was especially pronounced for 0.2 < *r* < 0.6
-[@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989; @collyer_1990; @meyer_1992].
-More recent work has attempted to model participants' correlation estimation performance
-by using a combination of bisection, in which participants were asked to adjust a
-plot until its correlation is halfway between two reference plots, and a staircase
+[@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989; @collyer_1990; @meyer_1992]
+and is demonstrated using an equation relating objective to subjective correlation [@rensink_2017] in
+@fig-underestimation-curve. More recent work has attempted to model participants' correlation estimation performance
+by using a combination of bisection task, in which participants were asked to adjust a
+plot until its correlation was halfway between two reference plots, and a staircase
 task designed to produce Just Noticeable Differences between scatterplots such
 that they are discriminable 75% of the time [@rensink_2010]. This work has
 also been extended to incorporate Bayesian data analysis [@kay_2015]. The current experiment
@@ -827,7 +808,7 @@ the idea that viewers are using an aspect of scatterplot shape to judge correlat
 or some measure of what has been termed *dot entropy* [@yang_2023], again considered a candidate
 visual proxy for correlation judgements [@rensink_2017; @rensink_2022].
 
-Recent work investigating the use of decay functions that alter point size or contrast
+Recent work investigating the use of decay functions that change point size or contrast
 in scatterplots as a function of residual distance provide further evidence for 
 both point density and salience/perceptual weighting being drivers of correlation perception.
 The use of an inverted contrast decay function [@strain_2023], such that point contrast
@@ -842,7 +823,33 @@ account. It is more difficult to comment on higher level perceptual mechanisms,
 and in any case this is not the intended contribution of the present work; we aim
 to test the impact of systematically altering visual features on correlation perception, 
 and to provide empirically-derived tools for visualization designers to design better
-visualizations through the use of a reproducible, simple framework.
+visualizations through the use of a simple, reproducible framework.
+
+```{r}
+#| label: fig-underestimation-curve
+#| include: true
+#| out-width: "50%"
+#| fig-asp: 1
+#| fig-align: "left"
+#| fig-cap: Using a function relating objective to perceived *r* value [@rensink_2017] provides a visualization of the nature of correlation underestmiation reported in previous work. An identity line has been included to illustrate where viewers are most and least accurate.
+
+my_rs <- seq(from = 0, to = 1, length.out = 100)
+
+as_tibble(my_rs) %>%
+  mutate(under_est = (log(1-0.88*my_rs)/log(1-0.88))) %>%
+  ggplot() +
+  geom_smooth(aes(x = my_rs, y = under_est), colour = "black") +
+  geom_abline(slope = 1, intercept = 0, linetype = 2) +
+  ylim(0,1) +
+  xlim(0,1) +
+  theme_ggdist() +
+  theme(axis.title.x = ggtext::element_markdown(size = 16),
+        axis.title.y = ggtext::element_markdown(size = 16),
+        axis.text = element_text(size = 14)) +
+  labs(x = "Objective *r* value",
+       y = "Subjective *r* value")
+
+```
 
 ## Transparency and Contrast {#sec-transparency-and-contrast}
 
@@ -959,7 +966,7 @@ Based on previously established effects of adjusting point size and point
 contrast using identical decay functions in isolation, we presently 
 make the following hypotheses about the combination of these functions. 
 We hypothesize that; (H1) an increased reduction in correlation estimation error will be
-observed when standard orientation non-linear decay functions are used; (H2) the use of 
+observed when standard orientation decay functions are used; (H2) the use of 
 congruent inverted orientation decay functions will produce 
 the least accurate estimates of correlation; and (H3) that owing to the greater strength
 of the size channel observed in previous work [@strain_2023b], there will be a 
@@ -973,7 +980,7 @@ Much prior work into correlation perception in scatterplots has taken place
 in-person, most often with graduate students with experience in statistics. While
 this work is valuable, especially to perception audiences, it can struggle
 to provide data that is resilient to different lay viewers and viewing contexts.
-In addition to the ease and low-cost afforded to us by online, crowdsourced
+In addition, the ease and low-cost afforded to us by online, crowdsourced
 experimental work is unmatched. Given our intended HCI and design audience, we therefore
 choose to crowdsource all participants. We acknowledge however, that the 
 technique has been affected by low quality data and skewed demographics
@@ -985,22 +992,17 @@ using Prolific, and were required to have a prolific score of 100, representing 
 approval rate. This is more strict than the 95% suggested in previous work [@peer_2021],
 but has served the authors well in prior studies.
 
-Discussions about the transparency, contrast, and luminance is inherently difficult
-within the context of online, crowdsourced experimental work. While the ease, low-cost,
-and resilience to different viewing contexts afforded to us by such work is 
-advantageous, we must also consider the impact on our ability to precisely 
-describe the experimental stimuli.
-
 ## Open Research {#sec-open-research}
 
 This study was conducted according to the principles of open and reproducible
 research. All data and analysis code are available at (repository link removed for anon).
 This repository contains instructions for building a docker image to fully reproduce the computational
 environment used. This allows for full replications of stimuli, analysis, and the paper
-itself. Ethical approval for both experiments was granted by (removed for anon). Hypotheses
-and analysis plans were pre-registered with the OSF (links removed for anon).
+itself. Ethical approval was granted by (removed for anon). Hypotheses
+and analysis plans were pre-registered with the OSF (links removed for anon) and
+there were no deviations from them.
 
-## Scatterplot Generation {#sec-scatter-gen}
+## Stimuli {#sec-scatter-gen}
 
 The data used to generate the scatterplots were identical to that used in
 previous work [@strain_2023; @strain_2023b]. 45 scatterplot datasets were generated corresponding
@@ -1011,7 +1013,7 @@ than work using fewer values. Scatterplot points were generated based on
 bivariate normal distributions with standard deviations of 1 in each direction. Each
 scatterplot had a 1:1 aspect ratio, was generated as a 1000*1000 pixel .png image,
 and was scaled up or down according to a participant's monitor such that they
-always occupied the same visual proportion. We used equation 1 to map residuals 
+always occupied the same proportion of the screen. We used equation 1 to map residuals 
 to size and contrast values. When adjusting point size, we further transform values
 using a scaling factor of 4 and a constant of 0.2 t ensure that the minimum point
 size in the present study is consistent with that of previous work [@strain_2023; @strain_2023b].
@@ -1023,18 +1025,46 @@ size in the present study is consistent with that of previous work [@strain_2023
 0.25 was chosen as the value of *b*. This is both due to its previous usage in studies
 that the present work builds upon, and its production of a curve approximating the
 inverse around the identity line of the underestimation curve reported in previous
-work [@rensink_2017; strain_2023; strain_2023b]. We also acknowledge that there
-may be other, more suitable values of *b*, however extensively testing these is
+work [@rensink_2017; @strain_2023; @strain_2023b]. We acknowledge that there
+may be other, more suitable values of *b*, however extensive testing of these is
 outside the scope of the present work. We used 2x2 combinations of this equation
 applied to point size and contrast in standard and inverted orientation forms. 
-Scatterplot examples can be seen in @fig-examples.
+Examples of the stimuli used can be seen in @fig-examples.
+
+```{r}
+#| label: fig-examples
+#| out-width: "50%"
+#| fig-asp: 1
+#| fig-align: "left"
+#| include: true
+#| fig-cap: Examples of the experimental stimuli used.
+
+example_plots <- ggarrange(plot_example_function(slopes,
+                                        (1-slopes$slope_0.25),
+                                        (1-slopes$slope_0.25),
+                                        "Standard Orientation Size\nStandard Orientation Contrast"),
+                   plot_example_function(slopes,
+                                         (1-slopes$slope_inverted),
+                                         (1-slopes$slope_inverted),
+                                         "Inverted Orientation Size\nInverted Orientation Contrast"),
+                   plot_example_function(slopes,
+                                         (1-slopes$slope_inverted),
+                                         (1-slopes$slope_0.25),
+                                         "Inverted Orientation Size\nStandard Orientation Contrast"),
+                   plot_example_function(slopes,
+                                         (1-slopes$slope_0.25),
+                                         (1-slopes$slope_inverted),
+                                         "Standard Orientation Size\nInverted Orientation Contrast"))
+
+example_plots
+```
 
 ## Modelling {#sec-gen-modelling}
 
 We use linear mixed effects models to model the relationships
 between the combination of size and contrast decay
 conditions and participants' errors in correlation estimates. Models such as these
-allow us to compare differences in our IVs across the full range of participant 
+allow us to compare differences in our IV across the full range of participant 
 responses, as opposed to relying purely on aggregate data, as in ANOVA. These models also afford us 
 the ability to include random effects for participants and items. As per our pre-registrations
 we preferred maximal models, including random intercepts and slopes for participants
@@ -1046,7 +1076,12 @@ terms that fail to explain a significant amount of variance.
 ## Point Visibility Testing {#sec-VT}
 
 Discussions about the size and contrast of particular scatterplot points are inherently
-difficult in the context of online, crowdsourced experiments. In addition to measures
+difficult in the context of online, crowdsourced experiments; controlling the devices
+participants use to participate in these kind of experiments, beyond insisting on laptop
+or desktop computers, is impossible. While this may result in a lack of consistency
+in scatterplot point sizes, luminances, or contrast ratios between participants, it also provides results
+that are more resilient to different viewing contexts than traditional lab-based 
+experimental work. In addition to measures
 implemented to ensure high quality participant data (see @sec-crowdsourcing), it is also key that we do not
 inadvertently remove data from scatterplots by including points whose size or contrast
 renders them invisible. We therefore included point visibility testing to ensure this. Participants
@@ -1057,18 +1092,18 @@ were present. Participants scored an average of
 `r printnum(VT$mean_VT_perc_correct)`% ($SD$ = `r printnum(VT$sd_VT_perc_correct)`).
 Despite our use of the contrast floor detailed in @sec-transparency-and-contrast,
 it is clear that some of our small, low contrast points were not reliably visible, most likely
-due to low contrast between the point and background, as previous work (strain_2023b) 
-found point visibility invariant to size. We suggest this is due to differences in
+due to low contrast between the point and background, as previous work [@strain_2023b] 
+found point visibility largely invariant to size. We suggest this is due to differences in
 monitors between participants. In reality this contrast floor would need to be
 calibrated on a per-monitor basis. @fig-VT-hist shows distributions of participants'
-performances on the visual threshold tests. We also include performance on the point
+performances on the visibility tests. We also include performance on the point
 visibility test as a fixed effect in @sec-add-analyses.
 
 ```{r}
 #| label: fig-VT-hist
 #| include: true
 #| fig-asp: 0.5
-#| fig-cap: Histograms of visual threshold testing performance.
+#| fig-cap: Histogram of point visibility testing performance.
 #| out-width: "50%"
 #| fig-align: "left"
 
@@ -1077,6 +1112,8 @@ visibility test as a fixed effect in @sec-add-analyses.
 ggplot(size_and_contrast_exp_tidy, aes(x = VT_no_correct)) +
   geom_histogram(binwidth = 1,colour = "grey", fill = "darkgrey") +
   theme_ggdist() +
+  theme(axis.title = element_text(size = 16),
+        axis.text = element_text(size = 14)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 9)) +
   labs(x = "Number of Visual Threshold Tests Correct (out of 6)",
        y = "Count")
@@ -1096,7 +1133,7 @@ We include analyses with dot pitch as a fixed effect in @sec-add-analyses.
 ## Procedure {#sec-gen-procedure}
 
 Both experiments were built using PsychoPy [@pierce_2019] and hosted on Pavlovia.org.
-Participants were only permitted to complete the experiments on a desktop or laptop
+Participants were only permitted to complete the experiment on a desktop or laptop
 computer. Each participant was first shown the participant information sheet and provided
 consent through key presses in response to consent statements. They were asked to
 provide their age in a free text box, followed by their gender identity. Participants
@@ -1119,9 +1156,8 @@ asked participants to ignore the scatterplot and set the slider to 0 or 1.
 corrected-to-normal vision and English fluency were required for participation.
 In addition, participants who had completed any of our previous studies
 into correlation estimation in scatterplots (references removed for anon) 
-were prevented from participating.
-
-Data were collected from 158 participants. 8 failed more than 2 our of 6 attention
+were prevented from participating. Data were collected from 158 participants. 
+8 failed more than 2 out of 6 attention
 check questions, and, as per pre-registration stipulations, were rejected from the
 study. Data from the remaining 150 participants were included in the full analysis
 (`r printnum(gender$M, digits = 1)`% male, `r printnum(gender$F, digits = 1)`% female,
@@ -1133,49 +1169,23 @@ time taken to complete the experiment was 37 minutes (*SD* = 12.3).
 
 ## Design {#sec-design}
 
-We used a fully repeated-measures 2*2 factorial design in experiment 1. Each participant
+We used a fully repeated-measures 2*2 factorial design. Each participant
 saw each combination of size and contrast decay condition plots for a total of 180
 experimental items. Participants viewed these experimental items, along with 6
-attention check items, in a fully randomized order. Examples of experimental
-items can be seen in @fig-examples.
-
-```{r}
-#| label: fig-examples
-#| out-width: "50%"
-#| fig-asp: 1
-#| fig-align: "left"
-#| include: true
-
-example_plots <- ggarrange(plot_example_function(slopes,
-                                        (1-slopes$slope_0.25),
-                                        (1-slopes$slope_0.25),
-                                        "Standard Orientation Size\nStandard Orientation Contrast"),
-                   plot_example_function(slopes,
-                                         (1-slopes$slope_inverted),
-                                         (1-slopes$slope_inverted),
-                                         "Inverted Orientation Size\nInverted Orientation Contrast"),
-                   plot_example_function(slopes,
-                                         (1-slopes$slope_inverted),
-                                         (1-slopes$slope_0.25),
-                                         "Inverted Orientation Size\nStandard Orientation Contrast"),
-                   plot_example_function(slopes,
-                                         (1-slopes$slope_0.25),
-                                         (1-slopes$slope_inverted),
-                                         "Standard Orientation Size\nInverted Orientation Contrast"))
-
-example_plots
-```
+attention check items, in a fully randomized order. All experimental code, materials,
+and instructions are hosted at (link removed for anon).
 
 # Results {#sec-results}
 
 Our first two hypotheses were fully supported in this experiment. The combination of 
-non-linear size and contrast decay functions produced the most accurate estimates of
+standard orientation size and contrast decay functions produced the most accurate estimates of
 correlation, although this also resulted in a large correlation overestimation for many
 values of *r* (see @fig-diff-error-bars-plot). Our second hypothesis was also 
 supported; the combination of inverted size and inverted contrast decay conditions
 produced the least accurate estimates of correlation. We found no support for our third
 hypothesis; there was no significant difference in correlation estimates for
-non-linear size/inverted contrast decay plots and inverted size/non-linear contrast
+standard orientation size/inverted orientation contrast decay plots and 
+inverted orientation size/standard orientation contrast
 decay plots (Z = -2.26, *p* = .11), however we did find a significant interaction effect
 that provides evidence that the size decay function was stronger with regards
 to biasing people's estimates of correlation.
@@ -1226,7 +1236,7 @@ anova_results(model, model_cmpr)
 #| fig-align: "left"
 
 # dot plot of mean errors and 95% CIs for each combination of size and contrast decay conditions
-# currently not used in - EMM plot used in place
+# currently not used s- EMM plot used in place
 
 dot_plot_function(size_and_contrast_exp_tidy, "Size Decay : Contrast Decay") +
     scale_x_discrete(labels = labels_size_contrast) +
@@ -1236,12 +1246,12 @@ dot_plot_function(size_and_contrast_exp_tidy, "Size Decay : Contrast Decay") +
 ```{r}
 #| label: tbl-sig
 #| include: true
-#| tbl-cap: Significances of fixed effects and interaction for experiment 1.
+#| tbl-cap: Significances of fixed effects and the interaction between them.
 
 make_sig_table(model)
 ```
 
-All analyses were conducted using R (version `r paste0(R.version$major, ".", R.version$minor)`).
+All analyses were conducted using R (version `r paste0(R.version$major, ".", R.version$minor)`). 
 Deviation coding was used for each of the experimental factors. We used the **buildmer** and
 **lme4** packages to build a linear mixed effects model where the difference
 between objective and rated r value was predicted by the size and contrast decay
@@ -1257,30 +1267,54 @@ and participants, and a random slope for the size decay factor with regards to p
 ```{r}
 #| label: fig-emm-plot
 #| include: true
-#| fig-asp: 0.7
-#| out-width: "50%"
-#| fig-align: "left"
+#| fig-asp: 0.4
+#| out-width: "100%"
+#| fig-cap: Estimated marginal means for each combination of size and contrast decay conditions, including asymptotic lower and upper confidence limits calcualted by emmeans
 
-plot(emmeans(model, pairwise ~ size * contrast)[[1]]) +
-  labs(x = "Estimated Marginal Mean",
-       y = "Pairs") +
-  theme_ggdist() +
-  theme(axis.text = element_text(size = 13),
-        axis.title = element_text(size = 16)) +
-  scale_y_discrete(labels = c("Inv Size\nNL Contrast",
-                              "NL Size\nNL Contrast",
-                              "Inv Size\nInv Contrast",
-                              "NL Size\nInv Contrast ")) +
-  coord_flip()
+as_tibble(emmeans(model, pairwise ~ size * contrast)[[1]]) %>%
+  mutate("size" = recode(size,
+                         "S" = "Standard Orientation Size",
+                         "I" = "Inverted Orientation Size"),
+          "contrast" = recode(contrast,
+                         "S" = "Standard Orientation Contrast",
+                         "I" = "Inverted Orientation Contrast")) %>%
+  ggplot(aes(x = size:contrast, y = emmean)) +
+  geom_point(size = 1.75) +
+  geom_pointrange(aes(ymin = asymp.LCL, ymax = asymp.UCL)) +
+  scale_x_discrete(labels = ~ gsub(":", "\n", .x)) +
+  theme_ggdist() + 
+  labs(y = "Estimated Marginal Mean of Error",
+       x = " Size : Contrast") +
+  theme(axis.text = element_text(size = 7),
+        axis.title = element_text(size = 8)) +
+  coord_flip() +
+  geom_abline(intercept = 0, slope = 0, linetype = 2) +
+  annotate(geom = "segment",
+                   x = 4.4,
+                   xend = 4.4,
+                   y = -.02,
+                   yend = -.08,
+           arrow = arrow(length = unit(0.1, "cm" ))) +
+  annotate(geom = "segment",
+                   x = 4.4,
+                   xend = 4.4,
+                   y = .02,
+                   yend = .08,
+           arrow = arrow(length = unit(0.1, "cm"))) +
+  annotate(geom = "text", x = 4.15, y = -.05, label = "Overestimation", size = 3) +
+  annotate(geom = "text", x = 4.15, y = .05, label = "Underestimation", size = 3)
+  
 ```
 
 ```{r}
 #| label: fig-interaction-plot
-#| include: true
+#| include: false
 #| fig-cap: Interaction plot showing the moderating effect of encoding channel on decay orientation.
 #| fig-asp: 0.7
-#| out-width: 50%
 #| fig-align: "left"
+#| #| out-width: 50%
+
+# not used for manuscript
 
 emm <- emmeans(model, ~ size * contrast)
 
@@ -1300,7 +1334,7 @@ emm %>%
          y = "Estimated Marginal Mean",
          colour = "Contrast\nDecay\nCondition") +
   theme(legend.position = c(0.75,0.3),
-        axis.text = element_text(size = 13),
+        axis.text = element_text(size = 14),
         axis.title = element_text(size = 16))
 ```
 
@@ -1323,16 +1357,10 @@ kable(table_df, booktabs = TRUE, digits = c(0,2,3))
 ```
 
 The **emmeans** (cite) package was used to run pairwise comparisons. @fig-emm-plot shows
-estimated marginal means for each combination of factors, and @fig-interaction-plot 
-shows the form the interaction takes. The interaction is driven by there being a
-greater difference in estimates between NL and inverted size decay conditions when
-the contrast decay condition is held as non-linear,
-as opposed to when it is inverted. This is parsimonious with previous work 
-demonstrating the greater capacity of the size encoding channel to bias
-participants' estimates of *r* [@strain_2023b], and findings that the inverted
-channel is generally weaker at biasing correlation in the opposite direction 
-[@strain_2023; @strain_2023b]. @tbl-contrasts shows statistics for pairwise
-comparisons.
+estimated marginal means for each combination of factors. The interaction is driven by
+the non-additive nature of combining point size and contrast manipulations; the effects
+of either on performance on the correlation estimation task depend on the presence
+of the other. @tbl-contrasts shows statistics for pairwise comparisons.
 
 ```{r}
 #| label: fig-diff-error-bars-plot
@@ -1421,7 +1449,7 @@ all_exp_df <- read_csv("data/all_exp.csv")
     theme_ggdist() +
     scale_y_continuous(breaks = seq(-0.4,1, 0.2)) +
     theme(strip.text = element_text(size = 6, margin = margin(1,0,1,0, "mm")), aspect.ratio = 1,
-        axis.text = element_text(size = 6.5),
+        axis.text = element_text(size = 7),
         axis.title = element_text(size = 8)) +
     facet_wrap(factor ~., ncol = 4, labeller = labeller(factor = labels_all_exp)) +
     labs(x = "Objective r",
@@ -1454,7 +1482,7 @@ curves <- read_csv("data/curves_df.csv")
     theme_ggdist() +
     scale_y_continuous(breaks = seq(-0.4,1, 0.2)) +
     theme(strip.text = element_text(size = 6, margin = margin(1,0,1,0, "mm")), aspect.ratio = 1,
-        axis.text = element_text(size = 6.5),
+        axis.text = element_text(size = 7),
         axis.title = element_text(size = 8)) +
     facet_wrap(factor ~., ncol = 5, labeller = labeller(factor = labels_power)) +
     labs(x = "Objective r",

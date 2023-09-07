@@ -21,7 +21,7 @@ execute:
   message: false
   include: false
 
-title: Further Investigating the Effects of Point Size and Contrast on Correlation Perception in Scatterplots
+title: Novel Effects of Size and Contrast Adjustments in Scatterplots
 
 # if short-title is defined, then it's used
 short-title: Size, Contrast, and Scatterplots
@@ -128,15 +128,7 @@ acm-metadata:
     - crowdsourced
 
 abstract: |
-  Changing the size and contrast of points on scatterplots can be used to systematically
-  alter viewers' perceptions of correlation. Point size and contrast adjustments operate on correlation perception
-  through different perceptual mechanisms, and combining them produces effects
-  that are not additive in nature. We present a fully reproducible 
-  study in which we combine previously established techniques for
-  influencing correlation perception to show that there are few limits to the extent to which
-  we can use visual features to change viewers' perceptions of data visualizations. We follow
-  this with an extended discussion into how our findings corroborate previous work on
-  correlation perception in scatterplots and can be used to correct for a historic perceptual bias.
+  Changing the size and contrast of points on scatterplots can be used to systematically improve viewers' perceptions of correlation. Evidence points to these effects being similar with regards to the mechanics behind them, so one would expect that their combination would produce a simple additive effect on correlation estimation. We present a fully  reproducible study in which we combine techniques for influencing correlation perception to show that in reality,   effects of changing point size and contrast interact in a non-additive fashion. We show that there are few limits to the extent to which we can use visual features to change viewers' perceptions of data visualizations, and use our results to further explain the perceptual mechanisms at play when changing point size and contrast in scatterplots.
   
 ---
 ```{r}
@@ -164,7 +156,8 @@ library(ggpubr)
 library(conflicted)
 library(EMAtools)
 library(ggtext)
-library(geomtextpath)
+library(r2glmm)
+
 
 # fix conflicts now using the conflicted package
 
@@ -441,21 +434,6 @@ contrasts_extract <- function(model) {
 ```
 
 ```{r}
-#| label: effect-size-function
-
-# function to calculate effects sizes in Cohen's d from models
-
-get_effects_sizes <- function(model, d) {
-  
-  effect_sizes <- lme.dscore(model, data = d, type = "lme4")
-  
-  effects_df <- as.data.frame(effect_sizes[3])
-  
-  return(effects_df)
-}
-```
-
-```{r}
 #| label: dot-plot-function
 
 # function to create dot plots showing average correlation estimation 
@@ -557,8 +535,24 @@ make_sig_table <- function (model) {
            "df" = "coefficients.df",
            "t-value" = "coefficients.t.value",
            "p" = "coefficients.Pr...t..") %>%
-    mutate(p = scales::pvalue(p))
+    mutate(p = scales::pvalue(p)) %>%
+    rename("\\textit{p}" = "p")
   
+  # get semi-partial r^2, rename rows so they match with sig table
+  # take the last 3 rows corresponding to fixed effects and interaction term
+  # remove first cell of r^2
+  # reformat text for latex output
+  
+  r_squared <- r2beta(model, method = "nsj") %>%
+    mutate("Effect" = recode(Effect,
+                             "size" = "Size Decay",
+                             "contrast" = "Contrast Decay",
+                             "size:contrast" = "Size Decay x Contrast Decay")) %>%
+    select(c("Effect", "Rsq")) %>%
+    mutate(Rsq = round(Rsq, 3)) %>%
+    mutate(Rsq = ifelse(row_number() == 1, "", Rsq)) %>%
+    rename("R\\textsuperscript{2}" = "Rsq") 
+    
   # tidy up row names
   
   rownames(table_df) <- c("(Intercept)",
@@ -566,7 +560,9 @@ make_sig_table <- function (model) {
                           "Contrast Decay",
                           "Size Decay x Contrast Decay")
   
-  table <- kable(table_df, booktabs = TRUE, digits = c(2,3,2,2,2))
+  sig_and_squared <- cbind(table_df, r_squared) %>% select(-c("Effect")) 
+  
+  table <- kable(sig_and_squared, booktabs = TRUE, digits = c(2,3,2,2,2,2,3), escape = FALSE)
   
   return(table)
 }
@@ -689,7 +685,12 @@ tasks_theme <- function() {
 
 ## Create correlation plot
 
-corr_plot <- plot_example_function(slopes, 0.05, 0,  "Correlation\nPerception") + tasks_theme() + geom_point(aes(alpha = 1), size = 0.5)
+corr_plot <- plot_example_function(slopes,
+                                   0.05,
+                                   0,
+                                   "Correlation\nPerception") +
+  tasks_theme() +
+  geom_point(aes(alpha = 1), size = 0.5)
 
 ## Create cluster separation plot
 
@@ -743,13 +744,22 @@ NL_data <- data.frame(V1, V2)
 
 # make plot
 
-NL_corr_plot <- plot_example_function(NL_data, 0.05, 0, "Non-linear\ncorrelation") + tasks_theme() + geom_point(aes(alpha = 1), size = 0.2)
+NL_corr_plot <- plot_example_function(NL_data,
+                                      0.05,
+                                      0,
+                                      "Non-linear\ncorrelation") +
+  tasks_theme() +
+  geom_point(aes(alpha = 1),
+             size = 0.2)
 
 # arrange the four task example plots
 
-ggarrange(corr_plot, cluster_sep_plot, outlier_plot, NL_corr_plot, nrow = 1)
+ggarrange(corr_plot,
+          cluster_sep_plot,
+          outlier_plot,
+          NL_corr_plot,
+          nrow = 1)
 ```
-
 
 # Related Work {#sec-related-work}
 
@@ -1187,8 +1197,8 @@ hypothesis; there was no significant difference in correlation estimates for
 standard orientation size/inverted orientation contrast decay plots and 
 inverted orientation size/standard orientation contrast
 decay plots (Z = -2.26, *p* = .11), however we did find a significant interaction effect
-that provides evidence that the size decay function was stronger with regards
-to biasing people's estimates of correlation.
+that provides evidence that the combination of size and contrast decay functions
+is not additive in nature.
 
 ```{r}
 #| label: model
@@ -1246,7 +1256,7 @@ dot_plot_function(size_and_contrast_exp_tidy, "Size Decay : Contrast Decay") +
 ```{r}
 #| label: tbl-sig
 #| include: true
-#| tbl-cap: Significances of fixed effects and the interaction between them.
+#| tbl-cap: Significances of fixed effects and the interaction between them. Semi-partial R^2^ for each fixed effect and the interaction term is also displayed.
 
 make_sig_table(model)
 ```
@@ -1260,9 +1270,14 @@ and contrast decay conditions as fixed effects explained significantly more vari
 than the null ($\chi^2$(`r in_paren(model.df)`) = 
 `r printnum(model.Chisq)`, *p* `r printp(model.p, add_equals = TRUE)`). There
 were significant fixed effects of size decay and contrast decay conditions, as well
-as a significant interaction between the two. @tbl-sig shows a summary
-of the model statistics. The experimental model has random intercepts for items
+as a significant interaction between the two. The experimental model has random intercepts for items
 and participants, and a random slope for the size decay factor with regards to participants.
+Due both to our use of a linear mixed model with an interaction
+term, and our lack of comparative baseline condition (i.e no size or contrast function used),
+we do not report a measure of effect size. Instead we report the amounts of variance
+explained by each fixed effect term and the interaction term as semi-partial
+R^2^ [@nakagawa_2013]. These values were calculated using the **r2glmm** package
+[@r2glmm] can be see in @tbl-sig along with all model statistics.
 
 ```{r}
 #| label: fig-emm-plot
@@ -1301,8 +1316,16 @@ as_tibble(emmeans(model, pairwise ~ size * contrast)[[1]]) %>%
                    y = .02,
                    yend = .08,
            arrow = arrow(length = unit(0.1, "cm"))) +
-  annotate(geom = "text", x = 4.15, y = -.05, label = "Overestimation", size = 3) +
-  annotate(geom = "text", x = 4.15, y = .05, label = "Underestimation", size = 3)
+  annotate(geom = "text",
+           x = 4.15,
+           y = -.05,
+           label = "Overestimation",
+           size = 3) +
+  annotate(geom = "text",
+           x = 4.15,
+           y = .05,
+           label = "Underestimation",
+           size = 3)
   
 ```
 
@@ -1341,19 +1364,20 @@ emm %>%
 ```{r}
 #| label: tbl-contrasts
 #| include: true
-#| tbl-cap: Pairwise comparisons for experiment 1. Our interaction is driven by the greater strength of the size channel, whether non-linear or inverted decay functions were used. Note the lack of significance for NL size/Inv contrast against Inv size/NL contrast comparison.
+#| tbl-cap: Pairwise comparisons. SO = Standard Orientation, IO = Inverted Orientation. The interaction is driven by the non-additive nature of combining point size and contrast decay functions, and the only nonsignificant contrast is found when incongruent decay functions are tested.
 
 table_df <- contrasts_extract(model) %>%
   mutate(p.value = scales::pvalue(p.value)) %>%
+  rename("\\textit{p}" = "p.value") %>%
   mutate('Contrast' = recode(Contrast,
-                             "S I - I I" = "Non-linear Size x Inverted Contrast <-> Inverted Size x Inverted Contrast",
-                             "S I - S S" = "Non-linear Size x Inverted Contrast <-> Non-Linear Size x Non-linear Contrast",
-                             "S I - I S" = "Non-linear Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast",
-                             "I I - S S" = "Inverted Size x Inverted Contrast <-> Non-linear Size x Non-linear Contrast",
-                             "I I - I S" = "Inverted Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast",
-                             "S S - I S" = "Non-linear Size x Non-linear Contrast <-> Inverted Size x Non-linear Contrast"))
+         "S I - I I" = "SO Size x IO Contrast <-> IO Size x IO Contrast",
+         "S I - S S" = "SO Size x IO Contrast <-> SO Size x SO Contrast",
+         "S I - I S" = "SO Size x IO Contrast <-> IO Size x SO Contrast",
+         "I I - S S" = "IO Size x IO Contrast <-> SO Size x SO Contrast",
+         "I I - I S" = "IO Size x IO Contrast <-> IO Size x SO Contrast",
+         "S S - I S" = "SO Size x SO Contrast <-> IO Size x SO Contrast"))
 
-kable(table_df, booktabs = TRUE, digits = c(0,2,3))
+kable(table_df, booktabs = TRUE, digits = c(0,2,3), escape = FALSE)
 ```
 
 ```{r}
@@ -1408,27 +1432,54 @@ previously with regards to the effects of point size and contrast manipulations
 on correlation estimation in scatterplots. Namely, that while both manipulations
 have a significant effect, the effect of changing point sizes is stronger, and that
 while we can influence correlation estimates in either direction, standard
-orientation manipulations are more powerful than inverted ones. The experiment
-described above additionally contributes evidence of a congruency effect; effects
-are most strong when there is orientation congruency between size and contrast
-manipulations. 
+orientation manipulations are more powerful than inverted ones [@strain_2023; @strain_2023b].
+As one would expect, we also see an effect of orientation congruency on the extent
+to which a manipulation can bias correlation estimates.
 
 The lack of support for our third hypothesis, that there would be a
 difference in correlation estimates between incongruent conditions, was surprising
-given the greater strength of the size channel relative to contrast. We take
-this as evidence that the combination of size and contrast manipulations is not
-additive, as we had initially suspected, which explains the interaction we see here.
-Integrating the data collected in the present study with previously collected
-data investigating the effects of the size and contrast manipulations in isolation
-allows us demonstrate this and to partial out the effects each manipulation.
+given the greater strength of the size channel relative to contrast demonstrated
+in previous work [@strain_2023; @strain_2023b]. Despite the lack of support for
+this hypothesis, we did find that the size decay channel explained more variance (.104)
+in our model than contrast decay (.087) was able to. If the combination of size and
+contrast decay functions was strictly additive, we would expect a significant
+difference between incongruent conditions owing to the greater power of the size
+channel. Their non-additive nature, however, has resulted in each channel
+attenuating the other.
+
+## Combining Manipulations
+
+@fig-diff-error-bars-plot and @fig-emm-plot show how, on average, 
+the combination of standard orientation size and contrast decay conditions
+has resulted in an overestimation of *r* for the majority of values.
+While this does not directly solve the underestimation problem. It does demonstrate
+that with regards to using point size and contrast to bias viewer's estimates
+of correlation in scatterplots, there would appear to be few limitations. The issue
+here is not one of our ability to change people's perceptions, but of *tuning* the
+use of these visual factors to be able to change people's perceptions in systematic
+ways. We explore what further work would need to be done to do this in @sec-future-work.
+Combining size and contrast decay functions
+
+## Contributions of Size and Contrast Decay
+
+Incorporating data from previous work [@strain_2023; @strain_2023b] that used 
+similar decay functions and experimental paradigms allows us to compare estimation
+curves for size decay and contrast decay in isolation and in combination 
+(@fig-est-multi-exp). We can then derive new curves that describe the effect
+that each manipulation and the combination of manipulations has on people's
+estimates of correlation (@fig-power-plot). Throughout the course of this section it should be noted
+that the analyses include data from several separate experiments. We argue that
+their methodological similarities render comparison appropriate, but we acknowledge
+the potential for overstated conclusions.
 
 ```{r}
-#| label: fig-error-bars-all-exp
+#| label: fig-est-multi-exp
 #| include: true
 #| out-width: "100%"
+#| fig-asp: 0.33
 #| fig-cap: From left to right, plotting *r* estimation error against the objective *r* value for the standard orientation condition in the present study, for standard orientation size and contrast manipulations in previous work, and for normal scatterplots averaged over identical conditions in previous work. Error bars have been left off this plot to make interpretation more simple.
 
-# dataframe containing values from previous experiments and the current is included
+# dataframe containing values from previous work and the current is included
 # in the data folder 
 
 all_exp_df <- read_csv("data/all_exp.csv")
@@ -1438,8 +1489,6 @@ all_exp_df <- read_csv("data/all_exp.csv")
     group_by(factor, my_rs) %>% 
     summarise(sd = sd(difference), mean = mean(difference)) %>% 
     ggplot(aes(x = my_rs, y = mean)) + 
-    #geom_point(size = 0.2) + 
-    #geom_errorbar(mapping = aes(ymin = mean + sd, ymax = mean - sd),width = 0.01, size = 0.3) +
     theme_ggdist() +
     scale_y_continuous(breaks = seq(-0.4,1, 0.2)) +
     theme(strip.text = element_text(size = 6, margin = margin(1,0,1,0, "mm")), aspect.ratio = 1,
@@ -1465,7 +1514,10 @@ curves <- read_csv("data/curves_df.csv")
 
   curves %>% 
     drop_na() %>%
-    select(c("contrast_power", "size_power", "additive_power", "my_rs")) %>%
+    select(c("contrast_power",
+             "size_power",
+             "additive_power",
+             "my_rs")) %>%
     pivot_longer(cols = c("contrast_power",
                           "size_power",
                           "additive_power"),
@@ -1488,14 +1540,16 @@ curves <- read_csv("data/curves_df.csv")
 
 ```
 
-As can be seen in @fig-error-bars-all-exp, combining the size and contrast manipulations
-results in an error curve of a mostly similar shape to that of the size manipulation.
-The difference that comes from adding the contrast manipulation lies in the severity
-of the effect and the orientation of the curve itself. Transforming the size underestimation
-curve from @strain_2023 into the size and contrast underestimation curve we have
-found in the present study gives us some insight into the effect of adding 
-the two manipulations together.
 
+
+
+## Mechanisms {#sec-mechs}
+
+## Further Tuning {#sec-further-tuning}
+
+## Limitations {#sec-limitations}
+
+## Future Work {#sec-future-work}
 
 # References {-}
 

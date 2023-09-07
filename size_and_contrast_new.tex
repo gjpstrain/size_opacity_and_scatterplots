@@ -165,7 +165,7 @@
 \setlength{\parskip}{0pt}
 
 \hypersetup{
-  pdftitle={Further Investigating the Effects of Point Size and Contrast on Correlation Perception in Scatterplots},
+  pdftitle={Novel Effects of Size and Contrast Adjustments in Scatterplots},
   pdfauthor={Gabriel Strain; Andrew J. Stewart; Paul Warren; Caroline Jay},
   colorlinks=true,
   linkcolor={blue},
@@ -234,9 +234,8 @@ your rights confirmation emai}{June 03--05, 2018}{Woodstock, NY}
 %%
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title[Size, Contrast, and Scatterplots]{Further Investigating the
-Effects of Point Size and Contrast on Correlation Perception in
-Scatterplots}
+\title[Size, Contrast, and Scatterplots]{Novel Effects of Size and
+Contrast Adjustments in Scatterplots}
 
 %%
 %% The "author" command and its associated commands are used to define
@@ -301,17 +300,17 @@ of Science and Engineering, University of Manchester}
 %% article.
 \begin{abstract}
 Changing the size and contrast of points on scatterplots can be used to
-systematically alter viewers' perceptions of correlation. Point size and
-contrast adjustments operate on correlation perception through different
-perceptual mechanisms, and combining them produces effects that are not
-additive in nature. We present a fully reproducible study in which we
-combine previously established techniques for influencing correlation
-perception to show that there are few limits to the extent to which we
-can use visual features to change viewers' perceptions of data
-visualizations. We follow this with an extended discussion into how our
-findings corroborate previous work on correlation perception in
-scatterplots and can be used to correct for a historic perceptual
-bias.    
+systematically improve viewers' perceptions of correlation. Evidence
+points to these effects being similar with regards to the mechanics
+behind them, so one would expect that their combination would produce a
+simple additive effect on correlation estimation. We present a fully
+reproducible study in which we combine techniques for influencing
+correlation perception to show that in reality, effects of changing
+point size and contrast interact in a non-additive fashion. We show that
+there are few limits to the extent to which we can use visual features
+to change viewers' perceptions of data visualizations, and use our
+results to further explain the perceptual mechanisms at play when
+changing point size and contrast in scatterplots.    
 \end{abstract}
 
 %%
@@ -852,22 +851,24 @@ no significant difference in correlation estimates for standard
 orientation size/inverted orientation contrast decay plots and inverted
 orientation size/standard orientation contrast decay plots (Z = -2.26,
 \emph{p} = .11), however we did find a significant interaction effect
-that provides evidence that the size decay function was stronger with
-regards to biasing people's estimates of correlation.
+that provides evidence that the combination of size and contrast decay
+functions is not additive in nature.
 
 \hypertarget{tbl-sig}{}
 \begin{table}
-\caption{\label{tbl-sig}Significances of fixed effects and the interaction between them. }\tabularnewline
+\caption{\label{tbl-sig}Significances of fixed effects and the interaction between them.
+Semi-partial R\textsuperscript{2} for each fixed effect and the
+interaction term is also displayed. }\tabularnewline
 
 \centering
-\begin{tabular}{lrrrrl}
+\begin{tabular}{lrrrrll}
 \toprule
-  & Estimate & Standard Error & df & t-value & p\\
+  & Estimate & Standard Error & df & t-value & \textit{p} & R\textsuperscript{2}\\
 \midrule
-(Intercept) & 0.08 & 0.013 & 103.32 & 6.27 & <0.001\\
-Size Decay & -0.14 & 0.005 & 148.39 & -25.77 & <0.001\\
-Contrast Decay & 0.12 & 0.002 & 26327.21 & 63.71 & <0.001\\
-Size Decay x Contrast Decay & 0.15 & 0.004 & 26327.13 & 38.47 & <0.001\\
+(Intercept) & 0.08 & 0.013 & 103.32 & 6.27 & <0.001 & \\
+Size Decay & -0.14 & 0.005 & 148.39 & -25.77 & <0.001 & 0.104\\
+Contrast Decay & 0.12 & 0.002 & 26327.21 & 63.71 & <0.001 & 0.087\\
+Size Decay x Contrast Decay & 0.15 & 0.004 & 26327.13 & 38.47 & <0.001 & 0.034\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -882,9 +883,16 @@ contrast decay conditions as fixed effects explained significantly more
 variance than the null (\(\chi^2\)(3) = 5,286.81, \emph{p} \textless{}
 .001). There were significant fixed effects of size decay and contrast
 decay conditions, as well as a significant interaction between the two.
-Table~\ref{tbl-sig} shows a summary of the model statistics. The
-experimental model has random intercepts for items and participants, and
-a random slope for the size decay factor with regards to participants.
+The experimental model has random intercepts for items and participants,
+and a random slope for the size decay factor with regards to
+participants. Due both to our use of a linear mixed model with an
+interaction term, and our lack of comparative baseline condition (i.e no
+size or contrast function used), we do not report a measure of effect
+size. Instead we report the amounts of variance explained by each fixed
+effect term and the interaction term as semi-partial
+R\textsuperscript{2} \citep{nakagawa_2013}. These values were calculated
+using the \textbf{r2glmm} package \citep{r2glmm} can be see in
+Table~\ref{tbl-sig} along with all model statistics.
 
 \begin{figure}
 
@@ -900,23 +908,24 @@ lower and upper confidence limits calcualted by emmeans}
 
 \hypertarget{tbl-contrasts}{}
 \begin{table}
-\caption{\label{tbl-contrasts}Pairwise comparisons for experiment 1. Our interaction is driven by the
-greater strength of the size channel, whether non-linear or inverted
-decay functions were used. Note the lack of significance for NL size/Inv
-contrast against Inv size/NL contrast comparison. }\tabularnewline
+\caption{\label{tbl-contrasts}Pairwise comparisons. SO = Standard Orientation, IO = Inverted
+Orientation. The interaction is driven by the non-additive nature of
+combining point size and contrast decay functions, and the only
+nonsignificant contrast is found when incongruent decay functions are
+tested. }\tabularnewline
 
 \centering
 \begin{tabular}{lrl}
 \toprule
-Contrast & Z.ratio & p.value\\
+Contrast & Z.ratio & \textbackslash{}textit\{p\}\\
 \midrule
-Non-linear Size x Inverted Contrast <-> Inverted Size x Inverted Contrast & -10.95 & <0.001\\
-Non-linear Size x Inverted Contrast <-> Non-Linear Size x Non-linear Contrast & 72.29 & <0.001\\
-Non-linear Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast & -2.26 & 0.108\\
-Inverted Size x Inverted Contrast <-> Non-linear Size x Non-linear Contrast & 46.13 & <0.001\\
-Inverted Size x Inverted Contrast <-> Inverted Size x Non-linear Contrast & 17.84 & <0.001\\
+SO Size x IO Contrast <-> IO Size x IO Contrast & -10.95 & <0.001\\
+SO Size x IO Contrast <-> SO Size x SO Contrast & 72.29 & <0.001\\
+SO Size x IO Contrast <-> IO Size x SO Contrast & -2.26 & 0.108\\
+IO Size x IO Contrast <-> SO Size x SO Contrast & 46.13 & <0.001\\
+IO Size x IO Contrast <-> IO Size x SO Contrast & 17.84 & <0.001\\
 \addlinespace
-Non-linear Size x Non-linear Contrast <-> Inverted Size x Non-linear Contrast & -37.44 & <0.001\\
+SO Size x SO Contrast <-> IO Size x SO Contrast & -37.44 & <0.001\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -950,35 +959,67 @@ manipulations on correlation estimation in scatterplots. Namely, that
 while both manipulations have a significant effect, the effect of
 changing point sizes is stronger, and that while we can influence
 correlation estimates in either direction, standard orientation
-manipulations are more powerful than inverted ones. The experiment
-described above additionally contributes evidence of a congruency
-effect; effects are most strong when there is orientation congruency
-between size and contrast manipulations.
+manipulations are more powerful than inverted ones
+\citep{strain_2023, strain_2023b}. As one would expect, we also see an
+effect of orientation congruency on the extent to which a manipulation
+can bias correlation estimates.
 
 The lack of support for our third hypothesis, that there would be a
 difference in correlation estimates between incongruent conditions, was
 surprising given the greater strength of the size channel relative to
-contrast. We take this as evidence that the combination of size and
-contrast manipulations is not additive, as we had initially suspected,
-which explains the interaction we see here. Integrating the data
-collected in the present study with previously collected data
-investigating the effects of the size and contrast manipulations in
-isolation allows us demonstrate this and to partial out the effects each
-manipulation.
+contrast demonstrated in previous work
+\citep{strain_2023, strain_2023b}. Despite the lack of support for this
+hypothesis, we did find that the size decay channel explained more
+variance (.104) in our model than contrast decay (.087) was able to. If
+the combination of size and contrast decay functions was strictly
+additive, we would expect a significant difference between incongruent
+conditions owing to the greater power of the size channel. Their
+non-additive nature, however, has resulted in each channel attenuating
+the other.
+
+\hypertarget{combining-manipulations}{%
+\subsection{Combining Manipulations}\label{combining-manipulations}}
+
+Figure~\ref{fig-diff-error-bars-plot} and Figure~\ref{fig-emm-plot} show
+how, on average, the combination of standard orientation size and
+contrast decay conditions has resulted in an overestimation of \emph{r}
+for the majority of values. While this does not directly solve the
+underestimation problem. It does demonstrate that with regards to using
+point size and contrast to bias viewer's estimates of correlation in
+scatterplots, there would appear to be few limitations. The issue here
+is not one of ability to change people's perceptions, but of
+\emph{tuning} the use of these visual factors to be able to change
+people's perceptions in systematic ways. We explore what further work
+would need to be done to do this in Section~\ref{sec-future-work}.
+
+\hypertarget{contributions-of-size-and-contrast-decay}{%
+\subsection{Contributions of Size and Contrast
+Decay}\label{contributions-of-size-and-contrast-decay}}
+
+Incorporating data from previous work \citep{strain_2023, strain_2023b}
+that used similar decay functions and experimental paradigms allows us
+to compare estimation curves for size decay and contrast decay in
+isolation and in combination (Figure~\ref{fig-est-multi-exp}). We can
+then derive new curves that describe the effect that each manipulation
+and the combination of manipulations has on people's estimates of
+correlation (Figure~\ref{fig-power-plot}). Throughout the course of this
+section it should be noted that the analyses include data from several
+separate experiments. We argue that their methodological similarities
+render comparison appropriate, but we acknowledge the potential for
+overstated conclusions.
 
 \begin{figure}
 
-{\centering \includegraphics[width=1\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-error-bars-all-exp-1.pdf}
+{\centering \includegraphics[width=1\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-est-multi-exp-1.pdf}
 
 }
 
-\caption{\label{fig-error-bars-all-exp}From left to right, plotting
-\emph{r} estimation error against the objective \emph{r} value for the
-standard orientation condition in the present study, for standard
-orientation size and contrast manipulations in previous work, and for
-normal scatterplots averaged over identical conditions in previous work.
-Error bars have been left off this plot to make interpretation more
-simple.}
+\caption{\label{fig-est-multi-exp}From left to right, plotting \emph{r}
+estimation error against the objective \emph{r} value for the standard
+orientation condition in the present study, for standard orientation
+size and contrast manipulations in previous work, and for normal
+scatterplots averaged over identical conditions in previous work. Error
+bars have been left off this plot to make interpretation more simple.}
 
 \end{figure}
 
@@ -994,15 +1035,17 @@ experiments}
 
 \end{figure}
 
-As can be seen in Figure~\ref{fig-error-bars-all-exp}, combining the
-size and contrast manipulations results in an error curve of a mostly
-similar shape to that of the size manipulation. The difference that
-comes from adding the contrast manipulation lies in the severity of the
-effect and the orientation of the curve itself. Transforming the size
-underestimation curve from \citet{strain_2023} into the size and
-contrast underestimation curve we have found in the present study gives
-us some insight into the effect of adding the two manipulations
-together.
+\hypertarget{sec-mechs}{%
+\subsection{Mechanisms}\label{sec-mechs}}
+
+\hypertarget{sec-further-tuning}{%
+\subsection{Further Tuning}\label{sec-further-tuning}}
+
+\hypertarget{sec-limitations}{%
+\subsection{Limitations}\label{sec-limitations}}
+
+\hypertarget{sec-future-work}{%
+\subsection{Future Work}\label{sec-future-work}}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{size-contrast-new.bib}

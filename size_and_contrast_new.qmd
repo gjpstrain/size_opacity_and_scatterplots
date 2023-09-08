@@ -1441,13 +1441,9 @@ difference in correlation estimates between incongruent conditions, was surprisi
 given the greater strength of the size channel relative to contrast demonstrated
 in previous work [@strain_2023; @strain_2023b]. Despite the lack of support for
 this hypothesis, we did find that the size decay channel explained more variance (.104)
-in our model than contrast decay (.087) was able to. If the combination of size and
-contrast decay functions was strictly additive, we would expect a significant
-difference between incongruent conditions owing to the greater power of the size
-channel. Their non-additive nature, however, has resulted in each channel
-attenuating the other.
+in our model than contrast decay (.087) was able to.
 
-## Combining Manipulations
+## Combining Manipulations {#sec-combining}
 
 @fig-diff-error-bars-plot and @fig-emm-plot show how, on average, 
 the combination of standard orientation size and contrast decay conditions
@@ -1458,19 +1454,44 @@ of correlation in scatterplots, there would appear to be few limitations. The is
 here is not one of our ability to change people's perceptions, but of *tuning* the
 use of these visual factors to be able to change people's perceptions in systematic
 ways. We explore what further work would need to be done to do this in @sec-future-work.
-Combining size and contrast decay functions
+Combining inverted size and contrast decay functions also had the predicted effect
+in this case, producing the lowest and least accurate estimates of correlation.
+Combining inverted manipulations did not, however, significantly change the shape
+of the underestimation curve (see @fig-diff-error-bars-plot). In addition to interacting
+non-additively, the effects we observe operate differently depending on the direction
+of the change induced in perception. This finding can also explain the lack of support
+found for our third hypothesis that there would be a significant difference
+in *r* estimation error between the two incongruent conditions. Despite the size channel
+being more powerful with regards to influencing correlation estimates, the fact that
+that power of influence depends on the direction the function is set causes incongruent
+functions to act against each other in ways we would not expect. Indeed, the 
+incongruent condition that used a standard orientation size decay function did 
+exhibit lower mean error than the one using inverted size decay (see @fig-diff-error-bars-plot),
+however in each case the contrast decay appears to have blunted the power of the
+size decay function to the extent that the difference in errors is not statistically
+significant.
+
+## Estimation Precision
+
+Much previous work is conclusive with regards to the finding that *r* estimation
+precision increases with the objective *r* value [@rensink_2010; @rensink_2012; @rensink_2014;
+@rensink_2017; @doherty_2007]. More recent work using size or contrast decay
+functions similar to the ones used here [@strain_2023; @strain_2023b] has found
+that in some cases, precision in *r* estimation is constant across the range of
+*r* values investigated. For example, the use of a size decay function, whether
+using standard/inverted orientation non-linear functions or a linear decay
+function, has previously resulted in **no** change in *r* estimation precision [@strain_2023b].
+When contrast was used in the same ways, only an inverted decay function **did not**
+exhibit the conventional increase in precision with *r*.
 
 ## Contributions of Size and Contrast Decay
 
 Incorporating data from previous work [@strain_2023; @strain_2023b] that used 
 similar decay functions and experimental paradigms allows us to compare estimation
-curves for size decay and contrast decay in isolation and in combination 
-(@fig-est-multi-exp). We can then derive new curves that describe the effect
-that each manipulation and the combination of manipulations has on people's
-estimates of correlation (@fig-power-plot). Throughout the course of this section it should be noted
-that the analyses include data from several separate experiments. We argue that
-their methodological similarities render comparison appropriate, but we acknowledge
-the potential for overstated conclusions.
+curves for size decay and contrast decay in isolation and in combination. 
+@fig-est-multi-exp shows correlation estimation error curves in the present experiment
+and in two previous studies that used decay functions applied solely to size or
+contrast.
 
 ```{r}
 #| label: fig-est-multi-exp
@@ -1486,9 +1507,11 @@ all_exp_df <- read_csv("data/all_exp.csv")
   
   all_exp_df %>% 
     drop_na() %>%
+    filter(factor != "standard_plot") %>%
     group_by(factor, my_rs) %>% 
     summarise(sd = sd(difference), mean = mean(difference)) %>% 
     ggplot(aes(x = my_rs, y = mean)) + 
+    geom_errorbar(mapping = aes(ymin = mean + sd, ymax = mean - sd),width = 0.01, size = 0.3) +
     theme_ggdist() +
     scale_y_continuous(breaks = seq(-0.4,1, 0.2)) +
     theme(strip.text = element_text(size = 6, margin = margin(1,0,1,0, "mm")), aspect.ratio = 1,
@@ -1501,6 +1524,27 @@ all_exp_df <- read_csv("data/all_exp.csv")
     xlim(0.2,1) +
     geom_hline(yintercept = 0, linetype = 2)
 ```
+
+Using contrast decay alone does not significantly change the shape of the estimation
+error curve, whereas using size does. When size and contrast decay functions are combined,
+however, the shape appears similar to that of size. This is in line with
+previous work establishing size as a more potent channel for the manipulation
+of correlation estimates [@strain_2023b].
+
+- effect of each in isolation
+- effect of each together
+- precision of each and how it fits with previous
+- propose a combination to address issues of aggregate correction and precision
+  - ie contrast is good at maintaining precision
+  - but size has more power
+
+We can then derive new curves that describe the effect
+that each manipulation and the combination of manipulations has on people's
+estimates of correlation (@fig-power-plot). Throughout the course of this section it should be noted
+that the analyses include data from several separate experiments. We argue that
+their methodological similarities render comparison appropriate, but we acknowledge
+the potential for overstated conclusions.
+
 
 ```{r}
 #| label: fig-power-plot

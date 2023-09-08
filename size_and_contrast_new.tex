@@ -917,7 +917,7 @@ tested. }\tabularnewline
 \centering
 \begin{tabular}{lrl}
 \toprule
-Contrast & Z.ratio & \textbackslash{}textit\{p\}\\
+Contrast & Z.ratio & \textit{p}\\
 \midrule
 SO Size x IO Contrast <-> IO Size x IO Contrast & -10.95 & <0.001\\
 SO Size x IO Contrast <-> SO Size x SO Contrast & 72.29 & <0.001\\
@@ -970,15 +970,10 @@ surprising given the greater strength of the size channel relative to
 contrast demonstrated in previous work
 \citep{strain_2023, strain_2023b}. Despite the lack of support for this
 hypothesis, we did find that the size decay channel explained more
-variance (.104) in our model than contrast decay (.087) was able to. If
-the combination of size and contrast decay functions was strictly
-additive, we would expect a significant difference between incongruent
-conditions owing to the greater power of the size channel. Their
-non-additive nature, however, has resulted in each channel attenuating
-the other.
+variance (.104) in our model than contrast decay (.087) was able to.
 
-\hypertarget{combining-manipulations}{%
-\subsection{Combining Manipulations}\label{combining-manipulations}}
+\hypertarget{sec-combining}{%
+\subsection{Combining Manipulations}\label{sec-combining}}
 
 Figure~\ref{fig-diff-error-bars-plot} and Figure~\ref{fig-emm-plot} show
 how, on average, the combination of standard orientation size and
@@ -987,10 +982,48 @@ for the majority of values. While this does not directly solve the
 underestimation problem. It does demonstrate that with regards to using
 point size and contrast to bias viewer's estimates of correlation in
 scatterplots, there would appear to be few limitations. The issue here
-is not one of ability to change people's perceptions, but of
+is not one of our ability to change people's perceptions, but of
 \emph{tuning} the use of these visual factors to be able to change
 people's perceptions in systematic ways. We explore what further work
 would need to be done to do this in Section~\ref{sec-future-work}.
+Combining inverted size and contrast decay functions also had the
+predicted effect in this case, producing the lowest and least accurate
+estimates of correlation. Combining inverted manipulations did not,
+however, significantly change the shape of the underestimation curve
+(see Figure~\ref{fig-diff-error-bars-plot}). In addition to interacting
+non-additively, the effects we observe operate differently depending on
+the direction of the change induced in perception. This finding can also
+explain the lack of support found for our third hypothesis that there
+would be a significant difference in \emph{r} estimation error between
+the two incongruent conditions. Despite the size channel being more
+powerful with regards to influencing correlation estimates, the fact
+that that power of influence depends on the direction the function is
+set causes incongruent functions to act against each other in ways we
+would not expect. Indeed, the incongruent condition that used a standard
+orientation size decay function did exhibit lower mean error than the
+one using inverted size decay (see
+Figure~\ref{fig-diff-error-bars-plot}), however in each case the
+contrast decay appears to have blunted the power of the size decay
+function to the extent that the difference in errors is not
+statistically significant.
+
+\hypertarget{estimation-precision}{%
+\subsection{Estimation Precision}\label{estimation-precision}}
+
+Much previous work is conclusive with regards to the finding that
+\emph{r} estimation precision increases with the objective \emph{r}
+value
+\citep{rensink_2010, rensink_2012, rensink_2014, rensink_2017, doherty_2007}.
+More recent work using size or contrast decay functions similar to the
+ones used here \citep{strain_2023, strain_2023b} has found that in some
+cases, precision in \emph{r} estimation is constant across the range of
+\emph{r} values investigated. For example, the use of a size decay
+function, whether using standard/inverted orientation non-linear
+functions or a linear decay function, has previously resulted in
+\textbf{no} change in \emph{r} estimation precision
+\citep{strain_2023b}. When contrast was used in the same ways, only an
+inverted decay function \textbf{did not} exhibit the conventional
+increase in precision with \emph{r}.
 
 \hypertarget{contributions-of-size-and-contrast-decay}{%
 \subsection{Contributions of Size and Contrast
@@ -999,14 +1032,36 @@ Decay}\label{contributions-of-size-and-contrast-decay}}
 Incorporating data from previous work \citep{strain_2023, strain_2023b}
 that used similar decay functions and experimental paradigms allows us
 to compare estimation curves for size decay and contrast decay in
-isolation and in combination (Figure~\ref{fig-est-multi-exp}). We can
-then derive new curves that describe the effect that each manipulation
-and the combination of manipulations has on people's estimates of
-correlation (Figure~\ref{fig-power-plot}). Throughout the course of this
-section it should be noted that the analyses include data from several
-separate experiments. We argue that their methodological similarities
-render comparison appropriate, but we acknowledge the potential for
-overstated conclusions.
+isolation and in combination (Figure~\ref{fig-est-multi-exp}).
+
+\begin{itemize}
+\tightlist
+\item
+  effect of each in isolation
+\item
+  effect of each together
+\item
+  precision of each and how it fits with previous
+\item
+  propose a combination to address issues of aggregate correction and
+  precision
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ie contrast is good at maintaining precision
+  \item
+    but size has more power
+  \end{itemize}
+\end{itemize}
+
+We can then derive new curves that describe the effect that each
+manipulation and the combination of manipulations has on people's
+estimates of correlation (Figure~\ref{fig-power-plot}). Throughout the
+course of this section it should be noted that the analyses include data
+from several separate experiments. We argue that their methodological
+similarities render comparison appropriate, but we acknowledge the
+potential for overstated conclusions.
 
 \begin{figure}
 

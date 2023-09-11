@@ -891,7 +891,7 @@ size or contrast function used), we do not report a measure of effect
 size. Instead we report the amounts of variance explained by each fixed
 effect term and the interaction term as semi-partial
 R\textsuperscript{2} \citep{nakagawa_2013}. These values were calculated
-using the \textbf{r2glmm} package \citep{r2glmm} can be see in
+using the \textbf{r2glmm} package \citep{r2glmm} and can be see in
 Table~\ref{tbl-sig} along with all model statistics.
 
 \begin{figure}
@@ -1032,36 +1032,10 @@ Decay}\label{contributions-of-size-and-contrast-decay}}
 Incorporating data from previous work \citep{strain_2023, strain_2023b}
 that used similar decay functions and experimental paradigms allows us
 to compare estimation curves for size decay and contrast decay in
-isolation and in combination (Figure~\ref{fig-est-multi-exp}).
-
-\begin{itemize}
-\tightlist
-\item
-  effect of each in isolation
-\item
-  effect of each together
-\item
-  precision of each and how it fits with previous
-\item
-  propose a combination to address issues of aggregate correction and
-  precision
-
-  \begin{itemize}
-  \tightlist
-  \item
-    ie contrast is good at maintaining precision
-  \item
-    but size has more power
-  \end{itemize}
-\end{itemize}
-
-We can then derive new curves that describe the effect that each
-manipulation and the combination of manipulations has on people's
-estimates of correlation (Figure~\ref{fig-power-plot}). Throughout the
-course of this section it should be noted that the analyses include data
-from several separate experiments. We argue that their methodological
-similarities render comparison appropriate, but we acknowledge the
-potential for overstated conclusions.
+isolation and in combination. Figure~\ref{fig-est-multi-exp} shows
+correlation estimation error curves in the present experiment and in two
+previous studies that used decay functions applied solely to size or
+contrast.
 
 \begin{figure}
 
@@ -1078,29 +1052,132 @@ bars have been left off this plot to make interpretation more simple.}
 
 \end{figure}
 
+Using contrast decay alone does not significantly change the shape of
+the estimation error curve, whereas using size does. When size and
+contrast decay functions are combined, however, the shape appears
+similar to that of size. This is in line with previous work establishing
+size as a more potent channel for the manipulation of correlation
+estimates \citep{strain_2023b}. It would then appear that the addition
+of the contrast curve moderates the effect of the size curve as a
+function of the objective \emph{r} value itself, without affecting the
+general shape of the curve. In the following, we briefly discuss the
+effects of each manipulation in isolation and the manipulations
+together, before making a case for the inclusion of both when tuning
+scatterplots for correlation estimation due to the complimentary
+benefits each confers. Throughout the course of this section it should
+be noted that the analyses include data from several separate
+experiments. We argue that their methodological similarities render
+comparison appropriate, but we acknowledge the potential for overstated
+conclusions.
+
+Incorporating a contrast decay function in isolation has a small effect
+on correlation estimation. It does little to change the shape of the
+underestimation curve (see Figure~\ref{fig-underestimation-curve}), but
+slightly biases \emph{r} estimates up to partially correct for the
+underestimation observed with standard scatterplots. Importantly, it
+also preserves the increase in correlation estimation precision that we
+would expect to find during correlation estimation tasks. Using the size
+decay function in isolation has a more dramatic effect. The shape of the
+underestimation curve is altered quite radically, and we fail to observe
+an increase in precision with the objective \emph{r} value. We observe
+an overcorrection at lower values of \emph{r}, leading to an
+overestimation effect, while at high values the curve begins to change
+direction, leading to a more severe underestimation. In the middle range
+of \emph{r} values, however, the size decay function in isolation
+performs well. One option for tuning correlation estimation using these
+functions would therefore be to simply use the size decay function while
+rapidly lowering its severity outside of 0.3 \textless{} \emph{r}
+\textless{} 0.8. Used together, we can derive the power of the size
+decay function, whilst maintaining the expected increase in precision
+with \emph{r} that the contrast decay function confers. It is clear that
+the simple combination we have used in the present study does not
+represent an ideal tuning, as participants overestimated \emph{r} for
+the majority of values, but this confirms that there is scope to bias
+\emph{r} estimates significantly using the functions supplied here.
+Further work would be required to obtain precise measures of the power
+of each decay function and their power together. Doing this would allow
+us to tune each function according to both objective \emph{r} value and
+the tuning of the other function to produce accurate correlation
+estimates.
+
+We can also derive new curves that describe the effect that each
+manipulation and the combination of manipulations has on people's
+estimates of correlation (Figure~\ref{fig-power-plot}) by comparing them
+to estimates without any manipulation present. We term this `power'. The
+dotted line on each plot shows the power we would need to correct for
+the standard underestimation curve (see
+Figure~\ref{fig-underestimation-curve}). As we can see, size alone
+provides the closest to the requirement, and combining size and contrast
+decay functions results in gross overestimation.
+
 \begin{figure}
 
 {\centering \includegraphics[width=1\textwidth,height=\textheight]{size_and_contrast_new_files/figure-pdf/fig-power-plot-1.pdf}
 
 }
 
-\caption{\label{fig-power-plot}additive\_raw\_pl = observed values for
-present study. standard\_curve = no manipulation averaged across all
-experiments}
+\caption{\label{fig-power-plot}Power is the different between what is
+observed when a decay function/combination of decay functions is used
+and what is observed when no manipulation is used. The dashed line
+represents the power that would be required to correct for the
+underestimation of correlation in scatterplots.}
 
 \end{figure}
 
 \hypertarget{sec-mechs}{%
 \subsection{Mechanisms}\label{sec-mechs}}
 
-\hypertarget{sec-further-tuning}{%
-\subsection{Further Tuning}\label{sec-further-tuning}}
+Previous work has made the case for contrast and size decay acting
+primarily through salience/perceptual weighting, with the caveat that
+spatial certainty also plays a small part in the mechanism behind size
+decay \citep{strain_2023, strain_2023b}. Our results are generally
+supportive of this notion. Despite not being linearly additive, size and
+contrast decay has combined to produce an estimation curve that has
+shifted in the expected direction. It may be that the small mechanistic
+influence of spatial certainty from the size decay curve has contributed
+to the non-additive nature of the combination of the two.
 
 \hypertarget{sec-limitations}{%
 \subsection{Limitations}\label{sec-limitations}}
 
+Firstly, our participants' performance on the point visibility task was
+poor (see Figure~\ref{fig-VT-hist}). It is clear from these results that
+for many participants, the smallest and lowest contrast points we used
+were simply not visible, although it would seem that this low visibility
+had no significant effect on correlation estimates. Regardless, for many
+of our participants it will have appeared that we were removing data,
+which goes against our intended aims. Solving this would require a
+by-participant calibration of point size and point contrast, which is
+beyond the scope of our current methodology, as it would require stimuli
+to be fully re-generated for each participant. We aim to implement this
+in the future, although it would require a different platform, such as a
+server-based instance of Rstudio being run in the background to
+re-generate stimuli per a calibration task completed by the participant.
+We cannot say precisely what proportions of the observed effect in the
+standard orientation congruent condition were due to size or contrast
+decay. We can conclude that these effects are not linearly additive, but
+must suggest further work to define precisely each of their
+contributions.
+
 \hypertarget{sec-future-work}{%
 \subsection{Future Work}\label{sec-future-work}}
+
+For size and contrast decay in the present work we used equation 1.
+Given our finding that the combination is non-additive, there are a
+multitude of parameters that could be adjusted for each decay function
+that require rigorous testing in order to produce concrete values of the
+contributions of each. The value of \emph{b} is one such parameter. We
+used the same value of \emph{b} (0.25) as in previous work
+\citep{Strain_2023, strain_2023b}. Changing this value can increase or
+decrease the severity of the effect. Additionally, we used a constant
+and a scaling factor with the size decay manipulation to ensure our
+points were visible. These values could also be changed. Aside from
+changing aspects of equation 1, there are other equations that could be
+used, including ones that take into account objective \emph{r} value to
+change the values used to set point size or contrast. The present work
+opens the door for this future work, as it provides the necessary
+additional data point to previous work using only size
+\citep{strain_2023b} or contrast \citep{strain_2023} decay functions.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{size-contrast-new.bib}

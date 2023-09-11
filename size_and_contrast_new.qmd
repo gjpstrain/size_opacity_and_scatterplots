@@ -1277,7 +1277,7 @@ term, and our lack of comparative baseline condition (i.e no size or contrast fu
 we do not report a measure of effect size. Instead we report the amounts of variance
 explained by each fixed effect term and the interaction term as semi-partial
 R^2^ [@nakagawa_2013]. These values were calculated using the **r2glmm** package
-[@r2glmm] can be see in @tbl-sig along with all model statistics.
+[@r2glmm] and can be see in @tbl-sig along with all model statistics.
 
 ```{r}
 #| label: fig-emm-plot
@@ -1503,13 +1503,16 @@ contrast.
 # dataframe containing values from previous work and the current is included
 # in the data folder 
 
-all_exp_df <- read_csv("data/all_exp.csv")
-  
-  all_exp_df %>% 
+facet_order <- c("contrast_manipulated", "size_manipulated", "additive_manipulation")
+
+all_exp_df <- read_csv("data/all_exp.csv") %>%
     drop_na() %>%
     filter(factor != "standard_plot") %>%
     group_by(factor, my_rs) %>% 
-    summarise(sd = sd(difference), mean = mean(difference)) %>% 
+    summarise(sd = sd(difference), mean = mean(difference)) %>%
+    mutate(factor = factor(factor, levels = facet_order))
+
+  all_exp_df %>% 
     ggplot(aes(x = my_rs, y = mean)) + 
     geom_errorbar(mapping = aes(ymin = mean + sd, ymax = mean - sd),width = 0.01, size = 0.3) +
     theme_ggdist() +
@@ -1519,44 +1522,78 @@ all_exp_df <- read_csv("data/all_exp.csv")
         axis.title = element_text(size = 8)) +
     facet_wrap(factor ~., ncol = 4, labeller = labeller(factor = labels_all_exp)) +
     labs(x = "Objective r",
-         y = "Mean r estimation") +
+         y = "Mean r Estimation Error") +
     geom_smooth(se = FALSE, colour = "black", size = 0.4) +
     xlim(0.2,1) +
     geom_hline(yintercept = 0, linetype = 2)
+
 ```
 
 Using contrast decay alone does not significantly change the shape of the estimation
 error curve, whereas using size does. When size and contrast decay functions are combined,
 however, the shape appears similar to that of size. This is in line with
 previous work establishing size as a more potent channel for the manipulation
-of correlation estimates [@strain_2023b].
-
-- effect of each in isolation
-- effect of each together
-- precision of each and how it fits with previous
-- propose a combination to address issues of aggregate correction and precision
-  - ie contrast is good at maintaining precision
-  - but size has more power
-
-We can then derive new curves that describe the effect
-that each manipulation and the combination of manipulations has on people's
-estimates of correlation (@fig-power-plot). Throughout the course of this section it should be noted
+of correlation estimates [@strain_2023b]. It would then appear that the addition of
+the contrast curve moderates the effect of the size curve as a function of the
+objective *r* value itself, without affecting the general shape of the curve.
+In the following, we briefly discuss the effects of each manipulation in isolation
+and the manipulations together, before making a case for the inclusion of both
+when tuning scatterplots for correlation estimation due to the complimentary
+benefits each confers. Throughout the course of this section it should be noted
 that the analyses include data from several separate experiments. We argue that
 their methodological similarities render comparison appropriate, but we acknowledge
 the potential for overstated conclusions.
 
+Incorporating a contrast decay function in isolation has a small effect on
+correlation estimation. It does little to change the shape of the underestimation
+curve (see @fig-underestimation-curve), but slightly biases *r* estimates up to
+partially correct for the underestimation observed with standard scatterplots.
+Importantly, it also preserves the increase in correlation estimation precision 
+that we would expect to find during correlation estimation tasks. Using the size
+decay function in isolation has a more dramatic effect. The shape of the underestimation
+curve is altered quite radically, and we fail to observe an increase in precision
+with the objective *r* value. We observe an overcorrection at lower values of *r*,
+leading to an overestimation effect, while at high values the curve begins to 
+change direction, leading to a more severe underestimation. In the middle range
+of *r* values, however, the size decay function in isolation performs well. One option
+for tuning correlation estimation using these functions would therefore be to 
+simply use the size decay function while rapidly lowering its severity outside of 0.3 < *r* < 0.8.
+Used together, we can derive the power of the size decay function, whilst maintaining
+the expected increase in precision with *r* that the contrast decay function confers.
+It is clear that the simple combination we have used in the present study does
+not represent an ideal tuning, as participants overestimated *r* for the majority of 
+values, but this confirms that there is scope to bias *r* estimates significantly
+using the functions supplied here. Further work would be required to obtain 
+precise measures of the power of each decay function and their power together. Doing
+this would allow us to tune each function according to both objective *r* value
+and the tuning of the other function to produce accurate correlation estimates.
+
+We can also derive new curves that describe the effect
+that each manipulation and the combination of manipulations has on people's
+estimates of correlation (@fig-power-plot) by comparing them to estimates without
+any manipulation present. We term this 'power'. The dotted line on each plot
+shows the power we would need to correct for the standard underestimation
+curve (see @fig-underestimation-curve). As we can see, size alone provides the 
+closest to the requirement, and combining size and contrast decay functions 
+results in gross overestimation.
 
 ```{r}
 #| label: fig-power-plot
 #| include: true
 #| out-width: "100%"
-#| fig-cap: additive_raw_pl = observed values for present study. standard_curve = no manipulation averaged across all experiments
+#| fig-cap: Power is the different between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the underestimation of correlation in scatterplots.
 
 # dataframe containing values from previous experiments and the current is included
 # in the data folder 
+
 curves <- read_csv("data/curves_df.csv") 
 
-  curves %>% 
+# create necessary power curve
+
+necessary_power <- curves %>% select(c("my_rs", "standard_curve")) %>%
+  mutate(mirror = my_rs-standard_curve)
+
+ curves %>% 
     drop_na() %>%
     select(c("contrast_power",
              "size_power",
@@ -1578,22 +1615,129 @@ curves <- read_csv("data/curves_df.csv")
     labs(x = "Objective r",
          y = "Power") +
     geom_smooth(se = FALSE, colour = "black", size = 0.4) +
+    geom_smooth(data = necessary_power,
+                aes(x = my_rs, y = mirror),
+                se = F,
+                linetype = 2,
+                colour = "black",
+                size = 0.4) +
     xlim(0.2,1) +
     ylim(-0.1,0.3)
 
-
 ```
-
-
-
 
 ## Mechanisms {#sec-mechs}
 
-## Further Tuning {#sec-further-tuning}
+Previous work has made the case for contrast and size decay acting primarily 
+through salience/perceptual weighting, with the caveat that spatial certainty
+also plays a small part in the mechanism behind size decay [@strain_2023; @strain_2023b].
+Our results are generally supportive of this notion. Despite not being linearly
+additive, size and contrast decay has combined to produce an estimation curve that
+has shifted in the expected direction. It may be that the small mechanistic influence
+of spatial certainty from the size decay curve has contributed to the non-additive
+nature of the combination of the two.
 
 ## Limitations {#sec-limitations}
 
+Firstly, our participants' performance on the point visibility task was poor (see @fig-VT-hist).
+It is clear from these results that for many participants, the smallest and lowest
+contrast points we used were simply not visible, although it would seem that this
+low visibility had no significant effect on correlation estimates. Regardless,
+for many of our participants it will have appeared that we were removing data, which
+goes against our intended aims. Solving this would require a by-participant calibration
+of point size and point contrast, which is beyond the scope of our current methodology,
+as it would require stimuli to be fully re-generated for each participant. We aim to
+implement this in the future, although it would require a different platform,
+such as a server-based instance of Rstudio being run in the background to re-generate
+stimuli per a calibration task completed by the participant. We cannot say precisely
+what proportions of the observed effect in the standard orientation congruent condition
+were due to size or contrast decay. We can conclude that these effects are not linearly
+additive, but must suggest further work to define precisely each of their contributions.
+
 ## Future Work {#sec-future-work}
 
+For size and contrast decay in the present work we used equation 1. Given our finding
+that the combination is non-additive, there are a multitude of parameters
+that could be adjusted for each decay function that require rigorous testing
+in order to produce concrete values of the contributions of each. The value of 
+*b* is one such parameter. We used the same value of *b* (0.25) as in previous
+work [@Strain_2023; @strain_2023b]. Changing this value can increase or decrease
+the severity of the effect. Additionally, we used a constant and a scaling factor
+with the size decay manipulation to ensure our points were visible. These values
+could also be changed. Aside from changing aspects of equation 1, there are other equations
+that could be used, including ones that take into account objective *r* value to
+change the values used to set point size or contrast. The present work opens the door
+for this future work, as it provides the necessary additional data point to 
+previous work using only size [@strain_2023b] or contrast [@strain_2023] decay functions.
+
+
 # References {-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+# Load required libraries
+library(tidyverse)
+
+# Step 1: Create your curve data and the line of reflection
+# Let's assume you have a dataset called 'curve_data' with x and y coordinates.
+# You also have a line of reflection defined by two points: (x1, y1) and (x2, y2).
+
+curve_data <- data.frame(
+  x = seq(0, 10, length.out = 100),
+  y = sin(seq(0, 2 * pi, length.out = 100))
+)
+
+reflection_line <- data.frame(
+  x1 = 0, y1 = 0,   # Define the start point of the reflection line
+  x2 = 1, y2 = 1    # Define the end point of the reflection line
+)
+
+# Step 2: Reflect the curve data around the line of reflection
+reflected_curve <- curve_data %>%
+  mutate(
+    # Calculate the vector from the start point of the reflection line to each data point
+    vector_x = x - reflection_line$x1,
+    vector_y = y - reflection_line$y1,
+    
+    # Calculate the normalized direction vector of the reflection line
+    line_direction_x = reflection_line$x2 - reflection_line$x1,
+    line_direction_y = reflection_line$y2 - reflection_line$y1,
+    line_length = sqrt(line_direction_x^2 + line_direction_y^2),
+    line_direction_x = line_direction_x / line_length,
+    line_direction_y = line_direction_y / line_length,
+    
+    # Calculate the projection of the data points onto the reflection line
+    projection = vector_x * line_direction_x + vector_y * line_direction_y,
+    
+    # Calculate the reflected points
+    reflected_x = x - 2 * projection * line_direction_x,
+    reflected_y = y - 2 * projection * line_direction_y
+  ) %>%
+  select(reflected_x, reflected_y)
+
+# Plot the original and reflected curves
+ggplot() +
+  geom_path(data = curve_data, aes(x, y), color = "blue", size = 1) +
+  geom_path(data = reflected_curve, aes(reflected_x, reflected_y), color = "red", size = 1) +
+  theme_minimal()
+
+```
+
 

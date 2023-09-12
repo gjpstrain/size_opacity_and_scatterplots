@@ -1,5 +1,5 @@
 ---
-format: acm-pdf
+format: docx
 
 # use keep-tex to cause quarto to generate a .tex file
 # which you can eventually use with TAPS
@@ -69,7 +69,7 @@ acm-metadata:
   final: true
 
   # comment this out to specify detailed document options
-  acmart-options: manuscript, review, anonymous, screen  
+  acmart-options: manuscript, anonymous, screen  
 
   # acm preamble information
   copyright-year: 2018
@@ -765,7 +765,7 @@ ggarrange(corr_plot,
 ## Testing Correlation Perception {#sec-testing-corr-percept}
 
 The testing of linear correlation perception in scatterplots has a long and rich history, and has
-explored a wide variety of plot types, tasks, and modelling methods. Work 
+explored a wide variety of plot types, tasks, and modeling methods. Work 
 has had participants make discriminative judgements between scatterplots with different
 correlations [@pollack_1960; @doherty_2007], finding that performance on such a task became better
 as the objective *r* value increased. This performance on a discriminative judgement
@@ -842,7 +842,7 @@ visualizations through the use of a simple, reproducible framework.
 #| out-width: "50%"
 #| fig-asp: 1
 #| fig-align: "left"
-#| fig-cap: Using a function relating objective to perceived *r* value [@rensink_2017] provides a visualization of the nature of correlation underestmiation reported in previous work. An identity line has been included to illustrate where viewers are most and least accurate.
+#| fig-cap: Using a function relating objective to perceived *r* value [@rensink_2017] provides a visualization of the nature of correlation underestimation reported in previous work. An identity line has been included to illustrate where viewers are most and least accurate.
 
 my_rs <- seq(from = 0, to = 1, length.out = 100)
 
@@ -928,7 +928,7 @@ of 0 or 1 results in no interpolation and rendering of either the background or 
 pixel values respectively. Psychophysical definitions of perceived contrast are
 often based on what is being presented (i.e gratings) or are modeled to take
 into account phenomena of human vision (i.e visibility limits) [@zuffi_2007].
-Our crowdsourced methodology gives us no control the exact luminances
+Our crowdsourced methodology gives us no control over the exact luminances
 of our stimuli, only over the *relative* differences in luminance between scatterplot
 points and backgrounds. For this reason we do not report absolute luminance nor
 make any attempt to adopt a formal definition of contrast; instead we simply
@@ -1080,7 +1080,7 @@ example_plots <- ggarrange(plot_example_function(slopes,
 example_plots
 ```
 
-## Modelling {#sec-gen-modelling}
+## Modeling {#sec-gen-modelling}
 
 We use linear mixed effects models to model the relationships
 between the combination of size and contrast decay
@@ -1089,7 +1089,7 @@ allow us to compare differences in our IV across the full range of participant
 responses, as opposed to relying purely on aggregate data, as in ANOVA. These models also afford us 
 the ability to include random effects for participants and items. As per our pre-registrations
 we preferred maximal models, including random intercepts and slopes for participants
-and items. The structures of these models was identified using the **buildmer** package
+and items. The structures of these models were identified using the **buildmer** package
 in R (version 2.10.1, [@voeten_buildmer]). This package takes a maximal random effects
 structure and then identifies the most complex model that converges by dropping
 terms that fail to explain a significant amount of variance.
@@ -1098,7 +1098,7 @@ terms that fail to explain a significant amount of variance.
 
 Discussions about the size and contrast of particular scatterplot points are inherently
 difficult in the context of online, crowdsourced experiments; controlling the devices
-participants use to participate in these kind of experiments, beyond insisting on laptop
+participants use to participate in these kinds of experiments, beyond insisting on laptop
 or desktop computers, is impossible. While this may result in a lack of consistency
 in scatterplot point sizes, luminances, or contrast ratios between participants, it also provides results
 that are more resilient to different viewing contexts than traditional lab-based 
@@ -1218,7 +1218,7 @@ is not additive in nature.
 #| eval: !expr params$eval_models
 #| cache: !expr params$eval_models
 
-# r estimation error modelling
+# r estimation error modeling
 
 model <- buildmer(difference ~ size * contrast +
                        (1 + size * contrast | participant) +
@@ -1555,7 +1555,7 @@ the contrast curve moderates the effect of the size curve as a function of the
 objective *r* value itself, without affecting the general shape of the curve.
 In the following, we briefly discuss the effects of each manipulation in isolation
 and the manipulations together, before making a case for the inclusion of both
-when tuning scatterplots for correlation estimation due to the complimentary
+when tuning scatterplots for correlation estimation due to the complementary
 benefits each confers. Throughout the course of this section it should be noted
 that the analyses include data from several separate experiments. We argue that
 their methodological similarities render comparison appropriate, but we acknowledge

@@ -1,5 +1,5 @@
 ---
-format: docx
+format: acm-pdf
 
 # use keep-tex to cause quarto to generate a .tex file
 # which you can eventually use with TAPS
@@ -69,7 +69,7 @@ acm-metadata:
   final: true
 
   # comment this out to specify detailed document options
-  acmart-options: manuscript, anonymous, screen  
+  acmart-options: manuscript,review, anonymous, screen  
 
   # acm preamble information
   copyright-year: 2018
@@ -128,7 +128,7 @@ acm-metadata:
     - crowdsourced
 
 abstract: |
-  Changing the size and contrast of points on scatterplots can be used to systematically improve viewers' perceptions of correlation. Evidence points to these effects being similar with regards to the mechanisms behind them, so one would expect that their combination would produce a simple additive effect on correlation estimation. We present a fully  reproducible study in which we combine techniques for influencing correlation perception to show that in reality, effects of changing point size and contrast interact in a non-additive fashion. We show that there are few limits to the extent to which we can use visual features to change viewers' perceptions of data visualizations, and use our results to further explain the perceptual mechanisms at play when changing point size and contrast in scatterplots.
+  Changing the size and contrast of points on scatterplots can be used to systematically improve viewers' perceptions of correlation. Evidence points to these effects being similar with regards to the mechanisms behind them, so one would expect that their combination would produce a simple additive effect on correlation estimation. We present a fully-reproducible study in which we combine techniques for influencing correlation perception to show that in reality, effects of changing point size and contrast interact in a non-additive fashion. We show that there are few limits to the extent to which we can use visual features to change viewers' perceptions of data visualizations. Additionally, we use our results to further explain the perceptual mechanisms at play when changing point size and contrast in scatterplots.
   
 ---
 ```{r}
@@ -173,7 +173,6 @@ if (!params$eval_models){ lazyload_cache_dir("size_and_contrast_new_cache/pdf") 
 # Need higher guess_max so that read_csv() guesses column types correctly 
 
 additive_anon <- read_csv("data/additive_data.csv", guess_max = 18001)
-# tuning_anon <- read_csv("data/tuning_data.csv")
 ```
 
 ```{r}
@@ -485,7 +484,7 @@ plot_error_bars_function <- function(df, measure, l){
         axis.title = element_text(size = 8)) +
   facet_wrap(condition_abs ~., ncol = 4, labeller = labeller(condition_abs = l)) +
     labs(x = "Objective r",
-         y = "Mean r estimation") +
+         y = "Mean r Estimation Error") +
     geom_line(formula= x ~ y) +
     xlim(0.2,1)
 }
@@ -626,7 +625,7 @@ used to represent linear correlation, or the degree of linear relatedness betwee
 they can also be used to represent different groups (clustering), to aid in the detection of outliers,
 to characterize distributions, and to visualize non-linear correlations.
 @fig-tasks contains examples of scatterplots optimized for different tasks. There
-is evidence that people generally interpret them in similar ways [@kay_2015], and
+is evidence that people generally interpret scatterplots in similar ways [@kay_2015], and
 that they support the interpretation of correlation significantly better than other
 data visualizations [@li_2010]. Rapid interpretation by viewers [@rensink_2014] along
 with low levels of interindividual variance render scatterplots particularly suited
@@ -634,11 +633,11 @@ for experimental work; they provide important insights into perception and visua
 being simple to study [@rensink_2014]. 
 
 While our interpretations of scatterplots are generally similar, the accuracy of those
-interpretations is generally low. Viewers systematically underestimate the correlation
+interpretations is generally low. In particular, viewers systematically underestimate the correlation
 displayed in positively correlated scatterplots. This holds true for direct 
 estimation tasks [@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989;
 @collyer_1990; @meyer_1992], and estimation via bisection tasks [@rensink_2017], and
-is particularly pronounced between 0.2 < *r* < 0.6. The COVID-19 pandemic demonstrated
+is particularly pronounced for values of *r* between 0.2 and 0.6. The COVID-19 pandemic demonstrated
 that even outside of professional/office environments, lay 
 populations are now expected to be able to use and accurately interpret data
 visualizations on a daily basis [@bbc_2022]. This expectation confers a responsibility on
@@ -646,20 +645,19 @@ the part of data visualization designers to design in such a way that people wit
 little statistical or graph training can expect to be able to correctly interpret
 data visualizations. Doing this requires us to understand human perception and
 perceptual phenomena, apply this understanding to data visualization design, and
-test those designs in rigorous empirical work. We therefore present a fully-reproducible,
+test those designs in rigorous empirical work. Here, we present a fully-reproducible,
 crowdsourced online experiment in which we systematically alter visual features
 in scatterplots to correct for a historic bias. We combine two techniques for
 correcting for correlation underestimation in scatterplots and show that the combined
-effect is stronger than one would expect were they linearly additive. Through
-this work we also present a framework for visualization design 
-informed from the ground up by human perception.
+effect is stronger than being simply linearly additive. Building on this, we
+present a framework for visualization design informed from the ground up by human perception.
 
 ```{r}
 #| label: fig-tasks
 #| include: true
 #| out-width: "100%"
 #| fig-asp: 0.25
-#| fig-cap: Examples of scatterplots designed for different scatterplot-associated tasks. Both colour and point shape have been used to delineate different clusters in the cluster separation plot.
+#| fig-cap: "Examples of scatterplots designed for different scatterplot-associated tasks. Both color and point shape have been used to delineate different clusters in the cluster separation plot."
 
 # set random seed for reproducibility
 
@@ -766,12 +764,12 @@ ggarrange(corr_plot,
 
 The testing of linear correlation perception in scatterplots has a long and rich history, and has
 explored a wide variety of plot types, tasks, and modeling methods. Work 
-has had participants make discriminative judgements between scatterplots with different
-correlations [@pollack_1960; @doherty_2007], finding that performance on such a task became better
-as the objective *r* value increased. This performance on a discriminative judgement
-task can also be modeled by deep neural networks [@yang_2023]. Extensive work throughout the 1970's to 1990's 
+has involved participants engaged in making discrimination judgements between scatterplots with different
+correlations [@pollack_1960; @doherty_2007], finding that performance on such tasks became better
+as the objective *r* value increased. This performance on a discrimination judgement
+tasks can also be modeled by deep neural networks [@yang_2023]. Extensive work throughout the 1970s to 1990s 
 focused primarily on having participants produce a numerical estimate of correlation,
-and found evidence for a systematic underestimation for positive *r* values besides
+and found evidence for a systematic *underestimation* for positive *r* values besides
 0 and 1. This underestimation was especially pronounced for 0.2 < *r* < 0.6
 [@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989; @collyer_1990; @meyer_1992]
 and is demonstrated using an equation relating objective to subjective correlation [@rensink_2017] in
@@ -780,8 +778,10 @@ by using a combination of a bisection task, in which participants are asked to a
 plot until its correlation is halfway between that of two reference plots, and a staircase
 task designed to produce Just Noticeable Differences between scatterplots such
 that they are discriminable 75% of the time [@rensink_2010]. This work has
-also been extended to incorporate Bayesian data analysis [@kay_2015]. The current experiment
-takes similar techniques from previous work [@strain_2023; @strain_2023b] and 
+also been extended to incorporate Bayesian data analysis [@kay_2015], which is in agreement
+with other literature identifying scatterplots as particularly suited for correlation
+perception [@li_2010]. The current experiment
+adapts techniques from previous work [@strain_2023; @strain_2023b] and 
 combines them to further push the envelope of how systematically adjusting visual
 features in scatterplots can radically alter people's perceptions of correlation.
 For this reason we use the same direct estimation paradigm  to collect responses.
@@ -793,7 +793,7 @@ and is simple enough that participants need little to no training.
 Evidence points towards correlation perception being driven by the shape of the
 underlying probability distribution represented by scatterplot points, however it should
 be noted that this is very much still an open question, especially with regards to
-the low level perceptual mechanisms at play. It may be the case that
+what low level perceptual mechanisms may be at play. It is possible that
 there are different contributory perceptual mechanisms operating at different levels
 based on task-specific differences such as viewing time or levels of graph-training.
 Increasing the *x* and *y* scales on a scatterplot such that the size of the point
@@ -804,7 +804,7 @@ cloud to judge association. Later work found that the relationship between objec
 and perceived *r* values could be described by a function that included the mean of the
 geometric distances between the points and the regression line [@meyer_1997]. Investigation
 of the idea that people use visual features to judge correlation provides
-evidence that, among others features, the standard deviation of all perpendicular
+evidence that, among other features, the standard deviation of all perpendicular
 distances from scatterplot points to the regression line is predictive of performance
 on a correlation estimation task [@yang_2019]. Equations for both discrimination
 and magnitude estimation of *r* in scatterplots include a quantity that is small
@@ -825,15 +825,13 @@ both point density and salience/perceptual weighting being drivers of correlatio
 The use of an inverted contrast decay function [@strain_2023], such that the contrast of a point
 decreased the closer it was to the regression line, resulted in significantly
 lower and less accurate correlation estimates compared to data-identical plots
-with the same overall shape. This findings implies that the center of the scatterplot not
+with the same overall shape. This finding implies that the center of the scatterplot not
 being **filled**  biased viewers' perceptions down. When point contrast
 or size are reduced as a function of distance from the regression line 
 [@strain_2023; @strain_2023b], viewers rate correlation as significantly higher
-and are significantly more accurate, which supports a low-level data salience
-account. It is more difficult to comment on higher level perceptual mechanisms,
-and in any case this is not the intended contribution of the present work; we aim
-to test the impact of systematically altering visual features on correlation perception, 
-and to provide empirically-derived tools for visualization designers to design better
+and are significantly more accurate. This supports a low-level data salience
+account. Our aims are to test the impact of systematically altering visual features on correlation perception 
+and provide empirically-derived tools for visualization designers to design better
 visualizations through the use of a simple, reproducible framework.
 
 ```{r}
@@ -915,7 +913,7 @@ rm(x1,y1,df)
 ```
 
 Changing the contrast of scatterplot points is standard practice to deal with
-issues of overplotting or clutter [@matejka_2015; @bertini_2004]; scatterplots
+issues of overplotting [@matejka_2015; @bertini_2004]; scatterplots
 with very large numbers of points, especially with high degrees of overlap, suffer
 from low individual-point visibility caused by high point density. Lowering
 the contrast of all points addresses this, and makes data trends and distributions
@@ -926,17 +924,17 @@ interpolation [@stone_2008] between foreground and background pixel values, to
 set the contrast of points. As demonstrated in @fig-alpha-examples, an alpha value
 of 0 or 1 results in no interpolation and rendering of either the background or foreground
 pixel values respectively. Psychophysical definitions of perceived contrast are
-often based on what is being presented (i.e gratings) or are modeled to take
-into account phenomena of human vision (i.e visibility limits) [@zuffi_2007].
+often based on what is being presented (e.g., gratings) or are modeled to take
+into account aspects of human vision (e.g., visibility limits) [@zuffi_2007].
 Our crowdsourced methodology gives us no control over the exact luminances
 of our stimuli, only over the *relative* differences in luminance between scatterplot
 points and backgrounds. For this reason we do not report absolute luminance nor
-make any attempt to adopt a formal definition of contrast; instead we simply
+make any attempt to adopt a formal definition of contrast; instead we
 report the alpha value used. Given that our work aims to improve correlation perception
 without removing data from the scatterplot, we also incorporate point visibility testing 
 (see @sec-VT). Informal point visibility piloting suggested that our smallest,
 lowest contrast points had very low visibility. We therefore implemented an alpha = 0.2 floor
-for these points, which we felt conferred a sufficient level of point visibility.
+for these points, which we judged as conferring a sufficient level of point visibility.
 
 Previous work has found that lowering the contrast of *all* 
 scatterplot points relative to the background can increase the level of
@@ -946,7 +944,7 @@ correlation estimates upwards to partially correct for the underestimation
 observed [@strain_2023]. Evidence suggests point salience/perceptual weighting or
 spatial uncertainty as drivers for this effect. Lower stimulus contrast is
 associated with lower salience [@healey_2011], can bias judgements of mean point
-position [@hong_2021] and increase error in positional judgements [@wehrhahn_1990],
+position [@hong_2021], increase error in positional judgements [@wehrhahn_1990],
 and can result in greater uncertainty in speed perception [@champion_2017]. Due 
 to effects of both salience/perceptual weighting and spatial uncertainty operating
 in the same direction, previous work [@strain_2023] has been unable to determine the extent
@@ -956,7 +954,7 @@ error.
 ## Point Size {#sec-point-size}
 
 For discriminability reasons, scatterplots visualizing large datasets tend also to
-have smaller points. Bubble charts are a subclass of scatterplot which uses point
+have smaller points. Bubble charts are a subclass of scatterplot which use point
 size to describe a third variable, but what little experimental work there
 is on the impact of point size on correlation perception is inconclusive. Some work
 has found bias and variability in correlation perception to be invariant to changes in
@@ -980,8 +978,9 @@ our hypotheses.
 
 ## Hypotheses
 
-We present a single experiment based on previously established effects of 
-adjusting point size and point contrast. In it we combine point size and point
+We present a single experiment based on established effects of 
+adjusting point size and point contrast. In our study,
+we combine previously independently tested point size and point
 contrast decay functions in both standard orientation (contrast/size is reduced
 with residual magnitude) and inverted orientation (contrast/size is increased with
 residual magnitude). Throughout we refer to *congruent* and *incongruent* conditions
@@ -1017,8 +1016,8 @@ but has served the authors well in prior work.
 ## Open Research {#sec-open-research}
 
 This study was conducted according to the principles of open and reproducible
-research. All data and analysis code are available at (repository link removed for anon).
-This repository contains instructions for building a docker image to fully reproduce the computational
+research [@ayris_2018]. All data and analysis code are available at (repository link removed for anon).
+This repository contains instructions for building a Docker container to fully reproduce the computational
 environment used. This allows for full replications of stimuli, analysis, and the paper
 itself. Ethical approval was granted by (removed for anon). Hypotheses
 and analysis plans were pre-registered with the OSF (links removed for anon) and
@@ -1084,7 +1083,7 @@ example_plots
 
 We use linear mixed effects models to model the relationships
 between the combination of size and contrast decay
-conditions and participants' errors in correlation estimates. Models such as these
+functions and participants' errors in correlation estimates. Models such as these
 allow us to compare differences in our IV across the full range of participant 
 responses, as opposed to relying purely on aggregate data, as in ANOVA. These models also afford us 
 the ability to include random effects for participants and items. As per our pre-registrations
@@ -1193,7 +1192,7 @@ time taken to complete the experiment was 37 minutes (*SD* = 12.3).
 ## Design {#sec-design}
 
 We used a fully repeated-measures 2*2 factorial design. Each participant
-saw each combination of size and contrast decay condition plots for a total of 180
+saw each combination of size and contrast decay function plots for a total of 180
 experimental items. Participants viewed these experimental items, along with 6
 attention check items, in a fully randomized order. All experimental code, materials,
 and instructions are hosted at (link removed for anon).
@@ -1204,7 +1203,7 @@ Our first two hypotheses were fully supported in this experiment. The combinatio
 standard orientation size and contrast decay functions produced the most accurate estimates of
 correlation, although this also resulted in a large correlation overestimation bias for many
 values of *r* (see @fig-diff-error-bars-plot). Our second hypothesis was also 
-supported; the combination of inverted size and inverted contrast decay conditions
+supported; the combination of inverted size and inverted contrast decay functions
 produced the least accurate estimates of correlation. We found no support for our third
 hypothesis; there was no significant difference in correlation estimates for
 standard orientation size/inverted orientation contrast decay plots and 
@@ -1278,7 +1277,7 @@ All analyses were conducted using R (version `r paste0(R.version$major, ".", R.v
 Deviation coding was used for each of the experimental factors. We used the **buildmer** and
 **lme4** (version 1.1-34 [@lme4]) packages to build a linear mixed effects model where the difference
 between objective and rated *r* value was predicted by the size and contrast decay
-conditions used. A likelihood ratio test revealed that the model including point size
+functions used. A likelihood ratio test revealed that the model including point size
 and contrast decay conditions as fixed effects explained significantly more variance
 than the null ($\chi^2$(`r in_paren(model.df)`) = 
 `r printnum(model.Chisq)`, *p* `r printp(model.p, add_equals = TRUE)`). There
@@ -1443,10 +1442,11 @@ dot pitch ($\chi^2$(`r in_paren(dot_pitch_model.df)`) = `r printnum(dot_pitch_mo
 
 # Discussion {#sec-discussion}
 
-Our findings here provide further confirmatory evidence of what has been found
-previously with regards to the effects of point size and contrast manipulations
-on correlation estimation in scatterplots. Namely, that while both manipulations
-have a significant effect, the effect of changing point sizes is stronger, and that
+The finding of a significant interaction between point size and contrast
+decay provides evidence that these functions interact
+in non-additive ways. In addition, we provide further confirmatory evidence of what has been found
+previously. Namely, that while manipulations of both point size and contrast
+have significant effects, the effect of changing point size is stronger, and that
 while we can influence correlation estimates in either direction, standard
 orientation manipulations are more powerful than inverted ones [@strain_2023; @strain_2023b].
 As one would expect, we also see an effect of orientation congruency on the extent
@@ -1454,14 +1454,28 @@ to which a manipulation can bias correlation estimates.
 The lack of support for our third hypothesis, that there would be a
 difference in correlation estimates between incongruent conditions, was surprising
 given the greater strength of the size channel relative to contrast demonstrated
-in previous work [@strain_2023; @strain_2023b]. Despite the lack of support for
+in previous work [@strain_2023; @strain_2023b], although this may be a facet of the non-additive
+interaction between size and contrast manipulations we found. Despite the lack of support for
 this hypothesis, we did find that the size decay channel explained more variance (.104)
 in our model than contrast decay (.087) was able to.
+
+Taking into account the present work, which manipulates point size and contrast
+together, and previous work manipulating the same visual features in isolation, we 
+provide recommendations to visualization designers and researchers:
+
+ - The size decay function in isolation should be used when *r* is between approximately 
+ 0.3 and 0.75. In this range it produces the most accurate *r* estimates in participants.
+ - Outside of this range, the contrast decay function should be used in isolation, as here
+ it produces the most accurate estimates.
+ - There exists a combination of size and contrast decay functions that produces
+ accurate correlation estimates while maintaining the increased *r* estimation
+ precision that we would expect to see with high *r* values. Finding this will require
+ extensive future testing.
 
 ## Combining Manipulations {#sec-combining}
 
 @fig-emm-plot and @fig-diff-error-bars-plot show how, on average, 
-the combination of standard orientation size and contrast decay conditions
+the combination of standard orientation size and contrast decay functions
 has resulted in an overestimation of *r* for the majority of values.
 While this does not directly solve the underestimation problem, it does demonstrate
 that with regards to using point size and contrast to bias viewer's estimates
@@ -1488,18 +1502,22 @@ significant.
 
 ## Estimation Precision
 
-Much previous work is conclusive with regards to the finding that *r* estimation
+Much previous work is consistent with regards to the finding that *r* estimation
 precision increases with the objective *r* value [@rensink_2010; @rensink_2012; @rensink_2014;
 @rensink_2017; @doherty_2007]. More recent work using size or contrast decay
 functions similar to the ones used here [@strain_2023; @strain_2023b] has found
-that in some cases, precision in *r* estimation is constant across the range of
+that in some cases, precision in *r* estimation is *constant* across the range of
 *r* values investigated. For example, the use of a size decay function, whether
 using standard/inverted orientation non-linear functions or a linear decay
 function, results in **no** change in *r* estimation precision [@strain_2023b].
 When contrast is used in the same ways, only an inverted decay function **does not**
 exhibit the conventional increase in precision with *r*. In the present work,
 precision in *r* estimation increased whenever a standard orientation contrast
-decay function was used.
+decay function was used. We suggest this is part of the moderating effect of 
+the point contrast decay function on the size decay function; the visual character
+of scatterplots with high *r* values that use the size decay function eliminates
+the usual increase in precision we would expect, however the introduction of the 
+contrast decay function normalizes this to the point where precision is restored.
 
 ## Contributions of Size and Contrast Decay
 
@@ -1515,10 +1533,12 @@ contrast.
 #| include: true
 #| out-width: "100%"
 #| fig-asp: 0.33
-#| fig-cap: Plotting *r* estimation error against the objective *r* value for contrast and size decay in isolation from previous work, and for their combination in the present study. The dashed line represents 0 error in correlation estimation, and standard deviations are shown as error bars. Note that these curves have been smoothed.
+#| fig-cap: Plotting *r* estimation error against the objective *r* value for contrast and size decay in isolation from previous work, and for their combination in the present study. The dashed line represents 0 error in correlation estimation, and standard deviations are shown as error bars. Note that these curves have been smoothed. Errorbars have not been 
 
 # dataframe containing values from previous work and the current is included
 # in the data folder 
+
+# set facet orders
 
 facet_order <- c("contrast_manipulated", "size_manipulated", "additive_manipulation")
 
@@ -1548,7 +1568,7 @@ all_exp_df <- read_csv("data/all_exp.csv") %>%
 
 Using contrast decay alone does not significantly change the shape of the estimation
 error curve, whereas using size decay does. When size and contrast decay functions are combined,
-however, the shape appears similar to that of size. This is in line with
+however, the shape appears similar to that of size alone. This is in line with
 previous work establishing size as a more potent channel for the manipulation
 of correlation estimates [@strain_2023b]. It would appear that the addition of
 the contrast curve moderates the effect of the size curve as a function of the
@@ -1574,8 +1594,9 @@ leading to an overestimation effect, while at high values the curve begins to
 change direction, leading to a more severe underestimation. In the middle range
 of *r* values, however, the size decay function in isolation performs well. One option
 for tuning correlation estimation using these functions would therefore be to 
-simply use the size decay function while rapidly reducing its severity outside of 0.3 < *r* < 0.8.
-Used together however, we can exploit the power of the size decay function whilst maintaining
+use the size decay function in isolation for mid-range values of *r* (0.3 to 0.75), and to use the
+contrast decay function in isolation outside of this range. Used together however,
+we can exploit the power of the size decay function whilst maintaining
 the expected increase in precision with *r* that the contrast decay function confers.
 It is clear that the simple combination we have used in the present study does
 not represent an ideal tuning, as participants overestimated *r* for the majority of 
@@ -1584,9 +1605,9 @@ using the functions supplied here. Further work would be required to obtain
 precise measures of the power of each decay function and their power together. Doing
 this would allow us to tune each function according to both objective *r* value
 and the tuning of the other function to produce accurate correlation estimates.
-We can also derive new curves that describe the effect
-that each manipulation and the combination of manipulations has on people's
-estimates of correlation (@fig-power-plot) by comparing them to estimates without
+We can derive new curves that describe the effect
+that each manipulation and the combination of manipulations has on correlation estimates
+(@fig-power-plot) by comparing them to estimates without
 any manipulation present. We term this 'power'. The dotted line on each plot
 shows the power we would need to correct for the standard underestimation
 curve (see @fig-underestimation-curve). As we can see, size alone provides the 
@@ -1655,15 +1676,14 @@ being observed in the incongruent and congruent conditions respectively. These
 findings also support dot density [@yang_2023] and feature-based attentional bias accounts
 [@hong_2021; @sun_2016]. As all of these mechanisms would be expected to operate
 in the same direction, making conclusions about the relative contributions of
-each is difficult. We argue that in this case, making these conclusions 
-at all is unnecessary. The body of evidence generally points to a high-level probability
-density account [@rensink_2017; @rensink_2022]. On a lower level, numerous candidate
+each is difficult. The body of evidence generally points to a high-level probability
+distribution account [@rensink_2017; @rensink_2022]. On a lower level, numerous candidate
 mechanisms exist, which are mostly expected to act in the same direction. Previous
 work concluded that spatial certainty [@strain_2023b] may play a small role with 
 regards to the effects of size decay on correlation perception; our results
 neither confirm nor refute this, but instead provide further evidence for
 salience/perceptual weighting/dot density changing participants' perceptions
-of probability density to affect correlation estimates.
+of the width of a probability distribution to affect correlation estimates.
 
 ## Limitations {#sec-limitations}
 
@@ -1691,7 +1711,7 @@ we have provided to begin solving this problem. We found evidence that the
 influence of size and contrast decay functions changes according to the direction
 they are operating in, meaning experimental work with negatively correlated
 scatterplots would be required, and results may differ significantly from
-findings related to the *underestimation* of correlation in *positively*
+findings related to the underestimation of correlation in positively
 correlated scatterplots. For size and contrast decay in the present work we used equation 1. 
 Given our finding that the combination is non-additive, there are a multitude of parameters
 that could be adjusted for each decay function that require rigorous testing
@@ -1704,8 +1724,8 @@ could also be changed. Aside from changing aspects of equation 1, there are othe
 that could be used, including ones that take into account objective *r* value to
 change the values used to set point size or contrast. The present work opens the door
 for this future work, as it provides the necessary additional data to 
-previous work using only size [@strain_2023b] or contrast [@strain_2023] decay functions.
-Further testing of these manipulations, both in isolation and in combination using
+previous experiments using only size [@strain_2023b] or contrast [@strain_2023] decay functions.
+Further testing of these manipulations in isolation and combination using
 different decay function parameters will allow researchers to build a more complete
 picture of how these visual features impact correlation estimation, and how we
 can exploit them to correct for a historic bias.

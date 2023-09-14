@@ -5,7 +5,7 @@ format: acm-pdf
 # which you can eventually use with TAPS
 keep-tex: true
 
-bibliography: size-contrast-new.bib
+bibliography: size-contrast.bib
 
 params:
   eval_models: false
@@ -163,7 +163,7 @@ conflicts_prefer(dplyr::select(), dplyr::filter(), lme4::lmer())
 ```{r}
 #| label: lazyload-cache
 
-if (!params$eval_models){ lazyload_cache_dir("size_and_contrast_new_cache/pdf") }
+if (!params$eval_models){ lazyload_cache_dir("size_and_contrast_cache/pdf") }
 ```
 
 ```{r}

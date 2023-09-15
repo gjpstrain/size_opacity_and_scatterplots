@@ -151,7 +151,6 @@ library(lmerTest)
 library(ggdist)
 library(ggpubr)
 library(conflicted)
-library(EMAtools)
 library(ggtext)
 library(r2glmm)
 

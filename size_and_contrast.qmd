@@ -596,7 +596,7 @@ to characterize distributions, and to visualize non-linear correlations.
 @fig-tasks contains examples of scatterplots optimized for different tasks. There
 is evidence that people generally interpret scatterplots in similar ways [@kay_2015], and
 that they support the interpretation of correlation significantly better than other
-data visualizations [@li_2010]. Rapid interpretation by viewers [@rensink_2014] along,
+data visualizations [@li_2010]. Rapid interpretation by viewers [@rensink_2014], along
 with low levels of interindividual variance render scatterplots particularly suited
 for experimental work; they provide important insights into perception and visualization design while
 being simple to study [@rensink_2014]. 
@@ -747,8 +747,8 @@ plot until its correlation is halfway between that of two reference plots, and a
 staircase method task designed to produce Just Noticeable Differences between scatterplots such
 that they are discriminable 75% of the time [@rensink_2010]. This work has
 also been extended to incorporate Bayesian data analysis [@kay_2015], which is in agreement
-with other literature identifying scatterplots as particularly suited for correlation
-perception [@li_2010]. The current experiment
+with other literature identifying scatterplots as particularly suited for 
+the communication of correlation [@li_2010]. The current experiment
 adapts techniques from previous work [@strain_2023; @strain_2023b] and 
 combines them to further push the envelope of how systematically adjusting visual
 features in scatterplots can radically alter people's perceptions of correlation.
@@ -788,7 +788,7 @@ or some measure of what has been termed *dot entropy* [@yang_2023], again consid
 visual proxy for correlation judgements [@rensink_2017; @rensink_2022].
 
 Recent work investigating the use of decay functions that change point size or contrast
-in scatterplots as a function of residual distance provide further evidence for 
+in scatterplots as a function of residual distance provide evidence for 
 both point density and salience/perceptual weighting being drivers of correlation perception.
 The use of an inverted contrast decay function [@strain_2023], such that the contrast of a point
 decreased the closer it was to the regression line, resulted in significantly
@@ -882,7 +882,7 @@ rm(x1,y1,df)
 
 Changing the contrast of scatterplot points is standard practice to deal with
 issues of overplotting [@matejka_2015; @bertini_2004]; scatterplots
-with very large numbers of points, especially with high degrees of overlap, suffer
+with very large numbers of points, especially those with high degrees of overlap, suffer
 from low individual-point visibility caused by high point density. Lowering
 the contrast of all points addresses this, and makes data trends and distributions
 easier to see and interpret (see @fig-overplotting-examples).
@@ -952,9 +952,9 @@ we combine previously independently tested point size and point
 contrast decay functions in both standard orientation (contrast/size is reduced
 with residual magnitude) and inverted orientation (contrast/size is increased with
 residual magnitude). Throughout we refer to *congruent* and *incongruent* conditions
-with respect to the orientations of size and contrast decay functions. 
+with respect to the combination of orientations of size and contrast decay functions. 
 We hypothesize that: (H1) an increased reduction in correlation estimation error will be
-observed when standard orientation decay functions are used; (H2) the use of 
+observed when congruent standard orientation decay functions are used; (H2) the use of 
 congruent inverted orientation decay functions will produce 
 the least accurate estimates of correlation; and (H3) that owing to the greater strength
 of the size channel observed in previous work [@strain_2023b], there will be a 
@@ -1057,7 +1057,7 @@ responses, as opposed to relying purely on aggregate data, as in ANOVA. These mo
 the ability to include random effects for participants and items. As per our pre-registrations
 we preferred maximal models, including random intercepts and slopes for participants
 and items. The structures of these models were identified using the **buildmer** package
-in R (version 2.10.1, [@voeten_buildmer]). This package takes a maximal random effects
+(version 2.10.1, [@voeten_buildmer]) in R. This package takes a maximal random effects
 structure and then identifies the most complex model that converges by dropping
 terms that fail to explain a significant amount of variance.
 
@@ -1403,7 +1403,7 @@ being more powerful with regards to influencing correlation estimates, the fact
 that this power depends on the direction the function is set causes incongruent
 functions to act against each other in ways we would not expect. Indeed, the 
 incongruent condition that used a standard orientation size decay function did 
-exhibit lower mean error than the one using inverted size decay (see @fig-diff-error-bars-plot),
+exhibit lower mean error than the one using inverted orientation size decay (see @fig-diff-error-bars-plot),
 however in each case the contrast decay appears to have blunted the power of the
 size decay function to the extent that the difference in errors is not statistically
 significant.
@@ -1432,9 +1432,10 @@ contrast decay function normalizes this to the point where precision is restored
 Incorporating data from previous work [@strain_2023; @strain_2023b] that used 
 similar decay functions and experimental paradigms allows us to compare estimation
 curves for size decay and contrast decay in isolation and in combination. 
-@fig-est-multi-exp shows correlation estimation error curves in the present experiment
-and in two previous studies that used decay functions applied solely to size or
-contrast.
+@fig-est-multi-exp shows correlation estimation error curves in the present experiment,
+in two previous studies that used decay functions applied solely to size or
+contrast, and with no manipulations present. This final plot is averaged over
+conditions from previous work.
 
 ```{r}
 #| label: fig-est-multi-exp
@@ -1600,8 +1601,8 @@ necessary_power <- curves %>% select(c("my_rs", "standard_curve")) %>%
 Previous work has made the case for contrast and size decay acting primarily 
 through salience/perceptual weighting, with the caveat that spatial certainty
 also plays a small part in the mechanism behind size decay [@strain_2023; @strain_2023b].
-Our results are supportive of this notion, with our lowest and highest estimates 
-being observed in the incongruent and congruent conditions respectively. These
+Our results are supportive of this notion, with our highest and lowest estimates 
+being observed in the congruent standard and congruent inverted conditions respectively. These
 findings also support dot density [@yang_2023] and feature-based attentional bias accounts
 [@hong_2021; @sun_2016]. As all of these mechanisms would be expected to operate
 in the same direction, making conclusions about the relative contributions of
@@ -1657,7 +1658,7 @@ previous experiments using only size [@strain_2023b] or contrast [@strain_2023] 
 Further testing of these manipulations in isolation and combination using
 different decay function parameters will allow researchers to build a more complete
 picture of how these visual features impact correlation estimation, and how we
-can exploit them to correct for a historic bias.
+can exploit them to correct for historic biases.
 
 Through this work we also provide an example of an experimental framework
 that we argue should be employed to test a wider range of data visualizations,

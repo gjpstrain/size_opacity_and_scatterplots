@@ -7,9 +7,8 @@ FROM rocker/verse:4.3.1
 ADD data/ /home/rstudio/data/
 ADD size_and_contrast.qmd /home/rstudio/
 ADD item_preparation/ /home/rstudio/item_preparation/
-ADD size_and_contrast_files/ /home/rstudio/size_and_contrast_files/
 ADD size_and_contrast_cache/ /home/rstudio/size_and_contrast_cache/
-ADD _extensions/ /home/rstudio/extensions/
+ADD _extensions/ /home/rstudio/_extensions/
 ADD ACM-Reference-Format.bst /home/rstudio/
 ADD size-contrast.bib /home/rstudio/
 ADD acmart.cls /home/rstudio/

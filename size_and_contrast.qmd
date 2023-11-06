@@ -616,7 +616,7 @@ data visualizations. Doing this requires us to understand human perception and
 perceptual phenomena, apply this understanding to data visualization design, and
 test those designs in rigorous empirical work. Here, we present a fully-reproducible,
 crowdsourced online experiment in which we systematically alter visual features
-in scatterplots to correct for a historic bias. We combine two techniques for
+in scatterplots to correct for a well-known bias. We combine two techniques for
 correcting for correlation underestimation in scatterplots and show that the
 effects are stronger than what might be expected from simple additive combination. Building on this, we
 present a framework for visualization design informed from the ground up by human perception.
@@ -723,8 +723,6 @@ ggarrange(corr_plot,
           outlier_plot,
           NL_corr_plot,
           nrow = 1)
-
-
 ```
 
 # Related Work {#sec-related-work}
@@ -772,7 +770,7 @@ cloud to judge association. Later work found that the relationship between objec
 and perceived *r* values could be described by a function that included the mean of the
 geometric distances between the points and the regression line [@meyer_1997]. Investigation
 of the idea that people use visual features to judge correlation provides
-evidence that, among other features, the standard deviation of all perpendicular
+evidence that, among three other equally predictive features, the standard deviation of all perpendicular
 distances from scatterplot points to the regression line is predictive of performance
 on a correlation estimation task [@yang_2019]. Equations for both discrimination
 and magnitude estimation of *r* in scatterplots include a quantity that is small
@@ -1089,13 +1087,14 @@ visibility test as a fixed effect in @sec-add-analyses.
 ## Dot Pitch {#sec-dot-pitch}
 
 We employed a method for obtaining the dot pitch of participants' monitors [@screenscale].
-Combining this with monitor resolution information allows us to calculate the physical on-screen
+We define dot pitch as the distance in millimetres between the centers of the pixels on a participants'
+monitor. Combining this with monitor resolution information allows us to calculate the physical on-screen
 size of scatterplot points. Participants were asked to hold a standard size
 credit/debit/ID card (ISO/IEC 7810 ID-1) up to their screen and resize an on-screen card
 until their sizes matched. We assumed a widescreen 16:9 aspect ratio and calculated
 dot pitch based on these measurements. Mean dot pitch was 
 `r printnum(dot_pitch$mean_dp, digits = 2)`mm ($SD$ = `r printnum(dot_pitch$sd_dp, digits = 2)`),
-corresponding to a physical onscreen size of `r printnum(dot_pitch$mean_dp*13)`mm
+corresponding to a physical on-screen size of `r printnum(dot_pitch$mean_dp*13)`mm
 on a 1920 x 1080 pixel monitor for the smallest points displayed. 
 We include analyses with dot pitch as a fixed effect in @sec-add-analyses.
 
@@ -1115,8 +1114,10 @@ with the visual character of scatterplots. @sec-add-analyses contains further
 analysis of the potential training effects of this. Two practice trials were
 given before the experiment began. Participants worked through a randomly
 presented series of 180 experimental trials and were asked to
-use a slider to estimate correlation to 2 decimal places. Visual masks preceded
-each scatterplot. Interspersed were 6 attention check trials which explicitly
+use a slider to estimate correlation to 2 decimal places. Participants were
+asked to complete each trial as quickly and accurately as possible, although there
+were no time limits on individual trials. Visual masks were displayed 
+for 1 second in between each scatterplot presentation. Interspersed were 6 attention check trials which explicitly
 asked participants to ignore the scatterplot and set the slider to 0 or 1.
 
 ## Participants {#sec-participants}
@@ -1255,13 +1256,13 @@ as_tibble(emmeans(model, pairwise ~ size * contrast)[[1]]) %>%
                    xend = 4.4,
                    y = -.02,
                    yend = -.08,
-           arrow = arrow(length = unit(0.1, "cm" ))) +
+           arrow = arrow(type = "closed", length = unit(0.1, "cm" ))) +
   annotate(geom = "segment",
                    x = 4.4,
                    xend = 4.4,
                    y = .02,
                    yend = .08,
-           arrow = arrow(length = unit(0.1, "cm"))) +
+           arrow = arrow(type = "closed", length = unit(0.1, "cm"))) +
   annotate(geom = "text",
            x = 4.15,
            y = -.05,
@@ -1345,8 +1346,11 @@ dot pitch ($\chi^2$(`r in_paren(dot_pitch_model.df)`) = `r printnum(dot_pitch_mo
 *p* `r printp(dot_pitch_model.p, add_equals = TRUE)`) on participants' errors in correlation estimation.
 We did find a significant effect of training ($\chi^2$(`r in_paren(training_model.df)`) = 
 `r printnum(training_model.Chisq)`, *p* `r printp(training_model.p, add_equals = TRUE)`),
-with participants rating correlation .01 lower during the second half. While this 
-effect is statistically significant, we do not consider it large enough to warrant further discussion.
+with participants rating correlation .01 lower during the second half. This may imply
+that having more recently viewed the four training plots described in @sec-gen-procedure
+increased participants' estimates of correlation. While this 
+effect is statistically significant, further discussion of the effects of training
+on correlation perception in scatterplots is outside the scope of the present work.
 
 # Discussion {#sec-discussion}
 
@@ -1658,7 +1662,7 @@ previous experiments using only size [@strain_2023b] or contrast [@strain_2023] 
 Further testing of these manipulations in isolation and combination using
 different decay function parameters will allow researchers to build a more complete
 picture of how these visual features impact correlation estimation, and how we
-can exploit them to correct for historic biases.
+can exploit them to correct for well-known biases.
 
 Through this work we also provide an example of an experimental framework
 that we argue should be employed to test a wider range of data visualizations,

@@ -398,7 +398,7 @@ human perception and perceptual phenomena, apply this understanding to
 data visualization design, and test those designs in rigorous empirical
 work. Here, we present a fully-reproducible, crowdsourced online
 experiment in which we systematically alter visual features in
-scatterplots to correct for a well-known bias. We combine two techniques
+scatterplots to correct for a historic bias. We combine two techniques
 for correcting for correlation underestimation in scatterplots and show
 that the effects are stronger than what might be expected from simple
 additive combination. Building on this, we present a framework for
@@ -479,15 +479,15 @@ work found that the relationship between objective and perceived
 \emph{r} values could be described by a function that included the mean
 of the geometric distances between the points and the regression line
 \citep{meyer_1997}. Investigation of the idea that people use visual
-features to judge correlation provides evidence that, among three other
-equally predictive features, the standard deviation of all perpendicular
-distances from scatterplot points to the regression line is predictive
-of performance on a correlation estimation task \citep{yang_2019}.
-Equations for both discrimination and magnitude estimation of \emph{r}
-in scatterplots include a quantity that is small when \emph{r} = 1 and
-increases as \emph{r} approaches 0 \citep{rensink_2017}. This quantity
-is indifferent to the type of visualization used, and is functionally
-similar to that found in work mentioned above
+features to judge correlation provides evidence that, among other
+features, the standard deviation of all perpendicular distances from
+scatterplot points to the regression line is predictive of performance
+on a correlation estimation task \citep{yang_2019}. Equations for both
+discrimination and magnitude estimation of \emph{r} in scatterplots
+include a quantity that is small when \emph{r} = 1 and increases as
+\emph{r} approaches 0 \citep{rensink_2017}. This quantity is indifferent
+to the type of visualization used, and is functionally similar to that
+found in work mentioned above
 \citep{cleveland_1982, meyer_1997, yang_2019}. Regarding scatterplots,
 this quantity represents the average distance between data points and
 the regression line, and can be thought of as representing the width of
@@ -786,18 +786,16 @@ Section~\ref{sec-add-analyses}.
 \subsection{Dot Pitch}\label{sec-dot-pitch}}
 
 We employed a method for obtaining the dot pitch of participants'
-monitors \citep{screenscale}. We define dot pitch as the distance in
-millimetres between the centers of the pixels on a participants'
-monitor. Combining this with monitor resolution information allows us to
-calculate the physical on-screen size of scatterplot points.
-Participants were asked to hold a standard size credit/debit/ID card
-(ISO/IEC 7810 ID-1) up to their screen and resize an on-screen card
-until their sizes matched. We assumed a widescreen 16:9 aspect ratio and
-calculated dot pitch based on these measurements. Mean dot pitch was
-0.34mm (\(SD\) = 0.05), corresponding to a physical on-screen size of
-4.39mm on a 1920 x 1080 pixel monitor for the smallest points displayed.
-We include analyses with dot pitch as a fixed effect in
-Section~\ref{sec-add-analyses}.
+monitors \citep{screenscale}. Combining this with monitor resolution
+information allows us to calculate the physical on-screen size of
+scatterplot points. Participants were asked to hold a standard size
+credit/debit/ID card (ISO/IEC 7810 ID-1) up to their screen and resize
+an on-screen card until their sizes matched. We assumed a widescreen
+16:9 aspect ratio and calculated dot pitch based on these measurements.
+Mean dot pitch was 0.34mm (\(SD\) = 0.05), corresponding to a physical
+onscreen size of 4.39mm on a 1920 x 1080 pixel monitor for the smallest
+points displayed. We include analyses with dot pitch as a fixed effect
+in Section~\ref{sec-add-analyses}.
 
 \hypertarget{sec-gen-procedure}{%
 \subsection{Procedure}\label{sec-gen-procedure}}
@@ -819,12 +817,10 @@ of scatterplots. Section~\ref{sec-add-analyses} contains further
 analysis of the potential training effects of this. Two practice trials
 were given before the experiment began. Participants worked through a
 randomly presented series of 180 experimental trials and were asked to
-use a slider to estimate correlation to 2 decimal places. Participants
-were asked to complete each trial as quickly and accurately as possible,
-although there were no time limits on individual trials. Visual masks
-were displayed for 1 second in between each scatterplot presentation.
-Interspersed were 6 attention check trials which explicitly asked
-participants to ignore the scatterplot and set the slider to 0 or 1.
+use a slider to estimate correlation to 2 decimal places. Visual masks
+preceded each scatterplot. Interspersed were 6 attention check trials
+which explicitly asked participants to ignore the scatterplot and set
+the slider to 0 or 1.
 
 \hypertarget{sec-participants}{%
 \subsection{Participants}\label{sec-participants}}
@@ -972,12 +968,8 @@ We find no effects of graph literacy (\(\chi^2\)(1) = 3.50, \emph{p} =
 on participants' errors in correlation estimation. We did find a
 significant effect of training (\(\chi^2\)(1) = 23.78, \emph{p}
 \textless{} .001), with participants rating correlation .01 lower during
-the second half. This may imply that having more recently viewed the
-four training plots described in Section~\ref{sec-gen-procedure}
-increased participants' estimates of correlation. While this effect is
-statistically significant, further discussion of the effects of training
-on correlation perception in scatterplots is outside the scope of the
-present work.
+the second half. While this effect is statistically significant, we do
+not consider it large enough to warrant further discussion.
 
 \hypertarget{sec-discussion}{%
 \section{Discussion}\label{sec-discussion}}
@@ -1262,7 +1254,7 @@ Further testing of these manipulations in isolation and combination
 using different decay function parameters will allow researchers to
 build a more complete picture of how these visual features impact
 correlation estimation, and how we can exploit them to correct for
-well-known biases.
+historic biases.
 
 Through this work we also provide an example of an experimental
 framework that we argue should be employed to test a wider range of data

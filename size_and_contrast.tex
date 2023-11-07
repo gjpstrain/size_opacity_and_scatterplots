@@ -703,29 +703,29 @@ direction. Each scatterplot had a 1:1 aspect ratio, was generated as a
 1000 x 1000 pixel .png image, and was scaled up or down according to a
 participant's monitor such that they always occupied the same proportion
 of the screen. We used equation 1 to map residuals to size and contrast
-values. When adjusting point size, we further transform values using a
-scaling factor of 4 and a constant of 0.2 to ensure that the minimum
-point size in the present study is both visible and consistent with that
-of previous work \citep{strain_2023, strain_2023b}.
+values:
 
 \begin{equation}
   point_{size/contrast} = 1 - b^{residual}
 \end{equation}
 
-0.25 was chosen as the value of \emph{b}. This value was used in
-previous studies that the present work builds upon, and it produces a
-curve approximating the inverse around the identity line of the
-underestimation curve reported in previous work
-\citep{rensink_2017, strain_2023, strain_2023b}. We acknowledge that
-there may be other, more suitable values of \emph{b}, however extensive
-testing of these is outside the scope of the present work. We used this
-equation in standard and inverted orientation forms applied to point
-size and contrast in a factorial 2 x 2 design. Examples of the stimuli
-used can be seen in Figure~\ref{fig-examples}.
+When adjusting point size, we further transform values using a scaling
+factor of 4 and a constant of 0.2 to ensure that the minimum point size
+in the present study is both visible and consistent with that of
+previous work \citep{strain_2023, strain_2023b}. 0.25 was chosen as the
+value of \emph{b}. This value was used in previous studies that the
+present work builds upon, and it produces a curve approximating the
+inverse around the identity line of the underestimation curve reported
+in previous work \citep{rensink_2017, strain_2023, strain_2023b}. We
+acknowledge that there may be other, more suitable values of \emph{b},
+however extensive testing of these is outside the scope of the present
+work. We used this equation in standard and inverted orientation forms
+applied to point size and contrast in a factorial 2 x 2 design. Examples
+of the stimuli used can be seen in Figure~\ref{fig-examples}.
 
 \begin{figure}
 
-\includegraphics[width=0.5\textwidth,height=\textheight]{size_and_contrast_files/figure-pdf/fig-examples-1.pdf} \hfill{}
+\includegraphics[width=1\textwidth,height=\textheight]{size_and_contrast_files/figure-pdf/fig-examples-1.pdf} \hfill{}
 
 \caption{\label{fig-examples}Examples of the experimental stimuli used.
 Congruent conditions are at the top, while incongruent conditions are
@@ -1114,23 +1114,27 @@ line for the plot without manipulation was averaged from previous work.}
 
 \end{figure}
 
-Using contrast decay alone does not significantly change the shape of
-the estimation error curve, whereas using size decay does. When size and
-contrast decay functions are combined, however, the shape appears
-similar to that of size alone. This is in line with previous work
-establishing size as a more potent channel for the manipulation of
-correlation estimates \citep{strain_2023b}. It would appear that the
-addition of the contrast curve moderates the effect of the size curve as
-a function of the objective \emph{r} value itself, without affecting the
-general shape of the curve. In the following, we briefly discuss the
-effects of each manipulation in isolation and the manipulations
-together, before making a case for the inclusion of both when tuning
-scatterplots for correlation estimation due to the complementary
-benefits each confers. Throughout the course of this section it should
-be noted that the analyses include data from several separate
-experiments. We argue that their methodological similarities render
-comparison appropriate, but we acknowledge the potential for overstated
-conclusions.
+Using contrast decay alone significantly changes the amplitude of
+estimation error curve, while leaving its shape intact (compare contrast
+manipulated and no manipulation present plots in
+Figure~\ref{fig-est-multi-exp}). Using size decay, however, changes both
+the amplitude and shape of the underestimation error curve (compare size
+manipulated and no manipulation present plots in
+Figure~\ref{fig-est-multi-exp}). When size and contrast decay functions
+are combined, however, the shape appears similar to that of size alone.
+This is in line with previous work establishing size as a more potent
+channel for the manipulation of correlation estimates
+\citep{strain_2023b}. It would appear that the addition of the contrast
+curve moderates the effect of the size curve as a function of the
+objective \emph{r} value itself, without affecting the general shape of
+the curve. In the following, we briefly discuss the effects of each
+manipulation in isolation and the manipulations together, before making
+a case for the inclusion of both when tuning scatterplots for
+correlation estimation due to the complementary benefits each confers.
+Throughout the course of this section it should be noted that the
+analyses include data from several separate experiments. We argue that
+their methodological similarities render comparison appropriate, but we
+acknowledge the potential for overstated conclusions.
 
 Using a contrast decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the
@@ -1157,10 +1161,11 @@ clear that the simple combination we have used in the present study does
 not represent an ideal tuning, as participants overestimated \emph{r}
 for the majority of values, but this confirms that there is the scope to
 bias \emph{r} estimates significantly using the functions supplied here.
-Further work would be required to obtain precise measures of the power
-of each decay function and their power together. Doing this would allow
-us to tune each function according to both objective \emph{r} value and
-the tuning of the other function to produce accurate correlation
+Further work would be required to obtain precise measures of the
+contributions of each decay function when they are used together, as
+their combination is not linearly additive. Doing this would allow us to
+tune each function according to both objective \emph{r} value and the
+tuning of the other function to facilitate accurate correlation
 estimates. We can derive new curves that describe the effect that each
 manipulation and the combination of manipulations has on correlation
 estimates (Figure~\ref{fig-power-plot}) by comparing them to estimates
@@ -1218,18 +1223,18 @@ results that for many participants, the smallest and lowest contrast
 points we used were simply not visible, although it would seem that this
 low visibility had no significant effect on correlation estimates.
 Regardless, for many of our participants it will have appeared that we
-were removing data, which goes against our intended aims. Solving this
-would require a by-participant calibration of point size and point
-contrast, which is beyond the scope of our current methodology, as it
-would require stimuli to be fully re-generated for each participant. We
-aim to implement this in the future, although it would require a
-different platform, such as a server-based instance of Rstudio being run
-in the background to re-generate stimuli per a calibration task
-completed by the participant. We cannot say precisely what proportions
-of the observed effect in the standard orientation congruent condition
-were due to size or contrast decay. We can conclude that these effects
-are not linearly additive, but must suggest further work to define
-precisely each of their contributions.
+were removing data, which violates our intended aims. Solving this would
+require a by-participant calibration of point size and point contrast,
+which is beyond the scope of our current methodology, as it would
+require stimuli to be fully re-generated for each participant. We aim to
+implement this in the future, although it would require a different
+platform, such as a server-based instance of Rstudio being run in the
+background to re-generate stimuli per a calibration task completed by
+the participant. We cannot say precisely what proportions of the
+observed effect in the standard orientation congruent condition were due
+to size or contrast decay. We can conclude that these effects are not
+linearly additive, but must suggest further work to define precisely
+each of their contributions.
 
 \hypertarget{sec-future-work}{%
 \subsection{Future Work}\label{sec-future-work}}

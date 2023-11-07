@@ -153,6 +153,7 @@ library(ggpubr)
 library(conflicted)
 library(ggtext)
 library(r2glmm)
+library(grid)
 
 # fix conflicts now using the conflicted package
 
@@ -486,7 +487,7 @@ labels_power <- c(size_power = "Size\nPower",
 
 make_sig_table <- function (model) {
   
-  # buildmer class models need reassigned to Lmer class for further use
+  # buildmer class models need reassigned to lmer class for further use
   
   if (class(model) == "buildmer") model <- model@model
   
@@ -572,15 +573,18 @@ set.seed(1234)
   
   ggplot(data, aes(x = V1, y = V2)) +
   scale_size_identity() +
-  geom_point(aes(size = 4*(size + 0.2),
+  geom_point(aes(size = 2*(size + 0.1),
                  alpha = contrast),
              shape = 16)  +
   theme_classic() +
   theme(axis.text = element_blank(),
-        plot.margin = unit(c(0,0,0,0), "cm"),
+        plot.margin = unit(c(0,0,0.75,0), "cm"),
         legend.position = "none",
-        plot.title = element_text(size = 13),
-        axis.title = element_blank()) +
+        plot.title = element_text(size = 6.5),
+        axis.title = element_blank(),
+        axis.line = element_line(linewidth = 0.25),
+        axis.ticks = element_line(linewidth = 0.25),
+        axis.ticks.length = unit(1.375, "pt")) +
   labs(title = title)
 
 } 
@@ -1000,14 +1004,15 @@ bivariate normal distributions with standard deviations of 1 in each direction. 
 scatterplot had a 1:1 aspect ratio, was generated as a 1000 x 1000 pixel .png image,
 and was scaled up or down according to a participant's monitor such that they
 always occupied the same proportion of the screen. We used equation 1 to map residuals 
-to size and contrast values. When adjusting point size, we further transform values
-using a scaling factor of 4 and a constant of 0.2 to ensure that the minimum point
-size in the present study is both visible and consistent with that of previous work [@strain_2023; @strain_2023b].
+to size and contrast values:
 
 \begin{equation}
   point_{size/contrast} = 1 - b^{residual}
 \end{equation}
 
+When adjusting point size, we further transform values
+using a scaling factor of 4 and a constant of 0.2 to ensure that the minimum point
+size in the present study is both visible and consistent with that of previous work [@strain_2023; @strain_2023b].
 0.25 was chosen as the value of *b*. This value was used in previous studies
 that the present work builds upon, and it produces a curve approximating the
 inverse around the identity line of the underestimation curve reported in previous
@@ -1019,30 +1024,57 @@ Examples of the stimuli used can be seen in @fig-examples.
 
 ```{r}
 #| label: fig-examples
-#| out-width: "50%"
-#| fig-asp: 1
+#| out-width: "100%"
+#| fig-asp: 0.265
 #| fig-align: "left"
 #| include: true
 #| fig-cap: Examples of the experimental stimuli used. Congruent conditions are at the top, while incongruent conditions are below.
 
-example_plots <- ggarrange(plot_example_function(slopes,
+example_plots_L <- ggarrange(plot_example_function(slopes,
                                         (1-slopes$slope_0.25),
                                         (1-slopes$slope_0.25),
                                         "Standard Orientation Size\nStandard Orientation Contrast"),
                    plot_example_function(slopes,
                                          (1-slopes$slope_inverted),
                                          (1-slopes$slope_inverted),
-                                         "Inverted Orientation Size\nInverted Orientation Contrast"),
-                   plot_example_function(slopes,
+                                         "Inverted Orientation Size\nInverted Orientation Contrast"), nrow = 1) +
+   annotate("rect",
+            xmin = 0.025,
+            ymin = 0,
+            xmax = 0.975,
+            ymax = 0.14,
+            alpha = 0.5,
+            colour = "#7fbf7b",
+            fill = "grey",
+            linewidth = 1) +
+    annotate("text",
+           label = "Congruent Plots",
+           x = 0.5,
+           y = 0.062)
+                   
+example_plots_R <- ggarrange(plot_example_function(slopes,
                                          (1-slopes$slope_inverted),
                                          (1-slopes$slope_0.25),
                                          "Inverted Orientation Size\nStandard Orientation Contrast"),
                    plot_example_function(slopes,
                                          (1-slopes$slope_0.25),
                                          (1-slopes$slope_inverted),
-                                         "Standard Orientation Size\nInverted Orientation Contrast"))
+                                         "Standard Orientation Size\nInverted Orientation Contrast"), nrow = 1) +
+     annotate("rect",
+            xmin = 0.025,
+            ymin = 0,
+            xmax = 0.975,
+            ymax = 0.14,
+            alpha = 0.5,
+            colour = "#af8dc3",
+            fill = "grey",
+            linewidth = 1) +
+  annotate("text",
+           label = "Incongruent Plots",
+           x = 0.5,
+           y = 0.062)
 
-example_plots
+ggarrange(example_plots_L, example_plots_R, nrow = 1)
 ```
 
 ## Modeling {#sec-gen-modelling}
@@ -1499,8 +1531,11 @@ plotting_df <- rbind(all_exp_df, standard_alone)
 
 ```
 
-Using contrast decay alone does not significantly change the shape of the estimation
-error curve, whereas using size decay does. When size and contrast decay functions are combined,
+Using contrast decay alone significantly changes the amplitude of estimation error curve,
+while leaving its shape intact (compare contrast manipulated and no manipulation
+present plots in @fig-est-multi-exp). Using size decay, however, changes both
+the amplitude and shape of the underestimation error curve (compare size manipulated
+and no manipulation present plots in @fig-est-multi-exp). When size and contrast decay functions are combined,
 however, the shape appears similar to that of size alone. This is in line with
 previous work establishing size as a more potent channel for the manipulation
 of correlation estimates [@strain_2023b]. It would appear that the addition of
@@ -1535,9 +1570,10 @@ It is clear that the simple combination we have used in the present study does
 not represent an ideal tuning, as participants overestimated *r* for the majority of 
 values, but this confirms that there is the scope to bias *r* estimates significantly
 using the functions supplied here. Further work would be required to obtain 
-precise measures of the power of each decay function and their power together. Doing
+precise measures of the contributions of each decay function when they are used together,
+as their combination is not linearly additive. Doing
 this would allow us to tune each function according to both objective *r* value
-and the tuning of the other function to produce accurate correlation estimates.
+and the tuning of the other function to facilitate accurate correlation estimates.
 We can derive new curves that describe the effect
 that each manipulation and the combination of manipulations has on correlation estimates
 (@fig-power-plot) by comparing them to estimates without
@@ -1627,7 +1663,7 @@ It is clear from these results that for many participants, the smallest and lowe
 contrast points we used were simply not visible, although it would seem that this
 low visibility had no significant effect on correlation estimates. Regardless,
 for many of our participants it will have appeared that we were removing data, which
-goes against our intended aims. Solving this would require a by-participant calibration
+violates our intended aims. Solving this would require a by-participant calibration
 of point size and point contrast, which is beyond the scope of our current methodology,
 as it would require stimuli to be fully re-generated for each participant. We aim to
 implement this in the future, although it would require a different platform,

@@ -636,13 +636,13 @@ meaning we do not take it into account when making our hypotheses.
 We present a single experiment based on established effects of adjusting
 point size and point contrast. In our study, we combine previously
 independently tested point size and point contrast decay functions in
-both standard orientation (contrast/size is reduced with residual
+both typical orientation (contrast/size is reduced with residual
 magnitude) and inverted orientation (contrast/size is increased with
 residual magnitude). Throughout we refer to \emph{congruent} and
 \emph{incongruent} conditions with respect to the combination of
 orientations of size and contrast decay functions. We hypothesize that:
 (H1) an increased reduction in correlation estimation error will be
-observed when congruent standard orientation decay functions are used;
+observed when congruent typical orientation decay functions are used;
 (H2) the use of congruent inverted orientation decay functions will
 produce the least accurate estimates of correlation; and (H3) that owing
 to the greater strength of the size channel observed in previous work
@@ -652,6 +652,17 @@ conditions.
 
 \hypertarget{sec-methods}{%
 \section{Methodology}\label{sec-methods}}
+
+In this section we begin by discussing our general research methods,
+including our approach to crowdsourcing, our implementations of open
+research practices, and the modelling methods we use to test our
+hypotheses. We also discuss the particular issues that arise with
+regards to the use of these methods in our particular research paradigm.
+We then report on two additional pre-experimental tests that
+participants completed, point visibility testing and a screen scaling
+task to assess dot pitch. This section concludes by reporting on
+experimental procedure, participant recruitment and characteristics, and
+the experimental design itself.
 
 \hypertarget{sec-crowdsourcing}{%
 \subsection{Crowdsourcing}\label{sec-crowdsourcing}}
@@ -684,10 +695,28 @@ reproducible research \citep{ayris_2018}. All data and analysis code are
 available at (repository link removed for anon). This repository
 contains instructions for building a Docker container to fully reproduce
 the computational environment used. This allows for full replications of
-stimuli, analysis, and the paper itself. Ethical approval was granted by
+stimuli, analyses, and the paper itself. Ethical approval was granted by
 (removed for anon). Hypotheses and analysis plans were pre-registered
 with the OSF (links removed for anon) and there were no deviations from
 them.
+
+\hypertarget{sec-gen-modelling}{%
+\subsection{Modeling}\label{sec-gen-modelling}}
+
+We use linear mixed effects models to model the relationships between
+the combination of size and contrast decay functions and participants'
+errors in correlation estimates. Models such as these allow us to
+compare differences in our IV across the full range of participant
+responses, as opposed to relying purely on aggregate data, as in ANOVA.
+These models also afford us the ability to include random effects for
+participants and items. As per our pre-registrations we preferred
+maximal models \citep{barr_2013}, including random intercepts and slopes
+for participants and items. The structures of these models were
+identified using the \textbf{buildmer} package (version 2.10.1,
+\citep{voeten_buildmer}) in R. This package takes a maximal random
+effects structure and then identifies the most complex model that
+converges by dropping terms that fail to explain a significant amount of
+variance.
 
 \hypertarget{sec-scatter-gen}{%
 \subsection{Stimuli}\label{sec-scatter-gen}}
@@ -699,8 +728,14 @@ that very little correlation is perceived below \emph{r} = 0.2
 for \emph{r} allows us to paint a broader picture of people's perception
 than work using fewer values. Scatterplot points were generated based on
 bivariate normal distributions with standard deviations of 1 in each
-direction. Each scatterplot had a 1:1 aspect ratio, was generated as a
-1000 x 1000 pixel .png image, and was scaled up or down according to a
+direction. In line with evidence that performance on correlation
+perception tasks is stable as long as the number of points remains above
+48 \citep{rensink_2014} and to facilitate comparison with previous
+studies {[}\citet{strain_2023}; strain\_2023b{]}. Each scatterplot was
+created and presented using a 1:1 aspect ratio, in line with findings
+that this facilitates optimal performance on correlation estimation
+tasks \citep{micallef_2017}. Scatterplots were generated as 1000 x 1000
+pixel .png images, and were scaled up or down according to a
 participant's monitor such that they always occupied the same proportion
 of the screen. We used equation 1 to map residuals to size and contrast
 values:
@@ -719,7 +754,7 @@ inverse around the identity line of the underestimation curve reported
 in previous work \citep{rensink_2017, strain_2023, strain_2023b}. We
 acknowledge that there may be other, more suitable values of \emph{b},
 however extensive testing of these is outside the scope of the present
-work. We used this equation in standard and inverted orientation forms
+work. We used this equation in typical and inverted orientation forms
 applied to point size and contrast in a factorial 2 x 2 design. Examples
 of the stimuli used can be seen in Figure~\ref{fig-examples}.
 
@@ -727,28 +762,9 @@ of the stimuli used can be seen in Figure~\ref{fig-examples}.
 
 \includegraphics[width=1\textwidth,height=\textheight]{size_and_contrast_files/figure-pdf/fig-examples-1.pdf} \hfill{}
 
-\caption{\label{fig-examples}Examples of the experimental stimuli used.
-Congruent conditions are at the top, while incongruent conditions are
-below.}
+\caption{\label{fig-examples}Examples of the experimental stimuli used.}
 
 \end{figure}
-
-\hypertarget{sec-gen-modelling}{%
-\subsection{Modeling}\label{sec-gen-modelling}}
-
-We use linear mixed effects models to model the relationships between
-the combination of size and contrast decay functions and participants'
-errors in correlation estimates. Models such as these allow us to
-compare differences in our IV across the full range of participant
-responses, as opposed to relying purely on aggregate data, as in ANOVA.
-These models also afford us the ability to include random effects for
-participants and items. As per our pre-registrations we preferred
-maximal models, including random intercepts and slopes for participants
-and items. The structures of these models were identified using the
-\textbf{buildmer} package (version 2.10.1, \citep{voeten_buildmer}) in
-R. This package takes a maximal random effects structure and then
-identifies the most complex model that converges by dropping terms that
-fail to explain a significant amount of variance.
 
 \hypertarget{sec-VT}{%
 \subsection{Point Visibility Testing}\label{sec-VT}}
@@ -841,6 +857,8 @@ full analysis (50.7\% male, 48.7\% female, and 0.7\% non-binary).
 Participants' mean age was 30.6 (\emph{SD} = 8.6). Participants' mean
 graph literacy score was 22.5 (\emph{SD} = 3.5). The average time taken
 to complete the experiment was 37 minutes (\emph{SD} = 12.3).
+Section~\ref{sec-add-analyses} contains a discussion of the time taken
+to complete the experiment.
 
 \hypertarget{sec-design}{%
 \subsection{Design}\label{sec-design}}
@@ -855,8 +873,19 @@ hosted at (link removed for anon).
 \hypertarget{sec-results}{%
 \section{Results}\label{sec-results}}
 
+All analyses were conducted using R (version 4.3.1). Deviation coding
+was used for each of the experimental factors. We used the
+\textbf{buildmer} and \textbf{lme4} (version 1.1-34 \citep{lme4})
+packages to build a linear mixed effects model where the difference
+between objective and rated \emph{r} value was predicted by the size and
+contrast decay functions used. Semi-partial R\textsuperscript{2} was
+calculated using the \textbf{r2glmm} package (version 0.1.2
+\citep{r2glmm}). The \textbf{emmeans} package (version 1.8.8
+\citep{emmeans}) was used to calculate pairwise comparisons between
+levels of the size and contrast decay factor.
+
 Our first two hypotheses were fully supported in this experiment. The
-combination of standard orientation size and contrast decay functions
+combination of typical orientation size and contrast decay functions
 produced the most accurate estimates of correlation, although this also
 resulted in a large over-correction and consequent overestimation for
 many values of \emph{r} (see Figure~\ref{fig-diff-error-bars-plot}). Our
@@ -864,8 +893,8 @@ second hypothesis was also supported; the combination of inverted size
 and inverted contrast decay functions produced the least accurate
 estimates of correlation. We found no support for our third hypothesis;
 there was no significant difference in correlation estimates between
-standard orientation size/inverted orientation contrast decay plots and
-inverted orientation size/standard orientation contrast decay plots (Z =
+typical orientation size/inverted orientation contrast decay plots and
+inverted orientation size/typical orientation contrast decay plots (Z =
 -2.26, \emph{p} = .11), however we did find a significant interaction
 effect that provides evidence that the combination of size and contrast
 decay functions is not additive in nature.
@@ -889,30 +918,22 @@ Size Decay x Contrast Decay & 0.15 & 0.004 & 26327.13 & 38.47 & <0.001 & 0.034\\
 \end{tabular}
 \end{table}
 
-All analyses were conducted using R (version 4.3.1). Deviation coding
-was used for each of the experimental factors. We used the
-\textbf{buildmer} and \textbf{lme4} (version 1.1-34 \citep{lme4})
-packages to build a linear mixed effects model where the difference
-between objective and rated \emph{r} value was predicted by the size and
-contrast decay functions used. A likelihood ratio test revealed that the
-model including point size and contrast decay conditions as fixed
-effects explained significantly more variance than the null
-(\(\chi^2\)(3) = 5,286.81, \emph{p} \textless{} .001). There were
-significant fixed effects of size decay and contrast decay, as well as a
-significant interaction between the two. The experimental model has
-random intercepts for items and participants, and a random slope for the
-size decay factor with regards to participants. Due both to our use of a
-linear mixed model with an interaction term, and our lack of a
-comparative baseline condition (i.e no size or contrast function used),
-we do not report a measure of effect size. Instead we report the amounts
-of variance explained by each fixed effect term and the interaction term
-as semi-partial R\textsuperscript{2} \citep{nakagawa_2013}. These values
-were calculated using the \textbf{r2glmm} package (version 0.1.2
-\citep{r2glmm}) and can be see in Table~\ref{tbl-sig} along with all
-model statistics. The \textbf{emmeans} package (version 1.8.8
-\citep{emmeans}) was used to calculate pairwise comparisons between
-levels of the size and contrast decay factor, and can be seen in
-Table~\ref{tbl-contrasts}.
+A likelihood ratio test revealed that the model including point size and
+contrast decay conditions as fixed effects explained significantly more
+variance than the null (\(\chi^2\)(3) = 5,286.81, \emph{p} \textless{}
+.001). There were significant fixed effects of size decay and contrast
+decay, as well as a significant interaction between the two. The
+experimental model has random intercepts for items and participants, and
+a random slope for the size decay factor with regards to participants.
+Due both to our use of a linear mixed model with an interaction term,
+and our lack of a comparative baseline condition (i.e no size or
+contrast function used), we do not report a traditional measure of
+effect size. Instead we report the amounts of variance explained by each
+fixed effect term and the interaction term as semi-partial
+R\textsuperscript{2} \citep{nakagawa_2013}, which can be see in
+Table~\ref{tbl-sig} along with all model statistics. Pairwise
+comparisons between levels of the size and contrast decay factor can be
+seen in Table~\ref{tbl-contrasts}.
 
 \begin{figure}
 
@@ -928,7 +949,7 @@ lower and upper confidence intervals.}
 
 \hypertarget{tbl-contrasts}{}
 \begin{table}
-\caption{\label{tbl-contrasts}Pairwise comparisons. SO = Standard Orientation, IO = Inverted
+\caption{\label{tbl-contrasts}Pairwise comparisons. TO = Typical Orientation, IO = Inverted
 Orientation. The interaction is driven by the non-additive nature of
 combining point size and contrast decay functions, and the only
 nonsignificant contrast is found when incongruent decay functions are
@@ -939,13 +960,13 @@ compared. }\tabularnewline
 \toprule
 Contrast & Z.ratio & \textit{p}\\
 \midrule
-SO Size x IO Contrast <-> IO Size x IO Contrast & -10.95 & <0.001\\
-SO Size x IO Contrast <-> SO Size x SO Contrast & 72.29 & <0.001\\
-SO Size x IO Contrast <-> IO Size x SO Contrast & -2.26 & 0.108\\
-IO Size x IO Contrast <-> SO Size x SO Contrast & 46.13 & <0.001\\
-IO Size x IO Contrast <-> IO Size x SO Contrast & 17.84 & <0.001\\
+TO Size x IO Contrast <-> IO Size x IO Contrast & -10.95 & <0.001\\
+TO Size x IO Contrast <-> TO Size x TO Contrast & 72.29 & <0.001\\
+TO Size x IO Contrast <-> IO Size x TO Contrast & -2.26 & 0.108\\
+IO Size x IO Contrast <-> TO Size x TO Contrast & 46.13 & <0.001\\
+IO Size x IO Contrast <-> IO Size x TO Contrast & 17.84 & <0.001\\
 \addlinespace
-SO Size x SO Contrast <-> IO Size x SO Contrast & -37.44 & <0.001\\
+TO Size x TO Contrast <-> IO Size x TO Contrast & -37.44 & <0.001\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -974,10 +995,36 @@ significant effect of training (\(\chi^2\)(1) = 23.78, \emph{p}
 \textless{} .001), with participants rating correlation .01 lower during
 the second half. This may imply that having more recently viewed the
 four training plots described in Section~\ref{sec-gen-procedure}
-increased participants' estimates of correlation. While this effect is
-statistically significant, further discussion of the effects of training
-on correlation perception in scatterplots is outside the scope of the
-present work.
+increased participants' estimates of correlation. To analyse the
+potential variability of participant responses in more detail, we build
+a model including trial number. As the presentation of experimental
+stimuli were randomised separately for each participant, this allows us
+to examine responses purely as a function of \emph{when} they were made.
+We find a significant effect of trial number on participant's errors
+(\(\chi^2\)(1) = 29.31, \emph{p} \textless{} .001).
+Figure~\ref{fig-time-plot} shows participants' unsigned mean errors in
+correlation estimation against trial number. Variability in error, as
+represented by the ribbon in Figure~\ref{fig-time-plot}, stabilises
+quickly and remains stable for most of the experiment, only widening
+again around trial number 170. We suggest that this is a result of
+participants knowing that they were coming to the end of the experiment
+and being less vigilant as a result. Regardless of its significance, we
+do not consider this effect large enough to warrant further analysis,
+although future work will take into account potential effects of
+experimental length.
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\textwidth,height=\textheight]{size_and_contrast_files/figure-pdf/fig-time-plot-1.pdf}
+
+}
+
+\caption{\label{fig-time-plot}Comparing mean errors in correlation
+estimation by trial number. Points represent unsigned mean errors for
+each trial number. The plotted line is the locally estimated smoothed
+curve, with the ribbon representing standard errors.}
+
+\end{figure}
 
 \hypertarget{sec-discussion}{%
 \section{Discussion}\label{sec-discussion}}
@@ -988,11 +1035,11 @@ ways. In addition, we provide further confirmatory evidence of what has
 been found previously. Namely, that while manipulations of both point
 size and contrast have significant effects, the effect of changing point
 size is stronger, and that while we can influence correlation estimates
-in either direction, standard orientation manipulations are more
-powerful than inverted ones \citep{strain_2023, strain_2023b}. As one
-would expect, we also see an effect of orientation congruency on the
-extent to which a manipulation can bias correlation estimates. The lack
-of support for our third hypothesis, that there would be a difference in
+in either direction, typical orientation manipulations are more powerful
+than inverted ones \citep{strain_2023, strain_2023b}. As one would
+expect, we also see an effect of orientation congruency on the extent to
+which a manipulation can bias correlation estimates. The lack of support
+for our third hypothesis, that there would be a difference in
 correlation estimates between incongruent conditions, was surprising
 given the greater strength of the size channel relative to contrast
 demonstrated in previous work \citep{strain_2023, strain_2023b},
@@ -1028,7 +1075,7 @@ designers and researchers:
 \subsection{Combining Manipulations}\label{sec-combining}}
 
 Figure~\ref{fig-emm-plot} and Figure~\ref{fig-diff-error-bars-plot} show
-how, on average, the combination of standard orientation size and
+how, on average, the combination of typical orientation size and
 contrast decay functions has resulted in an overestimation of \emph{r}
 for the majority of values. While this does not directly solve the
 underestimation problem, it does demonstrate that with regards to using
@@ -1053,7 +1100,7 @@ incongruent conditions. Despite the size channel being more powerful
 with regards to influencing correlation estimates, the fact that this
 power depends on the direction the function is set causes incongruent
 functions to act against each other in ways we would not expect. Indeed,
-the incongruent condition that used a standard orientation size decay
+the incongruent condition that used a typical orientation size decay
 function did exhibit lower mean error than the one using inverted
 orientation size decay (see Figure~\ref{fig-diff-error-bars-plot}),
 however in each case the contrast decay appears to have blunted the
@@ -1071,14 +1118,14 @@ More recent work using size or contrast decay functions similar to the
 ones used here \citep{strain_2023, strain_2023b} has found that in some
 cases, precision in \emph{r} estimation is \emph{constant} across the
 range of \emph{r} values investigated. For example, the use of a size
-decay function, whether using standard/inverted orientation non-linear
+decay function, whether using typical/inverted orientation non-linear
 functions or a linear decay function, results in \textbf{no} change in
 \emph{r} estimation precision \citep{strain_2023b}. When contrast is
 used in the same ways, only an inverted decay function \textbf{does not}
 exhibit the conventional increase in precision with \emph{r}. In the
 present work, precision in \emph{r} estimation increased whenever a
-standard orientation contrast decay function was used. We suggest this
-is part of the moderating effect of the point contrast decay function on
+typical orientation contrast decay function was used. We suggest this is
+part of the moderating effect of the point contrast decay function on
 the size decay function; the visual character of scatterplots with high
 \emph{r} values that use the size decay function eliminates the usual
 increase in precision we would expect, however the introduction of the
@@ -1140,7 +1187,7 @@ Using a contrast decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the
 underestimation curve (see Figure~\ref{fig-underestimation-curve}), but
 slightly biases \emph{r} estimates up to partially correct for the
-underestimation observed with standard scatterplots \citep{strain_2023}.
+underestimation observed with normal scatterplots \citep{strain_2023}.
 Importantly, it also preserves the increase in correlation estimation
 precision that we would expect to find during correlation estimation
 tasks. Using the size decay function in isolation has a more dramatic
@@ -1259,7 +1306,7 @@ constant and a scaling factor with the size decay manipulation to ensure
 our points were visible. These values could also be changed. Aside from
 changing aspects of equation 1, there are other equations that could be
 used, including ones that take into account objective \emph{r} value to
-change the values used to set point size or contrast. The present work
+change the values used to set point size or contrast. The present study
 opens the door for this future work, as it provides the necessary
 additional data to previous experiments using only size
 \citep{strain_2023b} or contrast \citep{strain_2023} decay functions.

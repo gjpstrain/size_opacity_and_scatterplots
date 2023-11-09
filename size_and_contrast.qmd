@@ -297,6 +297,7 @@ anon_file %>%
   inner_join(monitor_information, by = "participant") %>%
   inner_join(visual_thresholds, by = "participant") %>%
   mutate(across(matches(c("item", "contrast", "size", "condition_abs")), as_factor)) %>%
+  mutate(trials.thisN = as.integer(trials.thisN)) %>%
   mutate(difference = my_rs - slider.response) %>%
   select(-c("__participant")) %>%
   assign(paste0(unique(anon_file$expName), "_tidy"),
@@ -358,7 +359,7 @@ dot_pitch <- size_and_contrast_exp_tidy %>%
 #| label: comparison-function
 
 # this function takes a model and creates a nested model with the fixed effects 
-# termS removed for anova comparison
+# terms removed for anova comparison
 
 comparison <- function(model) {
   
@@ -465,10 +466,10 @@ plot_error_bars_function <- function(df, measure, l){
 
 # creates labels vector for use with plotting functions
 
-labels_size_contrast <- c(A = "Standard Orientation Size\nStandard Orientation Contrast",
+labels_size_contrast <- c(A = "Typical Orientation Size\nTypical Orientation Contrast",
                           B = "Inverted Orientation Size\nInverted Orientation Contrast",
-                          X = "Standard Orientation Size\nInverted Orientation Contrast",
-                          Y = "Inverted Orientation Size\nStandard Orientation Contrast")
+                          X = "Typical Orientation Size\nInverted Orientation Contrast",
+                          Y = "Inverted Orientation Size\nTypical Orientation Contrast")
 
 labels_all_exp <- c(additive_manipulation = "Size and Contrast Manipulated",
                     contrast_manipulated = "Contrast Manipulated",
@@ -578,9 +579,9 @@ set.seed(1234)
              shape = 16)  +
   theme_classic() +
   theme(axis.text = element_blank(),
-        plot.margin = unit(c(0,0,0.75,0), "cm"),
+        plot.margin = unit(c(0,0,0.8,0), "cm"),
         legend.position = "none",
-        plot.title = element_text(size = 6.5),
+        plot.title = element_text(size = 6.5, vjust = -0.1),
         axis.title = element_blank(),
         axis.line = element_line(linewidth = 0.25),
         axis.ticks = element_line(linewidth = 0.25),
@@ -951,18 +952,28 @@ our hypotheses.
 We present a single experiment based on established effects of 
 adjusting point size and point contrast. In our study,
 we combine previously independently tested point size and point
-contrast decay functions in both standard orientation (contrast/size is reduced
+contrast decay functions in both typical orientation (contrast/size is reduced
 with residual magnitude) and inverted orientation (contrast/size is increased with
 residual magnitude). Throughout we refer to *congruent* and *incongruent* conditions
-with respect to the combination of orientations of size and contrast decay functions. 
-We hypothesize that: (H1) an increased reduction in correlation estimation error will be
-observed when congruent standard orientation decay functions are used; (H2) the use of 
+with respect to the combination of orientations of size and contrast decay functions.
+Note that the use of this terminology is unrelated to the concept of redundant encoding
+[@nothelfer_2017]. We hypothesize that: (H1) an increased reduction in correlation estimation error will be
+observed when congruent typical orientation decay functions are used; (H2) the use of 
 congruent inverted orientation decay functions will produce 
 the least accurate estimates of correlation; and (H3) that owing to the greater strength
 of the size channel observed in previous work [@strain_2023b], there will be a 
 significant difference in correlation estimates between the two incongruent orientation conditions.
 
 # Methodology {#sec-methods}
+
+In this section we begin by discussing our general research methods, including our approach
+to crowdsourcing, our implementations of open research practices, and the modelling
+methods we use to test our hypotheses. We also discuss the particular issues that arise
+with regards to the use of these methods in our particular research paradigm. We
+then report on two additional pre-experimental tests that participants completed,
+point visibility testing and a screen scaling task to assess dot pitch. This
+section concludes by reporting on experimental procedure, participant recruitment
+and characteristics, and the experimental design itself.
 
 ## Crowdsourcing {#sec-crowdsourcing}
 
@@ -981,17 +992,31 @@ data. Namely, we use the Prolific.co platform [@prolific] with stringent pre-scr
 restrictions; participants were required to have completed at least 100 studies
 using Prolific, and were required to have a prolific score of 100, representing a 99%
 approval rate. This is more strict than the 95% suggested in previous work [@peer_2021],
-but has served the authors well in prior work.
+but has served the authors well in prior work. 
 
 ## Open Research {#sec-open-research}
 
 This study was conducted according to the principles of open and reproducible
 research [@ayris_2018]. All data and analysis code are available at (repository link removed for anon).
 This repository contains instructions for building a Docker container to fully reproduce the computational
-environment used. This allows for full replications of stimuli, analysis, and the paper
+environment used. This allows for full replications of stimuli, analyses, and the paper
 itself. Ethical approval was granted by (removed for anon). Hypotheses
 and analysis plans were pre-registered with the OSF (links removed for anon) and
 there were no deviations from them.
+
+## Modeling {#sec-gen-modelling}
+
+We use linear mixed effects models to model the relationships
+between the combination of size and contrast decay
+functions and participants' errors in correlation estimates. Models such as these
+allow us to compare differences in our IV across the full range of participant 
+responses, as opposed to relying purely on aggregate data, as in ANOVA. These models also afford us 
+the ability to include random effects for participants and items. As per our pre-registrations
+we preferred maximal models [@barr_2013], including random intercepts and slopes for participants
+and items. The structures of these models were identified using the **buildmer** package
+(version 2.10.1, [@voeten_buildmer]) in R. This package takes a maximal random effects
+structure and then identifies the most complex model that converges by dropping
+terms that fail to explain a significant amount of variance.
 
 ## Stimuli {#sec-scatter-gen}
 
@@ -1000,9 +1025,14 @@ to 45 *r* values uniformly distributed between 0.2 and 0.99, as there is evidenc
 very little correlation is perceived below *r* = 0.2 [@strahan_1978; @bobko_1979; @cleveland_1982].
 Using so many values for *r* allows us to paint a broader picture of people's perception
 than work using fewer values. Scatterplot points were generated based on
-bivariate normal distributions with standard deviations of 1 in each direction. Each
-scatterplot had a 1:1 aspect ratio, was generated as a 1000 x 1000 pixel .png image,
-and was scaled up or down according to a participant's monitor such that they
+bivariate normal distributions with standard deviations of 1 in each direction. 
+In line with evidence that performance on correlation perception tasks is stable
+as long as the number of points remains above 48 [@rensink_2014] and to facilitate
+comparison with previous studies [@strain_2023; strain_2023b]. Each scatterplot was
+created and presented using a 1:1 aspect ratio, in line with findings that this
+facilitates optimal performance on correlation estimation tasks [@micallef_2017].
+Scatterplots were generated as 1000 x 1000 pixel .png images,
+and were scaled up or down according to a participant's monitor such that they
 always occupied the same proportion of the screen. We used equation 1 to map residuals 
 to size and contrast values:
 
@@ -1018,79 +1048,78 @@ that the present work builds upon, and it produces a curve approximating the
 inverse around the identity line of the underestimation curve reported in previous
 work [@rensink_2017; @strain_2023; @strain_2023b]. We acknowledge that there
 may be other, more suitable values of *b*, however extensive testing of these is
-outside the scope of the present work. We used this equation in standard and inverted
+outside the scope of the present work. We used this equation in typical and inverted
 orientation forms applied to point size and contrast in a factorial 2 x 2 design.
 Examples of the stimuli used can be seen in @fig-examples.
 
 ```{r}
 #| label: fig-examples
 #| out-width: "100%"
-#| fig-asp: 0.265
+#| fig-asp: 0.29
 #| fig-align: "left"
 #| include: true
-#| fig-cap: Examples of the experimental stimuli used. Congruent conditions are at the top, while incongruent conditions are below.
+#| fig-cap: Examples of the experimental stimuli used.
 
 example_plots_L <- ggarrange(plot_example_function(slopes,
                                         (1-slopes$slope_0.25),
                                         (1-slopes$slope_0.25),
-                                        "Standard Orientation Size\nStandard Orientation Contrast"),
+                                        "Typical Orientation Size\nTypical Orientation Contrast"),
                    plot_example_function(slopes,
                                          (1-slopes$slope_inverted),
                                          (1-slopes$slope_inverted),
                                          "Inverted Orientation Size\nInverted Orientation Contrast"), nrow = 1) +
-   annotate("rect",
-            xmin = 0.025,
-            ymin = 0,
-            xmax = 0.975,
-            ymax = 0.14,
-            alpha = 0.5,
-            colour = "#7fbf7b",
-            fill = "grey",
-            linewidth = 1) +
-    annotate("text",
+  annotate(geom = "text",
            label = "Congruent Plots",
            x = 0.5,
-           y = 0.062)
+           y = 0.11) +
+  annotate(geom = "segment",
+           x = 0.32,
+           xend = 0,
+           y = 0.11,
+           yend = 0.11,
+           size = 0.4,
+           colour = "grey",
+           arrow = arrow(length = unit(0.1, "cm"), angle = 90)) +
+  annotate(geom = "segment",
+           x = 0.68,
+           xend = 0.96,
+           y = 0.11,
+           yend = 0.11,
+           size = 0.4,
+           colour = "grey",
+           arrow = arrow(length = unit(0.1, "cm"), angle = 90))
                    
 example_plots_R <- ggarrange(plot_example_function(slopes,
                                          (1-slopes$slope_inverted),
                                          (1-slopes$slope_0.25),
-                                         "Inverted Orientation Size\nStandard Orientation Contrast"),
+                                         "Inverted Orientation Size\nTypical Orientation Contrast"),
                    plot_example_function(slopes,
                                          (1-slopes$slope_0.25),
                                          (1-slopes$slope_inverted),
-                                         "Standard Orientation Size\nInverted Orientation Contrast"), nrow = 1) +
-     annotate("rect",
-            xmin = 0.025,
-            ymin = 0,
-            xmax = 0.975,
-            ymax = 0.14,
-            alpha = 0.5,
-            colour = "#af8dc3",
-            fill = "grey",
-            linewidth = 1) +
-  annotate("text",
+                                         "Typical Orientation Size\nInverted Orientation Contrast"), nrow = 1)+
+  annotate(geom = "text",
            label = "Incongruent Plots",
            x = 0.5,
-           y = 0.062)
+           y = 0.11) +
+    annotate(geom = "segment",
+           x = 0.31,
+           xend = 0.05,
+           y = 0.11,
+           yend = 0.11,
+           size = 0.4,
+           colour = "grey",
+           arrow = arrow(length = unit(0.1, "cm"), angle = 90)) +
+  annotate(geom = "segment",
+           x = 0.69,
+           xend = 1,
+           y = 0.11,
+           yend = 0.11,
+           size = 0.4,
+           colour = "grey",
+           arrow = arrow(length = unit(0.1, "cm"), angle = 90))
 
 ggarrange(example_plots_L, example_plots_R, nrow = 1)
 ```
-
-## Modeling {#sec-gen-modelling}
-
-We use linear mixed effects models to model the relationships
-between the combination of size and contrast decay
-functions and participants' errors in correlation estimates. Models such as these
-allow us to compare differences in our IV across the full range of participant 
-responses, as opposed to relying purely on aggregate data, as in ANOVA. These models also afford us 
-the ability to include random effects for participants and items. As per our pre-registrations
-we preferred maximal models, including random intercepts and slopes for participants
-and items. The structures of these models were identified using the **buildmer** package
-(version 2.10.1, [@voeten_buildmer]) in R. This package takes a maximal random effects
-structure and then identifies the most complex model that converges by dropping
-terms that fail to explain a significant amount of variance.
-
 ## Point Visibility Testing {#sec-VT}
 
 Discussions about the size and contrast of particular scatterplot points are inherently
@@ -1167,7 +1196,8 @@ and `r printnum(gender$NB, digits = 1)`% non-binary).
 Participants' mean age was `r printnum(age$mean, digits = 1)` (*SD* = `r printnum(age$sd, digits = 1)`).
 Participants' mean graph literacy score was `r printnum(literacy$mean, digits = 1)`
 (*SD* = `r printnum(literacy$sd, digits = 1)`). The average
-time taken to complete the experiment was 37 minutes (*SD* = 12.3).
+time taken to complete the experiment was 37 minutes (*SD* = 12.3). @sec-add-analyses
+contains a discussion of the time taken to complete the experiment.
 
 ## Design {#sec-design}
 
@@ -1179,15 +1209,23 @@ and instructions are hosted at (link removed for anon).
 
 # Results {#sec-results}
 
+All analyses were conducted using R (version `r paste0(R.version$major, ".", R.version$minor)`). 
+Deviation coding was used for each of the experimental factors. We used the **buildmer** and
+**lme4** (version 1.1-34 [@lme4]) packages to build a linear mixed effects model where the difference
+between objective and rated *r* value was predicted by the size and contrast decay
+functions used. Semi-partial R^2^ was calculated using the **r2glmm** package 
+(version 0.1.2 [@r2glmm]). The **emmeans** package (version 1.8.8 [@emmeans])
+was used to calculate pairwise comparisons between levels of the size and contrast decay factor.
+
 Our first two hypotheses were fully supported in this experiment. The combination of 
-standard orientation size and contrast decay functions produced the most accurate estimates of
+typical orientation size and contrast decay functions produced the most accurate estimates of
 correlation, although this also resulted in a large over-correction and consequent
 overestimation for many values of *r* (see @fig-diff-error-bars-plot). Our second hypothesis was also 
 supported; the combination of inverted size and inverted contrast decay functions
 produced the least accurate estimates of correlation. We found no support for our third
 hypothesis; there was no significant difference in correlation estimates between
-standard orientation size/inverted orientation contrast decay plots and 
-inverted orientation size/standard orientation contrast
+typical orientation size/inverted orientation contrast decay plots and 
+inverted orientation size/typical orientation contrast
 decay plots (Z = -2.26, *p* = .11), however we did find a significant interaction effect
 that provides evidence that the combination of size and contrast decay functions
 is not additive in nature.
@@ -1237,11 +1275,7 @@ anova_results(model, model_cmpr)
 make_sig_table(model)
 ```
 
-All analyses were conducted using R (version `r paste0(R.version$major, ".", R.version$minor)`). 
-Deviation coding was used for each of the experimental factors. We used the **buildmer** and
-**lme4** (version 1.1-34 [@lme4]) packages to build a linear mixed effects model where the difference
-between objective and rated *r* value was predicted by the size and contrast decay
-functions used. A likelihood ratio test revealed that the model including point size
+A likelihood ratio test revealed that the model including point size
 and contrast decay conditions as fixed effects explained significantly more variance
 than the null ($\chi^2$(`r in_paren(model.df)`) = 
 `r printnum(model.Chisq)`, *p* `r printp(model.p, add_equals = TRUE)`). There
@@ -1250,12 +1284,10 @@ as a significant interaction between the two. The experimental model has random 
 and participants, and a random slope for the size decay factor with regards to participants.
 Due both to our use of a linear mixed model with an interaction
 term, and our lack of a comparative baseline condition (i.e no size or contrast function used),
-we do not report a measure of effect size. Instead we report the amounts of variance
+we do not report a traditional measure of effect size. Instead we report the amounts of variance
 explained by each fixed effect term and the interaction term as semi-partial
-R^2^ [@nakagawa_2013]. These values were calculated using the **r2glmm** package
-(version 0.1.2 [@r2glmm]) and can be see in @tbl-sig along with all model statistics.
-The **emmeans** package (version 1.8.8 [@emmeans]) was used to calculate pairwise
-comparisons between levels of the size and contrast decay factor, and can be seen
+R^2^ [@nakagawa_2013], which can be see in @tbl-sig along with all model statistics.
+Pairwise comparisons between levels of the size and contrast decay factor can be seen
 in @tbl-contrasts.
 
 ```{r}
@@ -1267,10 +1299,10 @@ in @tbl-contrasts.
 
 as_tibble(emmeans(model, pairwise ~ size * contrast)[[1]]) %>%
   mutate("size" = recode(size,
-                         "S" = "Standard Orientation Size",
+                         "S" = "Typical Orientation Size",
                          "I" = "Inverted Orientation Size"),
           "contrast" = recode(contrast,
-                         "S" = "Standard Orientation Contrast",
+                         "S" = "Typical Orientation Contrast",
                          "I" = "Inverted Orientation Contrast")) %>%
   ggplot(aes(x = reorder(size:contrast, emmean), y = emmean*-1)) +
   geom_point(size = 1.75) +
@@ -1304,25 +1336,31 @@ as_tibble(emmeans(model, pairwise ~ size * contrast)[[1]]) %>%
            x = 4.15,
            y = .05,
            label = "Overestimation",
-           size = 3)
+           size = 3) +
+  annotate(geom = "text",
+           x = 2.5,
+           y = 0.008,
+           label = "No Estimation Error",
+           size = 2.5,
+           angle = 270)
   
 ```
 
 ```{r}
 #| label: tbl-contrasts
 #| include: true
-#| tbl-cap: Pairwise comparisons. SO = Standard Orientation, IO = Inverted Orientation. The interaction is driven by the non-additive nature of combining point size and contrast decay functions, and the only nonsignificant contrast is found when incongruent decay functions are compared.
+#| tbl-cap: Pairwise comparisons. TO = Typical Orientation, IO = Inverted Orientation. The interaction is driven by the non-additive nature of combining point size and contrast decay functions, and the only nonsignificant contrast is found when incongruent decay functions are compared.
 
 table_df <- contrasts_extract(model) %>%
   mutate(p.value = scales::pvalue(p.value)) %>%
   rename("\\textit{p}" = "p.value") %>%
   mutate('Contrast' = recode(Contrast,
-         "S I - I I" = "SO Size x IO Contrast <-> IO Size x IO Contrast",
-         "S I - S S" = "SO Size x IO Contrast <-> SO Size x SO Contrast",
-         "S I - I S" = "SO Size x IO Contrast <-> IO Size x SO Contrast",
-         "I I - S S" = "IO Size x IO Contrast <-> SO Size x SO Contrast",
-         "I I - I S" = "IO Size x IO Contrast <-> IO Size x SO Contrast",
-         "S S - I S" = "SO Size x SO Contrast <-> IO Size x SO Contrast"))
+         "S I - I I" = "TO Size x IO Contrast <-> IO Size x IO Contrast",
+         "S I - S S" = "TO Size x IO Contrast <-> TO Size x TO Contrast",
+         "S I - I S" = "TO Size x IO Contrast <-> IO Size x TO Contrast",
+         "I I - S S" = "IO Size x IO Contrast <-> TO Size x TO Contrast",
+         "I I - I S" = "IO Size x IO Contrast <-> IO Size x TO Contrast",
+         "S S - I S" = "TO Size x TO Contrast <-> IO Size x TO Contrast"))
 
 kable(table_df, booktabs = TRUE, digits = c(0,2,3), escape = FALSE)
 ```
@@ -1344,7 +1382,7 @@ plot_error_bars_function(size_and_contrast_exp_tidy %>%
 
 ```{r}
 #| label: additional-analyses
-#| eval: !expr params$eval_models
+#| eval: true
 #| cache: !expr params$eval_models
 
 lit_model <- lmer(add.terms(formula(model), "literacy"),
@@ -1366,6 +1404,11 @@ training_model <- lmer(add.terms(formula(model), "half"),
                        data = size_and_contrast_exp_tidy)
 
 anova_results(training_model, model)
+
+timing_model <- lmer(add.terms(formula(model), "trials.thisN"),
+                     data = size_and_contrast_exp_tidy)
+
+anova_results(timing_model, model)
 ```
 
 ## Additional Analyses {#sec-add-analyses}
@@ -1380,9 +1423,53 @@ We did find a significant effect of training ($\chi^2$(`r in_paren(training_mode
 `r printnum(training_model.Chisq)`, *p* `r printp(training_model.p, add_equals = TRUE)`),
 with participants rating correlation .01 lower during the second half. This may imply
 that having more recently viewed the four training plots described in @sec-gen-procedure
-increased participants' estimates of correlation. While this 
-effect is statistically significant, further discussion of the effects of training
-on correlation perception in scatterplots is outside the scope of the present work.
+increased participants' estimates of correlation. To analyse the potential variability
+of participant responses in more detail, we build a model including trial number. As
+the presentation of experimental stimuli were randomised separately for each participant,
+this allows us to examine responses purely as a function of *when* they were made.
+We find a significant effect of trial number on participant's errors ($\chi^2$(`r in_paren(timing_model.df)`) = 
+`r printnum(timing_model.Chisq)`, *p* `r printp(timing_model.p, add_equals = TRUE)`).
+@fig-time-plot shows participants' unsigned mean errors in correlation estimation
+against trial number. Variability in error, as represented by the ribbon in @fig-time-plot,
+stabilises quickly and remains stable for most of the experiment, only widening again
+around trial number 170. We suggest that this is a result of participants knowing
+that they were coming to the end of the experiment and being less vigilant as a result.
+Regardless of its significance, we do not consider this effect large enough to warrant
+further analysis, although future work will take into account potential effects
+of experimental length.
+
+```{r}
+#| label: fig-time-plot
+#| include: true
+#| out-width: 100%
+#| fig-asp: 0.4
+#| fig-cap: Comparing mean errors in correlation estimation by trial number. Points represent unsigned mean errors for each trial number. The plotted line is the locally estimated smoothed curve, with the ribbon representing standard errors.
+
+size_and_contrast_exp_tidy %>%
+  drop_na() %>%
+  group_by(trials.thisN) %>%
+  summarise(sd = sd(abs(difference)), mean = mean(abs(difference))) %>%
+  ggplot(aes(x = trials.thisN, y = mean)) +
+  geom_point(alpha = 0.4, shape = 16) +
+  geom_smooth(se = T, span = 0.5, colour = "black", size = 0.7,) +
+  scale_x_continuous(breaks = seq(0,180, by = 20), limits = c(0, 180)) +
+  #scale_y_continuous(breaks = seq(0, 0.15, by = 0.02, limts = c(0, 0.15))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_vline(xintercept = 90, linetype = 2) +
+  geom_vline(xintercept = 180, linetype = 2) +
+  labs(x = "Trial Number",
+       y = "Unsigned Mean Error") +
+  annotate("text",
+           x = 45,
+           y = 0.145,
+           label = "1st Half") +
+    annotate("text",
+           x = 135,
+           y = 0.145,
+           label = "2nd Half") +
+  theme() +
+  theme_ggdist()
+```
 
 # Discussion {#sec-discussion}
 
@@ -1391,7 +1478,7 @@ decay provides evidence that these functions interact
 in non-additive ways. In addition, we provide further confirmatory evidence of what has been found
 previously. Namely, that while manipulations of both point size and contrast
 have significant effects, the effect of changing point size is stronger, and that
-while we can influence correlation estimates in either direction, standard
+while we can influence correlation estimates in either direction, typical
 orientation manipulations are more powerful than inverted ones [@strain_2023; @strain_2023b].
 As one would expect, we also see an effect of orientation congruency on the extent
 to which a manipulation can bias correlation estimates. 
@@ -1419,16 +1506,18 @@ provide recommendations to visualization designers and researchers:
 ## Combining Manipulations {#sec-combining}
 
 @fig-emm-plot and @fig-diff-error-bars-plot show how, on average, 
-the combination of standard orientation size and contrast decay functions
+the combination of typical orientation size and contrast decay functions
 has resulted in an overestimation of *r* for the majority of values.
 While this does not directly solve the underestimation problem, it does demonstrate
 that with regards to using point size and contrast to bias viewer's estimates
 of correlation in scatterplots, there would appear to be few limitations. If we
 can over-correct correlation estimates, then we certainly have the ability to
-correct appropriately. The issue here is not one of our *ability* to change people's perceptions, but of *tuning* the use of these visual factors to be able to change people's perceptions in systematic
-ways. We explore what further work would need to be done to do this in @sec-future-work.
-Combining inverted size and contrast decay functions also had the predicted effect
-in this case, producing the lowest and least accurate estimates of correlation.
+correct appropriately. The issue here is not one of our *ability* to change 
+people's perceptions, but of *tuning* the use of these visual factors to be able
+to change people's perceptions in systematic ways. We explore what further 
+work would need to be done to do this in @sec-future-work. Combining inverted 
+size and contrast decay functions also had the predicted effect in this case,
+producing the lowest and least accurate estimates of correlation.
 Combining inverted manipulations did not, however, significantly change the shape
 of the estimation curve (see @fig-diff-error-bars-plot). In addition to interacting
 non-additively, the effects we observe operate differently depending on the direction
@@ -1438,7 +1527,7 @@ in *r* estimation error between the two incongruent conditions. Despite the size
 being more powerful with regards to influencing correlation estimates, the fact
 that this power depends on the direction the function is set causes incongruent
 functions to act against each other in ways we would not expect. Indeed, the 
-incongruent condition that used a standard orientation size decay function did 
+incongruent condition that used a typical orientation size decay function did 
 exhibit lower mean error than the one using inverted orientation size decay (see @fig-diff-error-bars-plot),
 however in each case the contrast decay appears to have blunted the power of the
 size decay function to the extent that the difference in errors is not statistically
@@ -1452,11 +1541,11 @@ precision increases with the objective *r* value [@rensink_2010; @rensink_2012; 
 functions similar to the ones used here [@strain_2023; @strain_2023b] has found
 that in some cases, precision in *r* estimation is *constant* across the range of
 *r* values investigated. For example, the use of a size decay function, whether
-using standard/inverted orientation non-linear functions or a linear decay
+using typical/inverted orientation non-linear functions or a linear decay
 function, results in **no** change in *r* estimation precision [@strain_2023b].
 When contrast is used in the same ways, only an inverted decay function **does not**
 exhibit the conventional increase in precision with *r*. In the present work,
-precision in *r* estimation increased whenever a standard orientation contrast
+precision in *r* estimation increased whenever a typical orientation contrast
 decay function was used. We suggest this is part of the moderating effect of 
 the point contrast decay function on the size decay function; the visual character
 of scatterplots with high *r* values that use the size decay function eliminates
@@ -1552,7 +1641,7 @@ the potential for overstated conclusions.
 Using a contrast decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the underestimation
 curve (see @fig-underestimation-curve), but slightly biases *r* estimates up to
-partially correct for the underestimation observed with standard scatterplots [@strain_2023].
+partially correct for the underestimation observed with normal scatterplots [@strain_2023].
 Importantly, it also preserves the increase in correlation estimation precision 
 that we would expect to find during correlation estimation tasks. Using the size
 decay function in isolation has a more dramatic effect. The shape of the estimation
@@ -1692,7 +1781,7 @@ the severity of the effect in question. Additionally, we used a constant and a s
 with the size decay manipulation to ensure our points were visible. These values
 could also be changed. Aside from changing aspects of equation 1, there are other equations
 that could be used, including ones that take into account objective *r* value to
-change the values used to set point size or contrast. The present work opens the door
+change the values used to set point size or contrast. The present study opens the door
 for this future work, as it provides the necessary additional data to 
 previous experiments using only size [@strain_2023b] or contrast [@strain_2023] decay functions.
 Further testing of these manipulations in isolation and combination using

@@ -567,14 +567,14 @@ slopes <- data_with_resid %>%
   mutate(slope_inverted = (1 + (0.25)^ my_residuals)-1) %>%
   mutate(slope_inverted_floored = pmax(0.1,(1+(0.25)^my_residuals)-1)) 
   
-plot_example_function <- function (data, size, contrast, title) {
+plot_example_function <- function (data, size, opacity, title) {
   
 set.seed(1234)
   
   ggplot(data, aes(x = V1, y = V2)) +
   scale_size_identity() +
   geom_point(aes(size = 2*(size + 0.1),
-                 alpha = contrast),
+                 alpha = opacity),
              shape = 16)  +
   theme_classic() +
   theme(axis.text = element_blank(),
@@ -790,14 +790,14 @@ the idea that viewers are using an aspect of scatterplot shape to judge correlat
 or some measure of what has been termed *dot entropy* [@yang_2023], again considered a candidate
 visual proxy for correlation judgements [@rensink_2017; @rensink_2022].
 
-Recent work investigating the use of decay functions that change point size or contrast
+Recent work investigating the use of decay functions that change point size or opacity
 in scatterplots as a function of residual distance provide evidence for 
 both point density and salience/perceptual weighting being drivers of correlation perception.
-The use of an inverted contrast decay function [@strain_2023], such that the contrast of a point
+The use of an inverted opacity decay function [@strain_2023], such that the opacity of a point
 decreased the closer it was to the regression line, resulted in significantly
-lower and less accurate correlation estimates compared to uniformly full-contrast plots
-with the same overall shape. This finding suggests that the lower contrast in the
-center of the scatterplot biased viewers' perceptions down. When point contrast
+lower and less accurate correlation estimates compared to uniformly full-opacity plots
+with the same overall shape. This finding suggests that the lower opacity in the
+center of the scatterplot biased viewers' perceptions down. When point opacity
 or size are reduced as a function of distance from the regression line 
 [@strain_2023; @strain_2023b], viewers rate correlation as significantly higher
 and are significantly more accurate. This supports a low-level data salience
@@ -864,7 +864,7 @@ ggplot(data, aes(x = x, y = y)) +
 #| label: fig-alpha-examples
 #| include: true
 #| out-width: "50%"
-#| fig-cap: Demonstrating the effects of different alpha values on point contrast.
+#| fig-cap: Demonstrating the effects of different alpha values on point opacity
 #| fig-height: 2
 #| fig-align: "left"
 
@@ -905,13 +905,13 @@ make any attempt to adopt a formal definition of contrast; instead we
 report the alpha value used. Given that our work aims to improve correlation perception
 without removing data from the scatterplot, we also incorporate point visibility testing 
 (see @sec-VT). Informal point visibility piloting suggested that our smallest,
-lowest contrast points had very low visibility. We therefore implemented an alpha = 0.2 floor
+lowest opacity points had very low visibility. We therefore implemented an alpha = 0.2 floor
 for these points, which we judged as conferring a sufficient level of point visibility.
 
-Previous work has found that lowering the contrast of *all* 
+Previous work has found that lowering the opacity of *all* 
 scatterplot points relative to the background can increase the level of
-underestimation error relative to full contrast, and that lowering point
-contrast *as a function of distance from the regression line* is able to bias
+underestimation error relative to full opacity, and that lowering point
+opacity *as a function of distance from the regression line* is able to bias
 correlation estimates upwards to partially correct for the underestimation 
 observed [@strain_2023]. Evidence suggests point salience/perceptual weighting or
 spatial uncertainty as drivers for this effect. Lower stimulus contrast is
@@ -922,6 +922,14 @@ to mechanistic accounts of both salience/perceptual weighting and spatial uncert
 predicting results in the same direction, previous work [@strain_2023] has 
 been unable to determine the extent to which each is responsible for the 
 observed reduction in correlation estimation error.
+
+Micallef et al. [@micallef_2017] also found that "merging, dark dots" optimally
+support correlation estimation; despite only changing point opacity in a *uniform*
+manner, the sheer number of points used for the scatterplots in that study result
+in points that appear similar to those that reduce opacity as a function of residual
+error [@strain_2023]. Given that this technique has been shown to produce more accurate
+correlation estimates as compared to unadjusted scatterplots, this may explain
+the results of the optimization system employed in Micallef et al. [@micallef_2017]
 
 ## Point Size {#sec-point-size}
 
@@ -952,12 +960,12 @@ our hypotheses.
 ## Hypotheses
 
 We present a single experiment based on established effects of 
-adjusting point size and point contrast. In our study,
+adjusting point size and point opacity In our study,
 we combine previously independently tested point size and point
-contrast decay functions in both typical orientation (contrast/size is reduced
-with residual magnitude) and inverted orientation (contrast/size is increased with
+opacity decay functions in both typical orientation (opacity/size is reduced
+with residual magnitude) and inverted orientation (opacity/size is increased with
 residual magnitude). Throughout we refer to *congruent* and *incongruent* conditions
-with respect to the combination of orientations of size and contrast decay functions.
+with respect to the combination of orientations of size and opacity decay functions.
 Note that the use of this terminology is unrelated to the concept of redundant encoding
 [@nothelfer_2017]. We hypothesize that: (H1) an increased reduction in correlation estimation error will be
 observed when congruent typical orientation decay functions are used; (H2) the use of 
@@ -1009,7 +1017,7 @@ there were no deviations from them.
 ## Modeling {#sec-gen-modelling}
 
 We use linear mixed effects models to model the relationships
-between the combination of size and contrast decay
+between the combination of size and opacity decay
 functions and participants' errors in correlation estimates. Models such as these
 allow us to compare differences in our IV across the full range of participant 
 responses, as opposed to relying purely on aggregate data, as in ANOVA. These models also afford us 
@@ -1036,10 +1044,10 @@ facilitates optimal performance on correlation estimation tasks [@micallef_2017]
 Scatterplots were generated as 1000 x 1000 pixel .png images,
 and were scaled up or down according to a participant's monitor such that they
 always occupied the same proportion of the screen. We used equation 1 to map residuals 
-to size and contrast values:
+to size and opacity values:
 
 \begin{equation}
-  point_{size/contrast} = 1 - b^{residual}
+  point_{size/opacity} = 1 - b^{residual}
 \end{equation}
 
 When adjusting point size, we further transform values
@@ -1051,7 +1059,7 @@ inverse around the identity line of the underestimation curve reported in previo
 work [@rensink_2017; @strain_2023; @strain_2023b]. We acknowledge that there
 may be other, more suitable values of *b*, however extensive testing of these is
 outside the scope of the present work. We used this equation in typical and inverted
-orientation forms applied to point size and contrast in a factorial 2 x 2 design.
+orientation forms applied to point size and opacity in a factorial 2 x 2 design.
 Examples of the stimuli used can be seen in @fig-examples.
 
 ```{r}
@@ -1065,11 +1073,11 @@ Examples of the stimuli used can be seen in @fig-examples.
 example_plots_L <- ggarrange(plot_example_function(slopes,
                                         (1-slopes$slope_0.25),
                                         (1-slopes$slope_0.25),
-                                        "Typical Orientation Size\nTypical Orientation Contrast"),
+                                        "Typical Orientation Size\nTypical Orientation Opacity"),
                    plot_example_function(slopes,
                                          (1-slopes$slope_inverted),
                                          (1-slopes$slope_inverted),
-                                         "Inverted Orientation Size\nInverted Orientation Contrast"), nrow = 1) +
+                                         "Inverted Orientation Size\nInverted Orientation Opacity"), nrow = 1) +
   annotate(geom = "text",
            label = "Congruent Plots",
            x = 0.5,
@@ -1094,11 +1102,11 @@ example_plots_L <- ggarrange(plot_example_function(slopes,
 example_plots_R <- ggarrange(plot_example_function(slopes,
                                          (1-slopes$slope_inverted),
                                          (1-slopes$slope_0.25),
-                                         "Inverted Orientation Size\nTypical Orientation Contrast"),
+                                         "Inverted Orientation Size\nTypical Orientation Opacity"),
                    plot_example_function(slopes,
                                          (1-slopes$slope_0.25),
                                          (1-slopes$slope_inverted),
-                                         "Typical Orientation Size\nInverted Orientation Contrast"), nrow = 1)+
+                                         "Typical Orientation Size\nInverted Orientation Opacity"), nrow = 1)+
   annotate(geom = "text",
            label = "Incongruent Plots",
            x = 0.5,
@@ -1125,7 +1133,7 @@ ggarrange(example_plots_L, example_plots_R, nrow = 1)
 
 ## Point Visibility Testing {#sec-VT}
 
-Discussions about the size and contrast of particular scatterplot points are inherently
+Discussions about the size and opacity of particular scatterplot points are inherently
 difficult in the context of online, crowdsourced experiments; controlling the devices
 participants use to participate in these kinds of experiments, beyond insisting on laptop
 or desktop computers, is impossible. While this may result in a lack of consistency
@@ -1133,18 +1141,18 @@ in scatterplot point sizes, luminances, or contrast ratios between participants,
 that are more resilient to different viewing contexts than traditional lab-based 
 experimental work. In addition to measures
 implemented to ensure high quality participant data (see @sec-crowdsourcing), it is also key that we do not
-inadvertently remove data from scatterplots by including points whose size or contrast
+inadvertently remove data from scatterplots by including points whose size or opacity
 renders them invisible. We therefore included point visibility testing to check this. Participants
 viewed six scatterplots that were made up of a certain number of points between 2 and 7. These points
-were of the same size and contrast as the smallest and lowest contrast points used
+were of the same size and opacity as the smallest and lowest opacity points used
 in the experimental items. Participants were asked to enter in a textbox how many points
 were present. Participants scored an average of
 `r printnum(VT$mean_VT_perc_correct)`% ($SD$ = `r printnum(VT$sd_VT_perc_correct)`%).
-Despite our use of the contrast floor detailed in @sec-transparency-and-contrast,
-it is clear that some of our small, low contrast points were not reliably visible, most likely
+Despite our use of the opacity floor detailed in @sec-transparency-and-contrast,
+it is clear that some of our small, low opacity points were not reliably visible, most likely
 due to low contrast between the point and background, as previous work [@strain_2023b] 
 found point visibility largely invariant to size. We suggest this is due to differences in
-monitor specifications between participants. In reality minimum visible size and contrast
+monitor specifications between participants. In reality minimum visible size and opacity
 would need to be calibrated on a per-monitor basis. We also include performance on the point
 visibility test as a fixed effect in @sec-add-analyses.
 
@@ -1205,7 +1213,7 @@ contains a discussion of the time taken to complete the experiment.
 ## Design {#sec-design}
 
 We used a fully repeated-measures 2 x 2 factorial design. Each participant
-saw each combination of size and contrast decay function plots for a total of 180
+saw each combination of size and opacity decay function plots for a total of 180
 experimental items. Participants viewed these experimental items, along with 6
 attention check items, in a fully randomized order. All experimental code, materials,
 and instructions are hosted at (link removed for anon).
@@ -1215,13 +1223,13 @@ and instructions are hosted at (link removed for anon).
 All analyses were conducted using R (version `r paste0(R.version$major, ".", R.version$minor)`). 
 Deviation coding was used for each of the experimental factors. We used the **buildmer** and
 **lme4** (version 1.1-34 [@lme4]) packages to build a linear mixed effects model where the difference
-between objective and rated *r* value was predicted by the size and contrast decay
+between objective and rated *r* value was predicted by the size and opacity decay
 functions used. Semi-partial R^2^ was calculated using the **r2glmm** package 
 (version 0.1.2 [@r2glmm]). The **emmeans** package (version 1.8.8 [@emmeans])
-was used to calculate pairwise comparisons between levels of the size and contrast decay factor.
+was used to calculate pairwise comparisons between levels of the size and opacity decay factor.
 
 Our first two hypotheses were fully supported in this experiment. The combination of 
-typical orientation size and contrast decay functions produced the most accurate estimates of
+typical orientation size and opacity decay functions produced the most accurate estimates of
 correlation, although this also resulted in a large over-correction and consequent
 overestimation for many values of *r* (see @fig-diff-error-bars-plot). Our second hypothesis was also 
 supported; the combination of inverted size and inverted opacity decay functions
@@ -1279,18 +1287,18 @@ make_sig_table(model)
 ```
 
 A likelihood ratio test revealed that the model including point size
-and contrast decay conditions as fixed effects explained significantly more variance
+and opacity decay conditions as fixed effects explained significantly more variance
 than the null ($\chi^2$(`r in_paren(model.df)`) = 
 `r printnum(model.Chisq)`, *p* `r printp(model.p, add_equals = TRUE)`). There
-were significant fixed effects of size decay and contrast decay, as well
+were significant fixed effects of size decay and opacity decay, as well
 as a significant interaction between the two. The experimental model has random intercepts for items
 and participants, and a random slope for the size decay factor with regards to participants.
 Due both to our use of a linear mixed model with an interaction
-term, and our lack of a comparative baseline condition (i.e no size or contrast function used),
+term, and our lack of a comparative baseline condition (i.e no size or opacity function used),
 we do not report a traditional measure of effect size. Instead we report the amounts of variance
 explained by each fixed effect term and the interaction term as semi-partial
 R^2^ [@nakagawa_2013], which can be see in @tbl-sig along with all model statistics.
-Pairwise comparisons between levels of the size and contrast decay factor can be seen
+Pairwise comparisons between levels of the size and opacity decay factor can be seen
 in @tbl-contrasts.
 
 ```{r}
@@ -1298,22 +1306,22 @@ in @tbl-contrasts.
 #| include: true
 #| fig-asp: 0.4
 #| out-width: "100%"
-#| fig-cap: Estimated marginal means for each combination of size and contrast decay conditions, including asymptotic lower and upper confidence intervals.
+#| fig-cap: Estimated marginal means for each combination of size and opacity decay conditions, including asymptotic lower and upper confidence intervals.
 
 as_tibble(emmeans(model, pairwise ~ size * opacity)[[1]]) %>%
   mutate("size" = recode(size,
                          "S" = "Typical Orientation Size",
                          "I" = "Inverted Orientation Size"),
           "opacity" = recode(opacity,
-                         "S" = "Typical Orientation Contrast",
-                         "I" = "Inverted Orientation Contrast")) %>%
+                         "S" = "Typical Orientation Opacity",
+                         "I" = "Inverted Orientation Opacity")) %>%
   ggplot(aes(x = reorder(size:opacity, emmean), y = emmean*-1)) +
   geom_point(size = 1.75) +
   geom_pointrange(aes(ymin = asymp.LCL*-1, ymax = asymp.UCL*-1)) +
   scale_x_discrete(labels = ~ gsub(":", "\n", .x)) +
   theme_ggdist() + 
   labs(y = "Estimated Marginal Mean of Error",
-       x = " Size : Contrast") +
+       x = " Size : Opacity") +
   theme(axis.text = element_text(size = 7),
         axis.title = element_text(size = 8)) +
   coord_flip() +
@@ -1372,7 +1380,7 @@ kable(table_df, booktabs = TRUE, digits = c(0,2,3), escape = FALSE)
 #| label: fig-diff-error-bars-plot
 #| include: true
 #| out-width: 100%
-#| fig-cap: Plots showing how participants' correlation estimation errors change as a function of the *r* value for each combination of size and contrast decay factors. Overestimation occurs above the dashed line.
+#| fig-cap: Plots showing how participants' correlation estimation errors change as a function of the *r* value for each combination of size and opacity decay factors. Overestimation occurs above the dashed line.
 #| fig-asp: 1
 
 plot_error_bars_function(size_and_opacity_exp_tidy %>%
@@ -1480,7 +1488,7 @@ size_and_opacity_exp_tidy %>%
 The finding of a significant interaction between point size and opacity
 decay provides evidence that these functions interact
 in non-additive ways. In addition, we provide further confirmatory evidence of what has been found
-previously. Namely, that while manipulations of both point size and contrast
+previously. Namely, that while manipulations of both point size and opacity
 have significant effects, the effect of changing point size is stronger, and that
 while we can influence correlation estimates in either direction, typical
 orientation manipulations are more powerful than inverted ones [@strain_2023; @strain_2023b].
@@ -1488,13 +1496,13 @@ As one would expect, we also see an effect of orientation congruency on the exte
 to which a manipulation can bias correlation estimates. 
 The lack of support for our third hypothesis, that there would be a
 difference in correlation estimates between incongruent conditions, was surprising
-given the greater strength of the size channel relative to contrast demonstrated
+given the greater strength of the size channel relative to opacity demonstrated
 in previous work [@strain_2023; @strain_2023b], although this may be a facet of the non-additive
-interaction between size and contrast manipulations we found. Despite the lack of support for
+interaction between size and opacity manipulations we found. Despite the lack of support for
 this hypothesis, we did find that the size decay channel explained more variance (.104)
-in our model than contrast decay (.087) was able to.
+in our model than opacity decay (.087) was able to.
 
-Taking into account the present work, which manipulates point size and contrast
+Taking into account the present work, which manipulates point size and opacity
 together, and previous work manipulating the same visual features in isolation, we 
 provide recommendations to visualization designers and researchers:
 
@@ -1503,9 +1511,9 @@ provide recommendations to visualization designers and researchers:
  the size decay function, as previous work [@strain_2023b] has shown it to produce the
  most accurate correlation estimates in this range.
  - Outside of this range, and with the same caveats in place, designers may wish
- to implement the contrast decay function; while its effect on correlation estimation
+ to implement the opacity decay function; while its effect on correlation estimation
  is small, it does significantly increase estimation accuracy.
- - There exists a combination of size and contrast decay functions that produces
+ - There exists a combination of size and opacity decay functions that produces
  accurate correlation estimates while maintaining the increased *r* estimation
  precision that we would expect to see with high *r* values. Finding this will require
  extensive future testing.
@@ -1513,17 +1521,17 @@ provide recommendations to visualization designers and researchers:
 ## Combining Manipulations {#sec-combining}
 
 @fig-emm-plot and @fig-diff-error-bars-plot show how, on average, 
-the combination of typical orientation size and contrast decay functions
+the combination of typical orientation size and opacity decay functions
 has resulted in an overestimation of *r* for the majority of values.
 While this does not directly solve the underestimation problem, it does demonstrate
-that with regards to using point size and contrast to bias viewer's estimates
+that with regards to using point size and opacity to bias viewer's estimates
 of correlation in scatterplots, there would appear to be few limitations. If we
 can over-correct correlation estimates, then we certainly have the ability to
 correct appropriately. The issue here is not one of our *ability* to change 
 people's perceptions, but of *tuning* the use of these visual factors to be able
 to change people's perceptions in systematic ways. We explore what further 
 work would need to be done to do this in @sec-future-work. Combining inverted 
-size and contrast decay functions also had the predicted effect in this case,
+size and opacity decay functions also had the predicted effect in this case,
 producing the lowest and least accurate estimates of correlation.
 Combining inverted manipulations did not, however, significantly change the shape
 of the estimation curve (see @fig-diff-error-bars-plot). In addition to interacting
@@ -1536,7 +1544,7 @@ that this power depends on the direction the function is set causes incongruent
 functions to act against each other in ways we would not expect. Indeed, the 
 incongruent condition that used a typical orientation size decay function did 
 exhibit lower mean error than the one using inverted orientation size decay (see @fig-diff-error-bars-plot),
-however in each case the contrast decay appears to have blunted the power of the
+however in each case the opacity decay appears to have blunted the power of the
 size decay function to the extent that the difference in errors is not statistically
 significant.
 
@@ -1544,29 +1552,29 @@ significant.
 
 Much previous work is consistent with regards to the finding that *r* estimation
 precision increases with the objective *r* value [@rensink_2010; @rensink_2012; @rensink_2014;
-@rensink_2017; @doherty_2007]. More recent work using size or contrast decay
+@rensink_2017; @doherty_2007]. More recent work using size or opacity decay
 functions similar to the ones used here [@strain_2023; @strain_2023b] has found
 that in some cases, precision in *r* estimation is *constant* across the range of
 *r* values investigated. For example, the use of a size decay function, whether
 using typical/inverted orientation non-linear functions or a linear decay
 function, results in **no** change in *r* estimation precision [@strain_2023b].
-When contrast is used in the same ways, only an inverted decay function **does not**
+When opacity is used in the same ways, only an inverted decay function **does not**
 exhibit the conventional increase in precision with *r*. In the present work,
-precision in *r* estimation increased whenever a typical orientation contrast
+precision in *r* estimation increased whenever a typical orientation opacity
 decay function was used. We suggest this is part of the moderating effect of 
-the point contrast decay function on the size decay function; the visual character
+the point opacity decay function on the size decay function; the visual character
 of scatterplots with high *r* values that use the size decay function eliminates
 the usual increase in precision we would expect, however the introduction of the 
-contrast decay function normalizes this to the point where precision is restored.
+opacity decay function normalizes this to the point where precision is restored.
 
-## Contributions of Size and Contrast Decay
+## Contributions of Size and Opacity Decay
 
 Incorporating data from previous work [@strain_2023; @strain_2023b] that used 
 similar decay functions and experimental paradigms allows us to compare estimation
-curves for size decay and contrast decay in isolation and in combination. 
+curves for size decay and opacity decay in isolation and in combination. 
 @fig-est-multi-exp shows correlation estimation error curves in the present experiment,
 in two previous studies that used decay functions applied solely to size or
-contrast, and with no manipulations present. This final plot is averaged over
+opacity, and with no manipulations present. This final plot is averaged over
 conditions from previous work.
 
 ```{r}
@@ -1574,7 +1582,7 @@ conditions from previous work.
 #| include: true
 #| out-width: "100%"
 #| fig-asp: 0.33
-#| fig-cap: Plotting *r* estimation error against the objective *r* value for contrast and size decay in isolation from previous work, and for their combination in the present study. The dashed line represents 0 error in correlation estimation, and standard deviations are shown as error bars. Note that these curves have been smoothed. Overestimation occurs above the dashed line. The plot line for the plot without manipulation was averaged from previous work.
+#| fig-cap: Plotting *r* estimation error against the objective *r* value for opacity and size decay in isolation from previous work, and for their combination in the present study. The dashed line represents 0 error in correlation estimation, and standard deviations are shown as error bars. Note that these curves have been smoothed. Overestimation occurs above the dashed line. The plot line for the plot without manipulation was averaged from previous work.
 
 # dataframe containing values from previous work and the current is included
 # in the data folder 
@@ -1627,15 +1635,15 @@ plotting_df <- rbind(all_exp_df, standard_alone)
 
 ```
 
-Using contrast decay alone significantly changes the amplitude of estimation error curve,
-while leaving its shape intact (compare contrast manipulated and no manipulation
+Using opacity decay alone significantly changes the amplitude of estimation error curve,
+while leaving its shape intact (compare opacity manipulated and no manipulation
 present plots in @fig-est-multi-exp). Using size decay, however, changes both
 the amplitude and shape of the underestimation error curve (compare size manipulated
-and no manipulation present plots in @fig-est-multi-exp). When size and contrast decay functions are combined,
+and no manipulation present plots in @fig-est-multi-exp). When size and opacity decay functions are combined,
 however, the shape appears similar to that of size alone. This is in line with
 previous work establishing size as a more potent channel for the manipulation
 of correlation estimates [@strain_2023b]. It would appear that the addition of
-the contrast curve moderates the effect of the size curve as a function of the
+the opacity curve moderates the effect of the size curve as a function of the
 objective *r* value itself, without affecting the general shape of the curve.
 In the following, we briefly discuss the effects of each manipulation in isolation
 and the manipulations together, before making a case for the inclusion of both
@@ -1645,7 +1653,7 @@ that the analyses include data from several separate experiments. We argue that
 their methodological similarities render comparison appropriate, but we acknowledge
 the potential for overstated conclusions.
 
-Using a contrast decay function in isolation has a small effect on
+Using a opacity decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the underestimation
 curve (see @fig-underestimation-curve), but slightly biases *r* estimates up to
 partially correct for the underestimation observed with normal scatterplots [@strain_2023].
@@ -1659,9 +1667,9 @@ change direction, leading to a more severe underestimation. In the middle range
 of *r* values, however, the size decay function in isolation performs well. One option
 for tuning correlation estimation using these functions would therefore be to 
 use the size decay function in isolation for mid-range values of *r* (0.3 to 0.75), and to use the
-contrast decay function in isolation outside of this range. Used together however,
+opacity decay function in isolation outside of this range. Used together however,
 we can exploit the power of the size decay function whilst maintaining
-the expected increase in precision with *r* that the contrast decay function confers.
+the expected increase in precision with *r* that the opacity decay function confers.
 It is clear that the simple combination we have used in the present study does
 not represent an ideal tuning, as participants overestimated *r* for the majority of 
 values, but this confirms that there is the scope to bias *r* estimates significantly
@@ -1676,7 +1684,7 @@ that each manipulation and the combination of manipulations has on correlation e
 any manipulation present. We term this 'power'. The dotted line on each plot
 shows the power we would need to correct for the standard underestimation
 curve (see @fig-underestimation-curve). As we can see, size alone provides the 
-closest to the requirement, and combining size and contrast decay functions 
+closest to the requirement, and combining size and opacity decay functions 
 results in gross overestimation.
 
 ```{r}
@@ -1734,7 +1742,7 @@ necessary_power <- curves %>% select(c("my_rs", "standard_curve")) %>%
 
 ## Mechanisms {#sec-mechs}
 
-Previous work has made the case for contrast and size decay acting primarily 
+Previous work has made the case for opacity and size decay acting primarily 
 through salience/perceptual weighting, with the caveat that spatial certainty
 also plays a small part in the mechanism behind size decay [@strain_2023; @strain_2023b].
 Our results are supportive of this notion, with our highest and lowest estimates 
@@ -1756,17 +1764,17 @@ of the width of a probability distribution to affect correlation estimates.
 Firstly, our participants' performance on the point visibility task was poor, with
 an average score of only `r printnum(VT$mean_VT_perc_correct)`%. 
 It is clear from these results that for many participants, the smallest and lowest
-contrast points we used were simply not visible, although it would seem that this
+opacity points we used were simply not visible, although it would seem that this
 low visibility had no significant effect on correlation estimates. Regardless,
 for many of our participants it will have appeared that we were removing data, which
 violates our intended aims. Solving this would require a by-participant calibration
-of point size and point contrast, which is beyond the scope of our current methodology,
+of point size and point opacity, which is beyond the scope of our current methodology,
 as it would require stimuli to be fully re-generated for each participant. We aim to
 implement this in the future, although it would require a different platform,
 such as a server-based instance of Rstudio being run in the background to re-generate
 stimuli per a calibration task completed by the participant. We cannot say precisely
 what proportions of the observed effect in the typical orientation congruent condition
-were due to size or contrast decay. We can conclude that these effects are not linearly
+were due to size or opacity decay. We can conclude that these effects are not linearly
 additive, but must suggest further work to define precisely each of their contributions.
 Lastly, while our provision of dot pitch measurements is a step in the right direction,
 the present methodology leaves us unable to comment on variability in participants'
@@ -1781,11 +1789,11 @@ scatterplots [@sher_2017]. Due to evidence that correlation perception in negati
 correlation scatterplots functions symmetrically to that of positively correlation
 scatterplots [@harrison_2014], the techniques we have implemented in the current
 paper may be used in future (in a symmetrical manner) to address the overestimation bias.
-We found evidence that the influence of size and contrast decay functions changes according to the direction
+We found evidence that the influence of size and opacity decay functions changes according to the direction
 they are operating in, meaning experimental work with negatively correlated
 scatterplots would be required, and results may differ significantly from
 findings related to the underestimation of correlation in positively
-correlated scatterplots. For size and contrast decay in the present work we used equation 1. 
+correlated scatterplots. For size and opacity decay in the present work we used equation 1. 
 Given our finding that the combination is non-additive, there are a multitude of adjustable parameters 
 for each decay function that require rigorous testing
 in order to produce concrete values of the contributions of each. The value of 
@@ -1795,9 +1803,9 @@ the severity of the effect in question. Additionally, we used a constant and a s
 with the size decay manipulation to ensure our points were visible. These values
 could also be changed. Aside from changing aspects of equation 1, there are other equations
 that could be used, including ones that take into account objective *r* value to
-change the values used to set point size or contrast. The present study opens the door
+change the values used to set point size or opacity The present study opens the door
 for this future work, as it provides the necessary additional data to 
-previous experiments using only size [@strain_2023b] or contrast [@strain_2023] decay functions.
+previous experiments using only size [@strain_2023b] or opacity [@strain_2023] decay functions.
 Further testing of these manipulations in isolation and combination using
 different decay function parameters will allow researchers to build a more complete
 picture of how these visual features impact correlation estimation, and how we

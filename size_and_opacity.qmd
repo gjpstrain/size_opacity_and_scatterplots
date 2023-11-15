@@ -831,7 +831,7 @@ as_tibble(my_rs) %>%
 
 ```
 
-## Transparency and Contrast {#sec-transparency-and-contrast}
+## Opacity and Contrast {#sec-transparency-and-contrast}
 
 ```{r}
 #| label: fig-overplotting-examples
@@ -895,8 +895,8 @@ our stimuli. This package uses an alpha parameter, or the level of linear
 interpolation [@stone_2008] between foreground and background pixel values, to
 set the opacity of points. As demonstrated in @fig-alpha-examples, an alpha value
 of 0 or 1 results in no interpolation and rendering of either the background or foreground
-pixel values respectively. Psychophysical definitions of perceived contrast are
-often based on what is being presented (e.g., gratings) or are modeled to take
+pixel values respectively. Regarding the related concept of contrast, psychophysical
+definitions are often based on what is being presented (e.g., gratings) or are modeled to take
 into account aspects of human vision (e.g., visibility limits) [@zuffi_2007].
 Our crowdsourced methodology gives us no control over the exact luminances
 of our stimuli, only over the *relative* differences in luminance between scatterplot
@@ -914,7 +914,8 @@ underestimation error relative to full opacity, and that lowering point
 opacity *as a function of distance from the regression line* is able to bias
 correlation estimates upwards to partially correct for the underestimation 
 observed [@strain_2023]. Evidence suggests point salience/perceptual weighting or
-spatial uncertainty as drivers for this effect. Lower stimulus contrast is
+spatial uncertainty as drivers for this effect. Lower stimulus contrast, which for
+isolated stimuli is functionally identical to lower opacity, is 
 associated with lower salience [@healey_2011], can bias judgements of mean point
 position [@hong_2021], increase error in positional judgements [@wehrhahn_1990],
 and can result in greater uncertainty in speed perception [@champion_2017]. Due 
@@ -1776,17 +1777,31 @@ stimuli per a calibration task completed by the participant. We cannot say preci
 what proportions of the observed effect in the typical orientation congruent condition
 were due to size or opacity decay. We can conclude that these effects are not linearly
 additive, but must suggest further work to define precisely each of their contributions.
-Lastly, while our provision of dot pitch measurements is a step in the right direction,
+While our provision of dot pitch measurements is a step in the right direction,
 the present methodology leaves us unable to comment on variability in participants'
 viewing contexts. We argue that our large sample size and recruitment from lay 
 populations renders our conclusions resilient to changes in viewing contexts,
 but further, in-person, experimentation is planned to confirm this.
 
+Channels such as point size, colour, opacity, and shape have been used in past
+work to encode variables beyond the standard two in scatterplots [@hong_2021; smart_2019].
+While we focus purely on correlation estimation in the present work, we acknowledge
+that the use of our techniques is likely to lead to incorrect interpretations. Given that
+there is evidence that size, shape, and colour and not separable scatterplot 
+characteristics [@smart_2019], there is danger that viewers might
+assume that variations in point size/opacity correspond to additional
+encoded variables. As our contribution in this paper
+is providing evidence that changing certain visual features in systematic ways can
+alter viewer's estimates of correlation, we do not consider this to be problematic.
+If charts such as the ones we have presented were to appear in the wild, however,
+it would be necessary to clarify that such charts were designed to aid in the
+rapid interpretation of correlation (and *only* this).
+
 ## Future Work {#sec-future-work}
 
 There is evidence that viewers overestimate correlation in negatively correlated
 scatterplots [@sher_2017]. Due to evidence that correlation perception in negatively
-correlation scatterplots functions symmetrically to that of positively correlation
+correlation scatterplots functions symmetrically to that of positively correlated
 scatterplots [@harrison_2014], the techniques we have implemented in the current
 paper may be used in future (in a symmetrical manner) to address the overestimation bias.
 We found evidence that the influence of size and opacity decay functions changes according to the direction

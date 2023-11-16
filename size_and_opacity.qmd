@@ -172,7 +172,7 @@ if (!params$eval_models){ lazyload_cache_dir("size_and_opacity_cache/pdf") }
 # load in data file
 # Need higher guess_max so that read_csv() guesses column types correctly 
 
-additive_anon <- read_csv("data/additive_data.csv", guess_max = 18001)
+additive_anon <- read_csv("data/additive_data.csv", guess_max = 17000)
 ```
 
 ```{r}
@@ -227,11 +227,13 @@ visual_thresholds <- anon_file %>%
 monitor_information <- anon_file %>%
   mutate(height = dplyr::lead(height)) %>%
   mutate(res_height = res_width*0.5625,
-         width = height*0.5625,
+         width = height*1.777,
          dot_pitch = ((sqrt(height^2 + width^2))/(sqrt(res_height^2 + res_width^2))) * 25.4) %>%
          select(c("dot_pitch",
                   "participant",
-                  "res_width")) %>%
+                  "res_width",
+                  "width",
+                  "height")) %>%
   na.omit()
   
 # extract demographic information
@@ -945,7 +947,7 @@ reported [@strain_2023b]. Evidence points towards a salience-dominant mechanism
 in the latter case, albeit with a small effect of spatial uncertainty. There
 is evidence that larger stimulus size is associated with lower levels of spatial certainty [@alais_2004],
 but higher levels of salience [@healey_2011], results which are supported by evidence 
-that reaction times are slower to smaller stimuli [@gramazio_2014]. The predicted effects of these drivers
+that reaction times are slower to smaller stimuli [@gramazio_2014; @osaka_1976]. The predicted effects of these drivers
 on correlation perception work in the opposite direction to one another, which
 has allowed researchers to provide evidence for the mechanistic
 dominance of salience when point size is used. When an inverted 
@@ -956,7 +958,10 @@ spatial uncertainty brought on by larger exterior points caused a perceptual dow
 during correlation estimation, which is in line with work suggesting our perceptual
 systems make robust use of visuo-spatial information [@strain_2023b; @warren_2002; @warren_2004].
 This effect was small, meaning we do not take it into account when making
-our hypotheses.
+our hypotheses. Our hypotheses do, however, take into account the wider 
+body of evidence regarding stimulus size, perception, and attention. Hong et al.
+[@hong_2021] found that larger stimuli could significantly alter perceptions
+of global scatterplot means.
 
 ## Hypotheses
 
@@ -1039,13 +1044,19 @@ than work using fewer values. Scatterplot points were generated based on
 bivariate normal distributions with standard deviations of 1 in each direction. 
 In line with evidence that performance on correlation perception tasks is stable
 as long as the number of points remains above 48 [@rensink_2014] and to facilitate
-comparison with previous studies [@strain_2023; strain_2023b]. Each scatterplot was
+comparison with previous studies [@strain_2023; @strain_2023b]. Each scatterplot was
 created and presented using a 1:1 aspect ratio, in line with findings that this
 facilitates optimal performance on correlation estimation tasks [@micallef_2017].
 Scatterplots were generated as 1000 x 1000 pixel .png images,
 and were scaled up or down according to a participant's monitor such that they
-always occupied the same proportion of the screen. We used equation 1 to map residuals 
-to size and opacity values:
+always occupied the same proportion of the screen. Note that this results in reductions
+in scatterplot point size in proportion with the size of the plot itself. Variations 
+in size such as these have been associated with lower levels of colour/opacity discriminability
+[@szafir_2018; @smart_2019]. As we only allowed participants to complete
+the experiment on a desktop/laptop computer, we do not consider the variations in
+point size to be worthy of extended  discussion, especially as there was 
+little reported effect of dot pitch (see @sec-add-analyses).
+We used equation 1 to map residuals to size and opacity values:
 
 \begin{equation}
   point_{size/opacity} = 1 - b^{residual}
@@ -1787,15 +1798,15 @@ Channels such as point size, colour, opacity, and shape have been used in past
 work to encode variables beyond the standard two in scatterplots [@hong_2021; smart_2019].
 While we focus purely on correlation estimation in the present work, we acknowledge
 that the use of our techniques is likely to lead to incorrect interpretations. Given that
-there is evidence that size, shape, and colour and not separable scatterplot 
-characteristics [@smart_2019], there is danger that viewers might
+there is evidence that size, shape, and colour and not entirely separable scatterplot 
+features [@smart_2019], there is the danger that viewers might
 assume that variations in point size/opacity correspond to additional
 encoded variables. As our contribution in this paper
 is providing evidence that changing certain visual features in systematic ways can
 alter viewer's estimates of correlation, we do not consider this to be problematic.
 If charts such as the ones we have presented were to appear in the wild, however,
 it would be necessary to clarify that such charts were designed to aid in the
-rapid interpretation of correlation (and *only* this).
+rapid and intuitive interpretation of correlation (and *only* this).
 
 ## Future Work {#sec-future-work}
 

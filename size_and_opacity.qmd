@@ -785,7 +785,7 @@ when *r* = 1 and increases as *r* approaches 0 [@rensink_2017]. This quantity is
 to the type of visualization used, and is functionally similar to that found
 in work mentioned above [@cleveland_1982; @meyer_1997; @yang_2019]. Regarding
 scatterplots, this quantity represents the average distance between data points
-and the regression line, and can be thought of as representing the width
+and the regression line, and can be thought of as closely approximating the width
 of the underlying probability distribution. Findings from a convolutional neural network that
 learnt visual features related to correlation perception also support 
 the idea that viewers are using an aspect of scatterplot shape to judge correlation,
@@ -1201,7 +1201,7 @@ presented series of 180 experimental trials and were asked to
 use a slider to estimate correlation to 2 decimal places. Participants were
 asked to complete each trial as quickly and accurately as possible, although there
 were no time limits on individual trials. Visual masks were displayed 
-for 1 second in between each scatterplot presentation. Interspersed were 6 attention check trials which explicitly
+for 1 second in between each scatterplot presentations. Interspersed were 6 attention check trials which explicitly
 asked participants to ignore the scatterplot and set the slider to 0 or 1.
 
 ## Participants {#sec-participants}
@@ -1829,8 +1829,12 @@ the severity of the effect in question. Additionally, we used a constant and a s
 with the size decay manipulation to ensure our points were visible. These values
 could also be changed. Aside from changing aspects of equation 1, there are other equations
 that could be used, including ones that take into account objective *r* value to
-change the values used to set point size or opacity The present study opens the door
-for this future work, as it provides the necessary additional data to 
+change the values used to set point size or opacity. Future experimental work may
+use the major axis through the probability ellipse instead of the regression line
+as a baseline to change point sizes and opacities; evidence that people often report
+the major axis when asked to visually estimate the regression line [@collyer_1990]
+suggests that this may produce a different pattern of results from those seen here.
+The present study opens the door for this future work, as it provides the necessary additional data to 
 previous experiments using only size [@strain_2023b] or opacity [@strain_2023] decay functions.
 Further testing of these manipulations in isolation and combination using
 different decay function parameters will allow researchers to build a more complete

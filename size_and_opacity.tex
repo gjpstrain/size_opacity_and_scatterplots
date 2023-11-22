@@ -490,13 +490,13 @@ is indifferent to the type of visualization used, and is functionally
 similar to that found in work mentioned above
 \citep{cleveland_1982, meyer_1997, yang_2019}. Regarding scatterplots,
 this quantity represents the average distance between data points and
-the regression line, and can be thought of as representing the width of
-the underlying probability distribution. Findings from a convolutional
-neural network that learnt visual features related to correlation
-perception also support the idea that viewers are using an aspect of
-scatterplot shape to judge correlation, or some measure of what has been
-termed \emph{dot entropy} \citep{yang_2023}, again considered a
-candidate visual proxy for correlation judgements
+the regression line, and can be thought of as closely approximating the
+width of the underlying probability distribution. Findings from a
+convolutional neural network that learnt visual features related to
+correlation perception also support the idea that viewers are using an
+aspect of scatterplot shape to judge correlation, or some measure of
+what has been termed \emph{dot entropy} \citep{yang_2023}, again
+considered a candidate visual proxy for correlation judgements
 \citep{rensink_2017, rensink_2022}.
 
 Recent work investigating the use of decay functions that change point
@@ -628,12 +628,12 @@ small effect of spatial uncertainty. There is evidence that larger
 stimulus size is associated with lower levels of spatial certainty
 \citep{alais_2004}, but higher levels of salience \citep{healey_2011},
 results which are supported by evidence that reaction times are slower
-to smaller stimuli \citep{gramazio_2014}. The predicted effects of these
-drivers on correlation perception work in the opposite direction to one
-another, which has allowed researchers to provide evidence for the
-mechanistic dominance of salience when point size is used. When an
-inverted size decay function is used such that smaller points are
-located nearer the regression line, correlation estimation is
+to smaller stimuli \citep{gramazio_2014, osaka_1976}. The predicted
+effects of these drivers on correlation perception work in the opposite
+direction to one another, which has allowed researchers to provide
+evidence for the mechanistic dominance of salience when point size is
+used. When an inverted size decay function is used such that smaller
+points are located nearer the regression line, correlation estimation is
 significantly more accurate than when all points are the same size
 \citep{strain_2023b}. In this case it was suggested that the higher
 spatial uncertainty brought on by larger exterior points caused a
@@ -641,7 +641,11 @@ perceptual downweighting during correlation estimation, which is in line
 with work suggesting our perceptual systems make robust use of
 visuo-spatial information
 \citep{strain_2023b, warren_2002, warren_2004}. This effect was small,
-meaning we do not take it into account when making our hypotheses.
+meaning we do not take it into account when making our hypotheses. Our
+hypotheses do, however, take into account the wider body of evidence
+regarding stimulus size, perception, and attention. Hong et al.
+\citep{hong_2021} found that larger stimuli could significantly alter
+perceptions of global scatterplot means.
 
 \hypertarget{hypotheses}{%
 \subsection{Hypotheses}\label{hypotheses}}
@@ -745,14 +749,21 @@ bivariate normal distributions with standard deviations of 1 in each
 direction. In line with evidence that performance on correlation
 perception tasks is stable as long as the number of points remains above
 48 \citep{rensink_2014} and to facilitate comparison with previous
-studies {[}\citet{strain_2023}; strain\_2023b{]}. Each scatterplot was
-created and presented using a 1:1 aspect ratio, in line with findings
-that this facilitates optimal performance on correlation estimation
-tasks \citep{micallef_2017}. Scatterplots were generated as 1000 x 1000
-pixel .png images, and were scaled up or down according to a
-participant's monitor such that they always occupied the same proportion
-of the screen. We used equation 1 to map residuals to size and opacity
-values:
+studies \citep{strain_2023, strain_2023b}. Each scatterplot was created
+and presented using a 1:1 aspect ratio, in line with findings that this
+facilitates optimal performance on correlation estimation tasks
+\citep{micallef_2017}. Scatterplots were generated as 1000 x 1000 pixel
+.png images, and were scaled up or down according to a participant's
+monitor such that they always occupied the same proportion of the
+screen. Note that this results in reductions in scatterplot point size
+in proportion with the size of the plot itself. Variations in size such
+as these have been associated with lower levels of colour/opacity
+discriminability \citep{szafir_2018, smart_2019}. As we only allowed
+participants to complete the experiment on a desktop/laptop computer, we
+do not consider the variations in point size to be worthy of extended
+discussion, especially as there was little reported effect of dot pitch
+(see Section~\ref{sec-add-analyses}). We used equation 1 to map
+residuals to size and opacity values:
 
 \begin{equation}
   point_{size/opacity} = 1 - b^{residual}
@@ -824,8 +835,8 @@ Participants were asked to hold a standard size credit/debit/ID card
 (ISO/IEC 7810 ID-1) up to their screen and resize an on-screen card
 until their sizes matched. We assumed a widescreen 16:9 aspect ratio and
 calculated dot pitch based on these measurements. Mean dot pitch was
-0.34mm (\(SD\) = 0.05), corresponding to a physical on-screen size of
-4.39mm on a 1920 x 1080 pixel monitor for the smallest points displayed.
+0.60mm (\(SD\) = 0.09), corresponding to a physical on-screen size of
+7.80mm on a 1920 x 1080 pixel monitor for the smallest points displayed.
 We include analyses with dot pitch as a fixed effect in
 Section~\ref{sec-add-analyses}.
 
@@ -852,7 +863,7 @@ randomly presented series of 180 experimental trials and were asked to
 use a slider to estimate correlation to 2 decimal places. Participants
 were asked to complete each trial as quickly and accurately as possible,
 although there were no time limits on individual trials. Visual masks
-were displayed for 1 second in between each scatterplot presentation.
+were displayed for 1 second in between each scatterplot presentations.
 Interspersed were 6 attention check trials which explicitly asked
 participants to ignore the scatterplot and set the slider to 0 or 1.
 
@@ -1348,14 +1359,19 @@ decay manipulation to ensure our points were visible. These values could
 also be changed. Aside from changing aspects of equation 1, there are
 other equations that could be used, including ones that take into
 account objective \emph{r} value to change the values used to set point
-size or opacity The present study opens the door for this future work,
-as it provides the necessary additional data to previous experiments
-using only size \citep{strain_2023b} or opacity \citep{strain_2023}
-decay functions. Further testing of these manipulations in isolation and
-combination using different decay function parameters will allow
-researchers to build a more complete picture of how these visual
-features impact correlation estimation, and how we can exploit them to
-correct for well-known biases.
+size or opacity. Future experimental work may use the major axis through
+the probability ellipse instead of the regression line as a baseline to
+change point sizes and opacities; evidence that people often report the
+major axis when asked to visually estimate the regression line
+\citep{collyer_1990} suggests that this may produce a different pattern
+of results from those seen here. The present study opens the door for
+this future work, as it provides the necessary additional data to
+previous experiments using only size \citep{strain_2023b} or opacity
+\citep{strain_2023} decay functions. Further testing of these
+manipulations in isolation and combination using different decay
+function parameters will allow researchers to build a more complete
+picture of how these visual features impact correlation estimation, and
+how we can exploit them to correct for well-known biases.
 
 Through this work we also provide an example of an experimental
 framework that we argue should be employed to test a wider range of data

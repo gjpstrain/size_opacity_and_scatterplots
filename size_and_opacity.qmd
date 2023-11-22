@@ -154,10 +154,11 @@ library(conflicted)
 library(ggtext)
 library(r2glmm)
 library(grid)
+library(DescTools)
 
 # fix conflicts now using the conflicted package
 
-conflicts_prefer(dplyr::select(), dplyr::filter(), lme4::lmer())
+conflicts_prefer(dplyr::select(), dplyr::filter(), lme4::lmer(), DescTools::AUC())
 ```
 
 ```{r}
@@ -1717,6 +1718,27 @@ facet_order <- c("opacity_power", "size_power", "additive_power")
 necessary_power <- curves %>% select(c("my_rs", "standard_curve")) %>%
   mutate(mirror = my_rs-standard_curve)
 
+# find integrals
+
+int_df <- left_join(curves, necessary_power, by = "my_rs")
+
+area_opac <- round(AUC(int_df$my_rs, int_df$mirror) - AUC(int_df$my_rs, int_df$opacity_power), 3)
+
+area_size <- round(AUC(int_df$my_rs, int_df$mirror) - AUC(int_df$my_rs, int_df$size_power), 3)
+
+area_combined <- round(AUC(int_df$my_rs, int_df$mirror) - AUC(int_df$my_rs, int_df$additive_power), 3)
+
+# create area labels for facetted plots
+
+area_labels <- tibble(
+  label = c(substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1)==a), list(a = area_opac)),
+            substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1)==a), list(a = area_size)),
+            substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1)==a), list(a = area_combined))),
+  factor = c("opacity_power", "size_power", "additive_power"),
+)
+
+# create plot
+
  curves %>% 
     drop_na() %>%
     select(c("opacity_power",
@@ -1734,9 +1756,9 @@ necessary_power <- curves %>% select(c("my_rs", "standard_curve")) %>%
     theme_ggdist() +
     scale_y_continuous(breaks = seq(-0.4,1, 0.2)) +
     theme(strip.text = element_text(size = 6, margin = margin(1,0,1,0, "mm")), aspect.ratio = 1,
-        axis.text = element_text(size = 7),
-        axis.title.x = ggtext::element_markdown(size = 8),
-        axis.title.y = ggtext::element_markdown(size = 8)) +
+          axis.text = element_text(size = 7),
+          axis.title.x = ggtext::element_markdown(size = 8),
+          axis.title.y = ggtext::element_markdown(size = 8)) +
     facet_wrap(factor ~., ncol = 5, labeller = labeller(factor = labels_power)) +
     labs(x = "Objective *r*",
          y = "Power") +
@@ -1748,7 +1770,12 @@ necessary_power <- curves %>% select(c("my_rs", "standard_curve")) %>%
                 colour = "black",
                 size = 0.4) +
     xlim(0.2,1) +
-    ylim(-0.1,0.3)
+    ylim(-0.1,0.3) +
+    geom_text(data = area_labels,
+              parse = T,
+              mapping = aes(x = -Inf, y = -Inf, label = gsub("^.(.*).$", "\\1", str_replace(label, "expression", ""))),
+              hjust = -0.1,
+              vjust = -.4)
 
 ```
 

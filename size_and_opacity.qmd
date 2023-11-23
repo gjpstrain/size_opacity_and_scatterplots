@@ -591,8 +591,8 @@ set.seed(1234)
 
 # Introduction
 
-Scatterplots are common bivariate representations of data. They have been extensively
-studied and are used for a variety of communicative tasks. While most commonly
+Scatterplots are used for a wide variety of communicative tasks, both in academic and
+non-academic contexts. This ubiquity means they have been studied extensively. While most commonly
 used to represent linear correlation, or the degree of linear relatedness between two variables,
 they can also be used to represent different groups (clustering), to aid in the detection of outliers,
 to characterize distributions, and to visualize non-linear correlations.
@@ -607,11 +607,11 @@ being simple to study [@rensink_2014].
 While our interpretations of scatterplots are generally similar, the accuracy of those
 interpretations is generally poor. In particular, viewers systematically underestimate the correlation
 displayed in positively correlated scatterplots. This holds true for direct 
-estimation tasks [@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989;
-@collyer_1990; @meyer_1992], and estimation via bisection tasks [@rensink_2017], and
+estimation [@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989;
+@collyer_1990; @meyer_1992] and estimation via bisection tasks [@rensink_2017], and
 is particularly pronounced for values of *r* between 0.2 and 0.6. The COVID-19 pandemic demonstrated
-that even outside of professional/office environments, lay 
-populations are now expected to be able to use and accurately interpret data
+that it is no long only professionals/scientists/office workers that are expected to 
+use data visualizations. Lay populations are now expected to be able to use and accurately interpret data
 visualizations on a daily basis [@bbc_2022]. This expectation confers a responsibility on
 the part of data visualization designers to design in such ways that people with
 limited  statistical or graph training can expect to be able to correctly interpret
@@ -748,7 +748,7 @@ correlation estimation performance by using a combination of a bisection task, i
 plot until its correlation is halfway between that of two reference plots, and a
 staircase method task designed to produce Just Noticeable Differences between scatterplots such
 that their correlations are discriminable 75% of the time [@rensink_2010]. This work has
-also been extended to incorporate Bayesian data analysis [@kay_2015], which also 
+been extended to incorporate Bayesian data analysis [@kay_2015], which also 
 identifies scatterplots as particularly suited for 
 the communication of correlation [@li_2010; @harrison_2014]. The current experiment
 adapts techniques from previous work [@strain_2023; @strain_2023b] and 
@@ -767,7 +767,7 @@ what low level perceptual mechanisms may be at play. It is possible that
 there are different contributory perceptual mechanisms operating at different levels
 based on task-specific differences such as viewing time or levels of graph-training.
 Increasing the *x* and *y* scales on a scatterplot such that the size of the point
-cloud decreases [@cleveland_1982] is associated with an increase in a viewer's
+cloud decreases [@cleveland_1982] is associated with an increase in viewers'
 judgements of bivariate association, despite the objective *r* value remaining the same. It
 was suggested in this case that viewers may have been using the area of the point
 cloud to judge association. Later work found that the relationship between objective
@@ -777,7 +777,7 @@ of the idea that people use visual features to judge correlation provides
 evidence that, among three other equally predictive features, the standard deviation of all perpendicular
 distances from scatterplot points to the regression line is predictive of performance
 on a correlation estimation task [@yang_2019]. Equations for both discrimination
-and magnitude estimation of *r* in scatterplots include a quantity that is small
+and magnitude estimation of correlation include a quantity that is small
 when *r* = 1 and increases as *r* approaches 0 [@rensink_2017]. This quantity is indifferent
 to the type of visualization used, and is functionally similar to that found
 in work mentioned above [@cleveland_1982; @meyer_1997; @yang_2019]. Regarding
@@ -785,7 +785,7 @@ scatterplots, this quantity represents the average distance between data points
 and the regression line, and can be thought of as closely approximating the width
 of the underlying probability distribution. Findings from a convolutional neural network that
 learnt visual features related to correlation perception also support 
-the idea that viewers are using an aspect of scatterplot shape to judge correlation,
+the idea that viewers are using an aspect of the shape of the point cloud to judge correlation,
 or some measure of what has been termed *dot entropy* [@yang_2023], again considered a candidate
 visual proxy for correlation judgements [@rensink_2017; @rensink_2022].
 
@@ -838,7 +838,7 @@ as_tibble(my_rs) %>%
 #| fig-asp: 0.75
 #| out-width: "50%"
 #| fig-align: "left"
-#| fig-cap: Adjusting point opacity to address overplotting. Contrast between the points and the background is full (alpha = 1, L) or low (alpha = .1, R). The dataset used has 40,000 points.
+#| fig-cap: Adjusting point opacity to address overplotting. Contrast between the points and the background is full (alpha = 1, full opacity points, L) or low (alpha = .1, low opacity points, R). The dataset used has 40,000 points.
  
 set.seed(123)
 
@@ -863,7 +863,7 @@ ggplot(data, aes(x = x, y = y)) +
 #| label: fig-alpha-examples
 #| include: true
 #| out-width: "50%"
-#| fig-cap: Demonstrating the effects of different alpha values on point opacity
+#| fig-cap: Demonstrating the effects of different alpha values on point opacity.
 #| fig-height: 2
 #| fig-align: "left"
 
@@ -1520,7 +1520,7 @@ provide recommendations to visualization designers and researchers:
  the size decay function, as previous work [@strain_2023b] has shown it to produce the
  most accurate correlation estimates in this range.
  - Outside of this range, and with the same caveats in place, designers may wish
- to implement the opacity decay function; while its effect on correlation estimation
+ to implement the opacity decay function [@strain_2023]; while its effect on correlation estimation
  is small, it does significantly increase estimation accuracy.
  - There exists a combination of size and opacity decay functions that produces
  accurate correlation estimates while maintaining the increased *r* estimation
@@ -1531,13 +1531,13 @@ provide recommendations to visualization designers and researchers:
 
 @fig-emm-plot and @fig-diff-error-bars-plot show how, on average, 
 the combination of typical orientation size and opacity decay functions
-has resulted in an overestimation of *r* for the majority of values.
+results in an overestimation of *r* for the majority of values.
 While this does not directly solve the underestimation problem, it does demonstrate
 that with regards to using point size and opacity to bias viewer's estimates
 of correlation in scatterplots, there would appear to be few limitations. If we
 can over-correct correlation estimates, then we certainly have the ability to
 correct appropriately. The issue here is not one of our *ability* to change 
-people's perceptions, but of *tuning* the use of these visual factors to be able
+people's perceptions, but of *tuning* the use of these visual features to be able
 to change people's perceptions in systematic ways. We explore what further 
 work would need to be done to do this in @sec-future-work. Combining inverted 
 size and opacity decay functions also had the predicted effect in this case,
@@ -1559,7 +1559,7 @@ significant.
 
 ## Estimation Precision
 
-Much previous work is consistent with regards to the finding that *r* estimation
+Much previous work is consistent regarding the finding that *r* estimation
 precision increases with the objective *r* value [@rensink_2010; @rensink_2012; @rensink_2014;
 @rensink_2017; @doherty_2007]. More recent work using size or opacity decay
 functions similar to the ones used here [@strain_2023; @strain_2023b] has found
@@ -1583,8 +1583,8 @@ similar decay functions and experimental paradigms allows us to compare estimati
 curves for size decay and opacity decay in isolation and in combination. 
 @fig-est-multi-exp shows correlation estimation error curves in the present experiment,
 in two previous studies that used decay functions applied solely to size or
-opacity, and with no manipulations present. This final plot is averaged over
-conditions from previous work.
+opacity, and with no manipulations present. The "no manipulations present"
+plot is averaged over conditions from previous work.
 
 ```{r}
 #| label: fig-est-multi-exp
@@ -1644,14 +1644,14 @@ plotting_df <- rbind(all_exp_df, standard_alone)
 
 ```
 
-Using opacity decay alone significantly changes the amplitude of estimation error curve,
+Using opacity decay alone significantly changes the amplitude of the estimation error curve,
 while leaving its shape intact (compare opacity manipulated and no manipulation
 present plots in @fig-est-multi-exp). Using size decay, however, changes both
 the amplitude and shape of the underestimation error curve (compare size manipulated
 and no manipulation present plots in @fig-est-multi-exp). When size and opacity decay functions are combined,
 however, the shape appears similar to that of size alone. This is in line with
 previous work establishing size as a more potent channel for the manipulation
-of correlation estimates [@strain_2023b]. It would appear that the addition of
+of correlation estimates [@strain_2023b] and positional means [@hong_2021]. It would appear that the addition of
 the opacity curve moderates the effect of the size curve as a function of the
 objective *r* value itself, without affecting the general shape of the curve.
 In the following, we briefly discuss the effects of each manipulation in isolation
@@ -1662,11 +1662,11 @@ that the analyses include data from several separate experiments. We argue that
 their methodological similarities render comparison appropriate, but we acknowledge
 the potential for overstated conclusions.
 
-Using a opacity decay function in isolation has a small effect on
+Using an opacity decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the underestimation
 curve (see @fig-underestimation-curve), but slightly biases *r* estimates up to
 partially correct for the underestimation observed with normal scatterplots [@strain_2023].
-Importantly, it also preserves the increase in correlation estimation precision 
+Importantly, it also preserves the increase in correlation estimation precision with *r*
 that we would expect to find during correlation estimation tasks. Using the size
 decay function in isolation has a more dramatic effect. The shape of the estimation
 curve is altered quite radically, and there is no increase in precision
@@ -1675,8 +1675,8 @@ leading to an overestimation effect, while at high values the curve begins to
 change direction, leading to a more severe underestimation. In the middle range
 of *r* values, however, the size decay function in isolation performs well. One option
 for tuning correlation estimation using these functions would therefore be to 
-use the size decay function in isolation for mid-range values of *r* (0.3 to 0.75), and to use the
-opacity decay function in isolation outside of this range. Used together however,
+use the size decay function alone for mid-range values of *r* (0.3 to 0.75), and to use the
+opacity decay function outside of this range. Used together however,
 we can exploit the power of the size decay function whilst maintaining
 the expected increase in precision with *r* that the opacity decay function confers.
 It is clear that the simple combination we have used in the present study does
@@ -1686,12 +1686,12 @@ using the functions supplied here. Further work would be required to obtain
 precise measures of the contributions of each decay function when they are used together,
 as their combination is not linearly additive. Doing
 this would allow us to tune each function according to both objective *r* value
-and the tuning of the other function to facilitate accurate correlation estimates.
+and the tuning of the other function to facilitate more accurate correlation estimates.
 We can derive new curves that describe the effect
 that each manipulation and the combination of manipulations has on correlation estimates
 (@fig-power-plot) by comparing them to estimates without
 any manipulation present. We term this 'power'. The dotted line on each plot
-shows the power we would need to correct for the standard underestimation
+shows the power that would be needed to correct for the standard underestimation
 curve (see @fig-underestimation-curve). As we can see, size alone provides the 
 closest to the requirement, and combining size and opacity decay functions 
 results in gross overestimation.
@@ -1700,7 +1700,7 @@ results in gross overestimation.
 #| label: fig-power-plot
 #| include: true
 #| out-width: "100%"
-#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be requiredT to correct for the observed underestimation of correlation in scatterplots. The difference in area under the curve between the required and observed power is shown on each plot.
+#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the observed underestimation of correlation in scatterplots. The difference in area under the curve between the required and observed power is shown on each plot.
 
 # dataframe containing values from previous experiments and the current is included
 # in the data folder 
@@ -1779,10 +1779,10 @@ area_labels <- tibble(
 ## Mechanisms {#sec-mechs}
 
 Previous work has made the case for opacity and size decay acting primarily 
-through salience/perceptual weighting, with the caveat that spatial certainty
+through salience/perceptual weighting regarding correlation estimation, with the caveat that spatial certainty
 also plays a small part in the mechanism behind size decay [@strain_2023; @strain_2023b].
 Our results are supportive of this notion, with our highest and lowest estimates 
-being observed in the congruent standard and congruent inverted conditions respectively. These
+being observed in the congruent typical and congruent inverted conditions respectively. These
 findings also support dot density [@yang_2023] and feature-based attentional bias accounts
 [@hong_2021; @sun_2016]. As all of these mechanisms would be expected to operate
 in the same direction, making conclusions about the relative contributions of
@@ -1794,6 +1794,12 @@ regards to the effects of size decay on correlation perception; our results
 neither confirm nor refute this, but instead provide further evidence for
 salience/perceptual weighting/dot density changing participants' perceptions
 of the width of a probability distribution to affect correlation estimates.
+[@hong_2021] found that the inclusion of larger
+or more opaque scatterplot points was able to bias estimates of positional means, but 
+that the relative contributions (weights) of these visual features with regards
+to perception change as a function of the ranges of sizes/opacities used. It is clear
+from this evidence and the present study that the perceptual weights of point size
+and opacity are not the same.
 
 ## Limitations {#sec-limitations}
 
@@ -1831,6 +1837,16 @@ alter viewer's estimates of correlation, we do not consider this to be problemat
 If charts such as the ones we have presented were to appear in the wild, however,
 it would be necessary to clarify that such charts were designed to aid in the
 rapid and intuitive interpretation of correlation (and *only* this).
+
+While we put forward salience as the most likely driver of the effects on correlation
+estimation we observe when using point size/opacity manipulations, the data we have
+gathered do not allow us to comment on the reasons behind the differences in 
+the shapes of the estimation error curves (see @fig-est-multi-exp). The context
+that the manipulation is used in (i.e. the *r* value of the scatterplot) interacts
+with point size and opacity manipulations in complex ways. To understand how point size/opacity
+manipulations operate in more detail, future work may wish to choose fewer *r* values
+and instead vary the type of decay equation/range of sizes/opacities, but
+this is beyond the scope of the current work.
 
 ## Future Work {#sec-future-work}
 

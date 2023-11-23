@@ -1087,9 +1087,9 @@ designers and researchers:
   accurate correlation estimates in this range.
 \item
   Outside of this range, and with the same caveats in place, designers
-  may wish to implement the opacity decay function; while its effect on
-  correlation estimation is small, it does significantly increase
-  estimation accuracy.
+  may wish to implement the opacity decay function \citep{strain_2023};
+  while its effect on correlation estimation is small, it does
+  significantly increase estimation accuracy.
 \item
   There exists a combination of size and opacity decay functions that
   produces accurate correlation estimates while maintaining the
@@ -1103,7 +1103,7 @@ designers and researchers:
 
 Figure~\ref{fig-emm-plot} and Figure~\ref{fig-diff-error-bars-plot} show
 how, on average, the combination of typical orientation size and opacity
-decay functions has resulted in an overestimation of \emph{r} for the
+decay functions results in an overestimation of \emph{r} for the
 majority of values. While this does not directly solve the
 underestimation problem, it does demonstrate that with regards to using
 point size and opacity to bias viewer's estimates of correlation in
@@ -1111,9 +1111,9 @@ scatterplots, there would appear to be few limitations. If we can
 over-correct correlation estimates, then we certainly have the ability
 to correct appropriately. The issue here is not one of our
 \emph{ability} to change people's perceptions, but of \emph{tuning} the
-use of these visual factors to be able to change people's perceptions in
-systematic ways. We explore what further work would need to be done to
-do this in Section~\ref{sec-future-work}. Combining inverted size and
+use of these visual features to be able to change people's perceptions
+in systematic ways. We explore what further work would need to be done
+to do this in Section~\ref{sec-future-work}. Combining inverted size and
 opacity decay functions also had the predicted effect in this case,
 producing the lowest and least accurate estimates of correlation.
 Combining inverted manipulations did not, however, significantly change
@@ -1137,9 +1137,8 @@ is not statistically significant.
 \hypertarget{estimation-precision}{%
 \subsection{Estimation Precision}\label{estimation-precision}}
 
-Much previous work is consistent with regards to the finding that
-\emph{r} estimation precision increases with the objective \emph{r}
-value
+Much previous work is consistent regarding the finding that \emph{r}
+estimation precision increases with the objective \emph{r} value
 \citep{rensink_2010, rensink_2012, rensink_2014, rensink_2017, doherty_2007}.
 More recent work using size or opacity decay functions similar to the
 ones used here \citep{strain_2023, strain_2023b} has found that in some
@@ -1169,8 +1168,8 @@ to compare estimation curves for size decay and opacity decay in
 isolation and in combination. Figure~\ref{fig-est-multi-exp} shows
 correlation estimation error curves in the present experiment, in two
 previous studies that used decay functions applied solely to size or
-opacity, and with no manipulations present. This final plot is averaged
-over conditions from previous work.
+opacity, and with no manipulations present. The ``no manipulations
+present'' plot is averaged over conditions from previous work.
 
 \begin{figure}
 
@@ -1188,7 +1187,7 @@ line for the plot without manipulation was averaged from previous work.}
 
 \end{figure}
 
-Using opacity decay alone significantly changes the amplitude of
+Using opacity decay alone significantly changes the amplitude of the
 estimation error curve, while leaving its shape intact (compare opacity
 manipulated and no manipulation present plots in
 Figure~\ref{fig-est-multi-exp}). Using size decay, however, changes both
@@ -1198,53 +1197,54 @@ Figure~\ref{fig-est-multi-exp}). When size and opacity decay functions
 are combined, however, the shape appears similar to that of size alone.
 This is in line with previous work establishing size as a more potent
 channel for the manipulation of correlation estimates
-\citep{strain_2023b}. It would appear that the addition of the opacity
-curve moderates the effect of the size curve as a function of the
-objective \emph{r} value itself, without affecting the general shape of
-the curve. In the following, we briefly discuss the effects of each
-manipulation in isolation and the manipulations together, before making
-a case for the inclusion of both when tuning scatterplots for
-correlation estimation due to the complementary benefits each confers.
-Throughout the course of this section it should be noted that the
-analyses include data from several separate experiments. We argue that
-their methodological similarities render comparison appropriate, but we
-acknowledge the potential for overstated conclusions.
+\citep{strain_2023b} and positional means \citep{hong_2021}. It would
+appear that the addition of the opacity curve moderates the effect of
+the size curve as a function of the objective \emph{r} value itself,
+without affecting the general shape of the curve. In the following, we
+briefly discuss the effects of each manipulation in isolation and the
+manipulations together, before making a case for the inclusion of both
+when tuning scatterplots for correlation estimation due to the
+complementary benefits each confers. Throughout the course of this
+section it should be noted that the analyses include data from several
+separate experiments. We argue that their methodological similarities
+render comparison appropriate, but we acknowledge the potential for
+overstated conclusions.
 
-Using a opacity decay function in isolation has a small effect on
+Using an opacity decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the
 underestimation curve (see Figure~\ref{fig-underestimation-curve}), but
 slightly biases \emph{r} estimates up to partially correct for the
 underestimation observed with normal scatterplots \citep{strain_2023}.
 Importantly, it also preserves the increase in correlation estimation
-precision that we would expect to find during correlation estimation
-tasks. Using the size decay function in isolation has a more dramatic
-effect. The shape of the estimation curve is altered quite radically,
-and there is no increase in precision with the objective \emph{r} value
-\citep{strain_2023b}. Size decay over-corrects at lower values of
-\emph{r}, leading to an overestimation effect, while at high values the
-curve begins to change direction, leading to a more severe
+precision with \emph{r} that we would expect to find during correlation
+estimation tasks. Using the size decay function in isolation has a more
+dramatic effect. The shape of the estimation curve is altered quite
+radically, and there is no increase in precision with the objective
+\emph{r} value \citep{strain_2023b}. Size decay over-corrects at lower
+values of \emph{r}, leading to an overestimation effect, while at high
+values the curve begins to change direction, leading to a more severe
 underestimation. In the middle range of \emph{r} values, however, the
 size decay function in isolation performs well. One option for tuning
 correlation estimation using these functions would therefore be to use
-the size decay function in isolation for mid-range values of \emph{r}
-(0.3 to 0.75), and to use the opacity decay function in isolation
-outside of this range. Used together however, we can exploit the power
-of the size decay function whilst maintaining the expected increase in
-precision with \emph{r} that the opacity decay function confers. It is
-clear that the simple combination we have used in the present study does
-not represent an ideal tuning, as participants overestimated \emph{r}
-for the majority of values, but this confirms that there is the scope to
-bias \emph{r} estimates significantly using the functions supplied here.
-Further work would be required to obtain precise measures of the
-contributions of each decay function when they are used together, as
-their combination is not linearly additive. Doing this would allow us to
-tune each function according to both objective \emph{r} value and the
-tuning of the other function to facilitate accurate correlation
-estimates. We can derive new curves that describe the effect that each
-manipulation and the combination of manipulations has on correlation
-estimates (Figure~\ref{fig-power-plot}) by comparing them to estimates
-without any manipulation present. We term this `power'. The dotted line
-on each plot shows the power we would need to correct for the standard
+the size decay function alone for mid-range values of \emph{r} (0.3 to
+0.75), and to use the opacity decay function outside of this range. Used
+together however, we can exploit the power of the size decay function
+whilst maintaining the expected increase in precision with \emph{r} that
+the opacity decay function confers. It is clear that the simple
+combination we have used in the present study does not represent an
+ideal tuning, as participants overestimated \emph{r} for the majority of
+values, but this confirms that there is the scope to bias \emph{r}
+estimates significantly using the functions supplied here. Further work
+would be required to obtain precise measures of the contributions of
+each decay function when they are used together, as their combination is
+not linearly additive. Doing this would allow us to tune each function
+according to both objective \emph{r} value and the tuning of the other
+function to facilitate more accurate correlation estimates. We can
+derive new curves that describe the effect that each manipulation and
+the combination of manipulations has on correlation estimates
+(Figure~\ref{fig-power-plot}) by comparing them to estimates without any
+manipulation present. We term this `power'. The dotted line on each plot
+shows the power that would be needed to correct for the standard
 underestimation curve (see Figure~\ref{fig-underestimation-curve}). As
 we can see, size alone provides the closest to the requirement, and
 combining size and opacity decay functions results in gross
@@ -1260,7 +1260,9 @@ overestimation.
 observed when a decay function/combination of decay functions is used
 and what is observed when no manipulation is used. The dashed line
 represents the power that would be required to correct for the observed
-underestimation of correlation in scatterplots.}
+underestimation of correlation in scatterplots. The difference in area
+under the curve between the required and observed power is shown on each
+plot.}
 
 \end{figure}
 
@@ -1268,11 +1270,12 @@ underestimation of correlation in scatterplots.}
 \subsection{Mechanisms}\label{sec-mechs}}
 
 Previous work has made the case for opacity and size decay acting
-primarily through salience/perceptual weighting, with the caveat that
-spatial certainty also plays a small part in the mechanism behind size
-decay \citep{strain_2023, strain_2023b}. Our results are supportive of
-this notion, with our highest and lowest estimates being observed in the
-congruent standard and congruent inverted conditions respectively. These
+primarily through salience/perceptual weighting regarding correlation
+estimation, with the caveat that spatial certainty also plays a small
+part in the mechanism behind size decay
+\citep{strain_2023, strain_2023b}. Our results are supportive of this
+notion, with our highest and lowest estimates being observed in the
+congruent typical and congruent inverted conditions respectively. These
 findings also support dot density \citep{yang_2023} and feature-based
 attentional bias accounts \citep{hong_2021, sun_2016}. As all of these
 mechanisms would be expected to operate in the same direction, making
@@ -1286,7 +1289,13 @@ effects of size decay on correlation perception; our results neither
 confirm nor refute this, but instead provide further evidence for
 salience/perceptual weighting/dot density changing participants'
 perceptions of the width of a probability distribution to affect
-correlation estimates.
+correlation estimates. \citep{hong_2021} found that the inclusion of
+larger or more opaque scatterplot points was able to bias estimates of
+positional means, but that the relative contributions (weights) of these
+visual features with regards to perception change as a function of the
+ranges of sizes/opacities used. It is clear from this evidence and the
+present study that the perceptual weights of point size and opacity are
+not the same.
 
 \hypertarget{sec-limitations}{%
 \subsection{Limitations}\label{sec-limitations}}
@@ -1331,6 +1340,18 @@ consider this to be problematic. If charts such as the ones we have
 presented were to appear in the wild, however, it would be necessary to
 clarify that such charts were designed to aid in the rapid and intuitive
 interpretation of correlation (and \emph{only} this).
+
+While we put forward salience as the most likely driver of the effects
+on correlation estimation we observe when using point size/opacity
+manipulations, the data we have gathered do not allow us to comment on
+the reasons behind the differences in the shapes of the estimation error
+curves (see Figure~\ref{fig-est-multi-exp}). The context that the
+manipulation is used in (i.e.~the \emph{r} value of the scatterplot)
+interacts with point size and opacity manipulations in complex ways. To
+understand how point size/opacity manipulations operate in more detail,
+future work may wish to choose fewer \emph{r} values and instead vary
+the type of decay equation/range of sizes/opacities, but this is beyond
+the scope of the current work.
 
 \hypertarget{sec-future-work}{%
 \subsection{Future Work}\label{sec-future-work}}

@@ -159,6 +159,22 @@ library(DescTools)
 # fix conflicts now using the conflicted package
 
 conflicts_prefer(dplyr::select(), dplyr::filter(), lme4::lmer(), DescTools::AUC())
+
+# create labels vector for use with plotting functions
+
+labels_size_opacity <- c(A = "Typical Orientation Size\nTypical Orientation Opacity",
+                          B = "Inverted Orientation Size\nInverted Orientation Opacity",
+                          X = "Typical Orientation Size\nInverted Orientation Opacity",
+                          Y = "Inverted Orientation Size\nTypical Orientation Opacity")
+
+labels_all_exp <- c(additive_manipulation = "Size and Opacity Manipulated",
+                    opacity_manipulated = "Opacity Manipulated",
+                    size_manipulated = "Size Manipulated",
+                    standard_plot = "No Manipulation Present")
+
+labels_power <- c(size_power = "Size\nPower",
+                  opacity_power = "Opacity\nPower",
+                  additive_power = "Size and Opacity\nCombined Power")
 ```
 
 ```{r}
@@ -461,26 +477,6 @@ plot_error_bars_function <- function(df, measure, l){
     geom_line(formula= x ~ y) +
     xlim(0.2,1)
 }
-```
-
-```{r}
-#| label: labelling-function
-
-# creates labels vector for use with plotting functions
-
-labels_size_opacity <- c(A = "Typical Orientation Size\nTypical Orientation Opacity",
-                          B = "Inverted Orientation Size\nInverted Orientation Opacity",
-                          X = "Typical Orientation Size\nInverted Orientation Opacity",
-                          Y = "Inverted Orientation Size\nTypical Orientation Opacity")
-
-labels_all_exp <- c(additive_manipulation = "Size and Opacity Manipulated",
-                    opacity_manipulated = "Opacity Manipulated",
-                    size_manipulated = "Size Manipulated",
-                    standard_plot = "No Manipulation Present")
-
-labels_power <- c(size_power = "Size\nPower",
-                  opacity_power = "Opacity\nPower",
-                  additive_power = "Size and Opacity\nCombined Power")
 ```
 
 ```{r}
@@ -1704,7 +1700,7 @@ results in gross overestimation.
 #| label: fig-power-plot
 #| include: true
 #| out-width: "100%"
-#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the observed underestimation of correlation in scatterplots.
+#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be requiredT to correct for the observed underestimation of correlation in scatterplots. The difference in area under the curve between the required and observed power is shown on each plot.
 
 # dataframe containing values from previous experiments and the current is included
 # in the data folder 
@@ -1731,9 +1727,9 @@ area_combined <- round(AUC(int_df$my_rs, int_df$mirror) - AUC(int_df$my_rs, int_
 # create area labels for facetted plots
 
 area_labels <- tibble(
-  label = c(substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1)==a), list(a = area_opac)),
-            substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1)==a), list(a = area_size)),
-            substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1)==a), list(a = area_combined))),
+  label = c(substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1) == a), list(a = area_opac)),
+            substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1) == a), list(a = area_size)),
+            substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1) == a), list(a = area_combined))),
   factor = c("opacity_power", "size_power", "additive_power"),
 )
 
@@ -1775,7 +1771,8 @@ area_labels <- tibble(
               parse = T,
               mapping = aes(x = -Inf, y = -Inf, label = gsub("^.(.*).$", "\\1", str_replace(label, "expression", ""))),
               hjust = -0.1,
-              vjust = -.4)
+              vjust = -0.2,
+              size = 3)
 
 ```
 

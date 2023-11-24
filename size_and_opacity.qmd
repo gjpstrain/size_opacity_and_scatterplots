@@ -925,11 +925,11 @@ observed reduction in correlation estimation error.
 
 Micallef et al. [@micallef_2017] also found that "merging, dark dots" optimally
 support correlation estimation; despite only changing point opacity in a *uniform*
-manner, the sheer number of points used for the scatterplots in that study result
-in points that appear similar to those that reduce opacity as a function of residual
-error [@strain_2023]. Given that this technique has been shown to produce more accurate
-correlation estimates as compared to unadjusted scatterplots, this may explain
-the results of the optimization system employed in Micallef et al. [@micallef_2017]
+manner, the sheer number of points used in that study results
+in scatterplots that appear similar to those that reduce opacity as a function of residual
+error [@strain_2023]. That this technique has been shown to produce more accurate
+correlation estimates as compared to unadjusted scatterplots may explain
+the results of the optimization system employed in Micallef et al. [@micallef_2017].
 
 ## Point Size {#sec-point-size}
 
@@ -958,12 +958,14 @@ This effect was small, meaning we do not take it into account when making
 our hypotheses. Our hypotheses do, however, take into account the wider 
 body of evidence regarding stimulus size, perception, and attention. Hong et al.
 [@hong_2021] found that larger stimuli could significantly alter perceptions
-of global scatterplot means.
+of global scatterplot means. Participants' estimates were significantly biased
+towards areas with larger points, especially when a wide range of point sizes 
+were used and there was a high correlation between point sizes and position.
 
 ## Hypotheses
 
 We present a single experiment based on established effects of 
-adjusting point size and point opacity In our study,
+adjusting point size and point opacity. In our study,
 we combine previously independently tested point size and point
 opacity decay functions in both typical orientation (opacity/size is reduced
 with residual magnitude) and inverted orientation (opacity/size is increased with

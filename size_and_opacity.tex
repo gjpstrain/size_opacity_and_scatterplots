@@ -363,32 +363,34 @@ changing point size and opacity in scatterplots.
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Scatterplots are common bivariate representations of data. They have
-been extensively studied and are used for a variety of communicative
-tasks. While most commonly used to represent linear correlation, or the
-degree of linear relatedness between two variables, they can also be
-used to represent different groups (clustering), to aid in the detection
-of outliers, to characterize distributions, and to visualize non-linear
-correlations. Figure~\ref{fig-tasks} contains examples of scatterplots
-optimized for different tasks. There is evidence that people generally
-interpret scatterplots in similar ways \citep{kay_2015}, and that they
-support the interpretation of correlation significantly better than
-competing data visualizations \citep{li_2010}. Rapid interpretation by
-viewers \citep{rensink_2014}, along with low levels of interindividual
-variance render scatterplots particularly suited for experimental work;
-they provide important insights into perception and visualization design
-while being simple to study \citep{rensink_2014}.
+Scatterplots are used for a wide variety of communicative tasks, both in
+academic and non-academic contexts. This ubiquity means they have been
+studied extensively. While most commonly used to represent linear
+correlation, or the degree of linear relatedness between two variables,
+they can also be used to represent different groups (clustering), to aid
+in the detection of outliers, to characterize distributions, and to
+visualize non-linear correlations. Figure~\ref{fig-tasks} contains
+examples of scatterplots optimized for different tasks. There is
+evidence that people generally interpret scatterplots in similar ways
+\citep{kay_2015}, and that they support the interpretation of
+correlation significantly better than competing data visualizations
+\citep{li_2010}. Rapid interpretation by viewers \citep{rensink_2014},
+along with low levels of interindividual variance render scatterplots
+particularly suited for experimental work; they provide important
+insights into perception and visualization design while being simple to
+study \citep{rensink_2014}.
 
 While our interpretations of scatterplots are generally similar, the
 accuracy of those interpretations is generally poor. In particular,
 viewers systematically underestimate the correlation displayed in
 positively correlated scatterplots. This holds true for direct
-estimation tasks
-\citep{strahan_1978, bobko_1979, cleveland_1982, lane_1985, lauer_1989, collyer_1990, meyer_1992},
+estimation
+\citep{strahan_1978, bobko_1979, cleveland_1982, lane_1985, lauer_1989, collyer_1990, meyer_1992}
 and estimation via bisection tasks \citep{rensink_2017}, and is
 particularly pronounced for values of \emph{r} between 0.2 and 0.6. The
-COVID-19 pandemic demonstrated that even outside of professional/office
-environments, lay populations are now expected to be able to use and
+COVID-19 pandemic demonstrated that it is no long only
+professionals/scientists/office workers that are expected to use data
+visualizations. Lay populations are now expected to be able to use and
 accurately interpret data visualizations on a daily basis
 \citep{bbc_2022}. This expectation confers a responsibility on the part
 of data visualization designers to design in such ways that people with
@@ -447,17 +449,16 @@ adjust a plot until its correlation is halfway between that of two
 reference plots, and a staircase method task designed to produce Just
 Noticeable Differences between scatterplots such that their correlations
 are discriminable 75\% of the time \citep{rensink_2010}. This work has
-also been extended to incorporate Bayesian data analysis
-\citep{kay_2015}, which also identifies scatterplots as particularly
-suited for the communication of correlation
-\citep{li_2010, harrison_2014}. The current experiment adapts techniques
-from previous work \citep{strain_2023, strain_2023b} and combines them
-to further push the envelope of how systematically adjusting visual
-features in scatterplots can radically alter people's perceptions of
-correlation. For this reason we use the same direct estimation paradigm
-to collect responses. This paradigm allows for a large number of
-judgements to be collected, and is simple enough that participants need
-little to no training.
+been extended to incorporate Bayesian data analysis \citep{kay_2015},
+which also identifies scatterplots as particularly suited for the
+communication of correlation \citep{li_2010, harrison_2014}. The current
+experiment adapts techniques from previous work
+\citep{strain_2023, strain_2023b} and combines them to further push the
+envelope of how systematically adjusting visual features in scatterplots
+can radically alter people's perceptions of correlation. For this reason
+we use the same direct estimation paradigm to collect responses. This
+paradigm allows for a large number of judgements to be collected, and is
+simple enough that participants need little to no training.
 
 \hypertarget{sec-drivers}{%
 \subsection{Drivers of Correlation Perception}\label{sec-drivers}}
@@ -471,7 +472,7 @@ contributory perceptual mechanisms operating at different levels based
 on task-specific differences such as viewing time or levels of
 graph-training. Increasing the \emph{x} and \emph{y} scales on a
 scatterplot such that the size of the point cloud decreases
-\citep{cleveland_1982} is associated with an increase in a viewer's
+\citep{cleveland_1982} is associated with an increase in viewers'
 judgements of bivariate association, despite the objective \emph{r}
 value remaining the same. It was suggested in this case that viewers may
 have been using the area of the point cloud to judge association. Later
@@ -483,8 +484,8 @@ features to judge correlation provides evidence that, among three other
 equally predictive features, the standard deviation of all perpendicular
 distances from scatterplot points to the regression line is predictive
 of performance on a correlation estimation task \citep{yang_2019}.
-Equations for both discrimination and magnitude estimation of \emph{r}
-in scatterplots include a quantity that is small when \emph{r} = 1 and
+Equations for both discrimination and magnitude estimation of
+correlation include a quantity that is small when \emph{r} = 1 and
 increases as \emph{r} approaches 0 \citep{rensink_2017}. This quantity
 is indifferent to the type of visualization used, and is functionally
 similar to that found in work mentioned above
@@ -494,9 +495,9 @@ the regression line, and can be thought of as closely approximating the
 width of the underlying probability distribution. Findings from a
 convolutional neural network that learnt visual features related to
 correlation perception also support the idea that viewers are using an
-aspect of scatterplot shape to judge correlation, or some measure of
-what has been termed \emph{dot entropy} \citep{yang_2023}, again
-considered a candidate visual proxy for correlation judgements
+aspect of the shape of the point cloud to judge correlation, or some
+measure of what has been termed \emph{dot entropy} \citep{yang_2023},
+again considered a candidate visual proxy for correlation judgements
 \citep{rensink_2017, rensink_2022}.
 
 Recent work investigating the use of decay functions that change point
@@ -539,8 +540,8 @@ viewers are most and least accurate.}
 
 \caption{\label{fig-overplotting-examples}Adjusting point opacity to
 address overplotting. Contrast between the points and the background is
-full (alpha = 1, L) or low (alpha = .1, R). The dataset used has 40,000
-points.}
+full (alpha = 1, full opacity points, L) or low (alpha = .1, low opacity
+points, R). The dataset used has 40,000 points.}
 
 \end{figure}
 
@@ -549,7 +550,7 @@ points.}
 \includegraphics[width=0.5\textwidth,height=\textheight]{size_and_opacity_files/figure-pdf/fig-alpha-examples-1.pdf} \hfill{}
 
 \caption{\label{fig-alpha-examples}Demonstrating the effects of
-different alpha values on point opacity}
+different alpha values on point opacity.}
 
 \end{figure}
 
@@ -604,12 +605,12 @@ reduction in correlation estimation error.
 Micallef et al. \citep{micallef_2017} also found that ``merging, dark
 dots'' optimally support correlation estimation; despite only changing
 point opacity in a \emph{uniform} manner, the sheer number of points
-used for the scatterplots in that study result in points that appear
-similar to those that reduce opacity as a function of residual error
-\citep{strain_2023}. Given that this technique has been shown to produce
-more accurate correlation estimates as compared to unadjusted
-scatterplots, this may explain the results of the optimization system
-employed in Micallef et al. \citep{micallef_2017}
+used in that study results in scatterplots that appear similar to those
+that reduce opacity as a function of residual error \citep{strain_2023}.
+That this technique has been shown to produce more accurate correlation
+estimates as compared to unadjusted scatterplots may explain the results
+of the optimization system employed in Micallef et al.
+\citep{micallef_2017}.
 
 \hypertarget{sec-point-size}{%
 \subsection{Point Size}\label{sec-point-size}}
@@ -645,7 +646,10 @@ meaning we do not take it into account when making our hypotheses. Our
 hypotheses do, however, take into account the wider body of evidence
 regarding stimulus size, perception, and attention. Hong et al.
 \citep{hong_2021} found that larger stimuli could significantly alter
-perceptions of global scatterplot means.
+perceptions of global scatterplot means. Participants' estimations were
+significantly biased towards areas with larger points, especially when a
+wide range of point sizes were used and there was a high correlation
+between point sizes and their position.
 
 \hypertarget{hypotheses}{%
 \subsection{Hypotheses}\label{hypotheses}}

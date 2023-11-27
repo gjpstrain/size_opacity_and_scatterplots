@@ -608,9 +608,9 @@ point opacity in a \emph{uniform} manner, the sheer number of points
 used in that study results in scatterplots that appear similar to those
 that reduce opacity as a function of residual error \citep{strain_2023}.
 That this technique has been shown to produce more accurate correlation
-estimates as compared to unadjusted scatterplots may explain the results
-of the optimization system employed in Micallef et al.
-\citep{micallef_2017}.
+estimates as compared to unadjusted scatterplots may explain why the
+optimization system employed in Micallef et al. \citep{micallef_2017}
+conferred benefits regarding correlation estimation.
 
 \hypertarget{sec-point-size}{%
 \subsection{Point Size}\label{sec-point-size}}
@@ -618,15 +618,15 @@ of the optimization system employed in Micallef et al.
 For discriminability reasons, scatterplots visualizing large datasets
 tend also to have smaller points. Bubble charts are a subclass of
 scatterplot which use point size to describe a third variable, but what
-little experimental work there is on the impact of point size on
-correlation perception is inconclusive. Some work has found bias and
-variability in correlation perception to be invariant to changes in
-point size \citep{rensink_2012, rensink_2014}, while elsewhere a strong
-effect of changing point size as a function of distance from the
-regression line has been reported \citep{strain_2023b}. Evidence points
-towards a salience-dominant mechanism in the latter case, albeit with a
-small effect of spatial uncertainty. There is evidence that larger
-stimulus size is associated with lower levels of spatial certainty
+experimental work there is on the impact of point size on correlation
+perception is inconclusive. Some work has found bias and variability in
+correlation perception to be invariant to changes in point size
+\citep{rensink_2012, rensink_2014}, while elsewhere a strong effect of
+changing point size as a function of distance from the regression line
+has been reported \citep{strain_2023b}. Evidence points towards a
+salience-dominant mechanism in the latter case, albeit with a small
+effect of spatial uncertainty. There is evidence that larger stimulus
+size is associated with lower levels of spatial certainty
 \citep{alais_2004}, but higher levels of salience \citep{healey_2011},
 results which are supported by evidence that reaction times are slower
 to smaller stimuli \citep{gramazio_2014, osaka_1976}. The predicted
@@ -639,27 +639,28 @@ significantly more accurate than when all points are the same size
 \citep{strain_2023b}. In this case it was suggested that the higher
 spatial uncertainty brought on by larger exterior points caused a
 perceptual downweighting during correlation estimation, which is in line
-with work suggesting our perceptual systems make robust use of
+with work suggesting human perceptual systems make robust use of
 visuo-spatial information
 \citep{strain_2023b, warren_2002, warren_2004}. This effect was small,
 meaning we do not take it into account when making our hypotheses. Our
 hypotheses do, however, take into account the wider body of evidence
 regarding stimulus size, perception, and attention. Hong et al.
 \citep{hong_2021} found that larger stimuli could significantly alter
-perceptions of global scatterplot means. Participants' estimations were
+perceptions of global scatterplot means. Participants' estimates were
 significantly biased towards areas with larger points, especially when a
 wide range of point sizes were used and there was a high correlation
-between point sizes and their position.
+between point sizes and position. We formulate H3 according to this
+finding.
 
 \hypertarget{hypotheses}{%
 \subsection{Hypotheses}\label{hypotheses}}
 
 We present a single experiment based on established effects of adjusting
-point size and point opacity In our study, we combine previously
-independently tested point size and point opacity decay functions in
-both typical orientation (opacity/size is reduced with residual
-magnitude) and inverted orientation (opacity/size is increased with
-residual magnitude). Throughout we refer to \emph{congruent} and
+point size and point opacity in scatterplots. In our study, we combine
+previously independently tested point size and point opacity decay
+functions in both typical orientation (opacity/size is reduced with
+residual magnitude) and inverted orientation (opacity/size is increased
+with residual magnitude). Throughout we refer to \emph{congruent} and
 \emph{incongruent} conditions with respect to the combination of
 orientations of size and opacity decay functions. Note that the use of
 this terminology is unrelated to the concept of redundant encoding
@@ -678,13 +679,12 @@ incongruent orientation conditions.
 In this section we begin by discussing our general research methods,
 including our approach to crowdsourcing, our implementations of open
 research practices, and the modelling methods we use to test our
-hypotheses. We also discuss the particular issues that arise with
-regards to the use of these methods in our particular research paradigm.
-We then report on two additional pre-experimental tests that
-participants completed, point visibility testing and a screen scaling
-task to assess dot pitch. This section concludes by reporting on
-experimental procedure, participant recruitment and characteristics, and
-the experimental design itself.
+hypotheses. We also discuss the issues that arise regarding the use of
+these methods in our particular research paradigm. We then report on two
+additional pre-experimental tests that participants completed, point
+visibility testing and a screen scaling task to assess dot pitch. This
+section concludes by reporting on experimental procedure, participant
+recruitment and characteristics, and the experimental design itself.
 
 \hypertarget{sec-crowdsourcing}{%
 \subsection{Crowdsourcing}\label{sec-crowdsourcing}}
@@ -753,21 +753,22 @@ bivariate normal distributions with standard deviations of 1 in each
 direction. In line with evidence that performance on correlation
 perception tasks is stable as long as the number of points remains above
 48 \citep{rensink_2014} and to facilitate comparison with previous
-studies \citep{strain_2023, strain_2023b}. Each scatterplot was created
-and presented using a 1:1 aspect ratio, in line with findings that this
-facilitates optimal performance on correlation estimation tasks
-\citep{micallef_2017}. Scatterplots were generated as 1000 x 1000 pixel
-.png images, and were scaled up or down according to a participant's
-monitor such that they always occupied the same proportion of the
-screen. Note that this results in reductions in scatterplot point size
-in proportion with the size of the plot itself. Variations in size such
-as these have been associated with lower levels of colour/opacity
-discriminability \citep{szafir_2018, smart_2019}. As we only allowed
-participants to complete the experiment on a desktop/laptop computer, we
-do not consider the variations in point size to be worthy of extended
-discussion, especially as there was little reported effect of dot pitch
-(see Section~\ref{sec-add-analyses}). We used equation 1 to map
-residuals to size and opacity values:
+studies \citep{strain_2023, strain_2023b}, each scatterplot contained
+128 data points. Each scatterplot was created and presented using a 1:1
+aspect ratio, in line with findings that this facilitates optimal
+performance on correlation estimation tasks \citep{micallef_2017}.
+Scatterplots were generated as 1000 x 1000 pixel .png images, and were
+scaled up or down according to a participant's monitor such that they
+always occupied the same proportion of the screen. Note that this
+results in reductions in scatterplot point size in proportion with the
+size of the plot itself. Variations in size such as these have been
+associated with lower levels of colour/opacity discriminability
+\citep{szafir_2018, smart_2019}. As we only allowed participants to
+complete the experiment on a desktop/laptop computer, we do not consider
+the variations in point size to be worthy of extended discussion,
+especially as there was little reported effect of dot pitch (see
+Section~\ref{sec-add-analyses}). We used equation 1 to map residuals to
+size and opacity values:
 
 \begin{equation}
   point_{size/opacity} = 1 - b^{residual}
@@ -782,10 +783,10 @@ present work builds upon, and it produces a curve approximating the
 inverse around the identity line of the underestimation curve reported
 in previous work \citep{rensink_2017, strain_2023, strain_2023b}. We
 acknowledge that there may be other, more suitable values of \emph{b},
-however extensive testing of these is outside the scope of the present
-work. We used this equation in typical and inverted orientation forms
-applied to point size and opacity in a factorial 2 x 2 design. Examples
-of the stimuli used can be seen in Figure~\ref{fig-examples}.
+however testing of these is outside the scope of the present work. We
+used this equation in typical and inverted orientation forms applied to
+point size and opacity in a factorial 2 x 2 design. Examples of the
+stimuli used can be seen in Figure~\ref{fig-examples}.
 
 \begin{figure}
 
@@ -800,10 +801,10 @@ of the stimuli used can be seen in Figure~\ref{fig-examples}.
 
 Discussions about the size and opacity of particular scatterplot points
 are inherently difficult in the context of online, crowdsourced
-experiments; controlling the devices participants use to participate in
-these kinds of experiments, beyond insisting on laptop or desktop
-computers, is impossible. While this may result in a lack of consistency
-in scatterplot point sizes, luminances, or contrast ratios between
+experiments; controlling the devices participants use to complete these
+kinds of experiments, beyond insisting on laptop or desktop computers,
+is impossible. While this may result in a lack of consistency in
+scatterplot point sizes, opacities, or contrast ratios between
 participants, it also provides results that are more resilient to
 different viewing contexts than traditional lab-based experimental work.
 In addition to measures implemented to ensure high quality participant
@@ -840,15 +841,15 @@ Participants were asked to hold a standard size credit/debit/ID card
 until their sizes matched. We assumed a widescreen 16:9 aspect ratio and
 calculated dot pitch based on these measurements. Mean dot pitch was
 0.60mm (\(SD\) = 0.09), corresponding to a physical on-screen size of
-7.80mm on a 1920 x 1080 pixel monitor for the smallest points displayed.
-We include analyses with dot pitch as a fixed effect in
-Section~\ref{sec-add-analyses}.
+7.80mm on a 1920 x 1080 pixel monitor for the smallest points displayed
+on a hypothetical 35.54 x 20.00cm monitor. We include analyses with dot
+pitch as a fixed effect in Section~\ref{sec-add-analyses}.
 
 \hypertarget{sec-gen-procedure}{%
 \subsection{Procedure}\label{sec-gen-procedure}}
 
-Both experiments were built using PsychoPy \citep{pierce_2019} and
-hosted on Pavlovia.org. Participants were only permitted to complete the
+The experiment was built using PsychoPy \citep{pierce_2019} and hosted
+on Pavlovia.org. Participants were only permitted to complete the
 experiment on a desktop or laptop computer. Each participant was first
 shown the participant information sheet and provided consent through key
 presses in response to consent statements. They were asked to provide
@@ -861,15 +862,16 @@ were then shown examples of scatterplots with correlations of \emph{r} =
 0.2, 0.5, 0.8, and 0.95, as piloting of a previous experiment indicated
 some of the lay population may be unfamiliar with the visual character
 of scatterplots. Section~\ref{sec-add-analyses} contains further
-analysis of the potential training effects of this. Two practice trials
-were given before the experiment began. Participants worked through a
-randomly presented series of 180 experimental trials and were asked to
-use a slider to estimate correlation to 2 decimal places. Participants
-were asked to complete each trial as quickly and accurately as possible,
-although there were no time limits on individual trials. Visual masks
-were displayed for 1 second in between each scatterplot presentations.
-Interspersed were 6 attention check trials which explicitly asked
-participants to ignore the scatterplot and set the slider to 0 or 1.
+analysis of the potential training effects of displaying these plots.
+Two practice trials were given before the experiment began. Participants
+worked through a randomly presented series of 180 experimental trials
+and were asked to use a slider to estimate correlation to 2 decimal
+places. Participants were asked to complete each trial as quickly and
+accurately as possible, although there were no time limits on individual
+trials. Visual masks were displayed for 1 second in between each
+scatterplot presentation. Interspersed were 6 attention check trials
+which explicitly asked participants to ignore the scatterplot and set
+the slider to 0 or 1.
 
 \hypertarget{sec-participants}{%
 \subsection{Participants}\label{sec-participants}}
@@ -1058,7 +1060,7 @@ curve, with the ribbon representing standard errors.}
 \section{Discussion}\label{sec-discussion}}
 
 The finding of a significant interaction between point size and opacity
-decay provides evidence that these functions interact in non-additive
+decay provides evidence that these functions combine in non-additive
 ways. In addition, we provide further confirmatory evidence of what has
 been found previously. Namely, that while manipulations of both point
 size and opacity have significant effects, the effect of changing point
@@ -1198,21 +1200,20 @@ Figure~\ref{fig-est-multi-exp}). Using size decay, however, changes both
 the amplitude and shape of the underestimation error curve (compare size
 manipulated and no manipulation present plots in
 Figure~\ref{fig-est-multi-exp}). When size and opacity decay functions
-are combined, however, the shape appears similar to that of size alone.
-This is in line with previous work establishing size as a more potent
-channel for the manipulation of correlation estimates
-\citep{strain_2023b} and positional means \citep{hong_2021}. It would
-appear that the addition of the opacity curve moderates the effect of
-the size curve as a function of the objective \emph{r} value itself,
-without affecting the general shape of the curve. In the following, we
-briefly discuss the effects of each manipulation in isolation and the
-manipulations together, before making a case for the inclusion of both
-when tuning scatterplots for correlation estimation due to the
-complementary benefits each confers. Throughout the course of this
-section it should be noted that the analyses include data from several
-separate experiments. We argue that their methodological similarities
-render comparison appropriate, but we acknowledge the potential for
-overstated conclusions.
+are combined, the shape appears similar to that of size alone. This is
+in line with previous work establishing size as a more potent channel
+for the manipulation of correlation estimates \citep{strain_2023b} and
+positional means \citep{hong_2021}. It would appear that the addition of
+the opacity curve moderates the effect of the size curve as a function
+of the objective \emph{r} value itself, without affecting the general
+shape of the curve. In the following, we briefly discuss the effects of
+each manipulation in isolation and the manipulations together, before
+making a case for the inclusion of both when tuning scatterplots for
+correlation estimation due to the complementary benefits each confers.
+Throughout the course of this section it should be noted that the
+analyses include data from several separate experiments. We argue that
+their methodological similarities render comparison appropriate, but we
+acknowledge the potential for overstated conclusions.
 
 Using an opacity decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the
@@ -1264,9 +1265,9 @@ overestimation.
 observed when a decay function/combination of decay functions is used
 and what is observed when no manipulation is used. The dashed line
 represents the power that would be required to correct for the observed
-underestimation of correlation in scatterplots. The difference in area
-under the curve between the required and observed power is shown on each
-plot.}
+underestimation of correlation in scatterplots. The difference in
+areas-under-the-curve between the required and observed power is shown
+on each plot.}
 
 \end{figure}
 
@@ -1293,13 +1294,13 @@ effects of size decay on correlation perception; our results neither
 confirm nor refute this, but instead provide further evidence for
 salience/perceptual weighting/dot density changing participants'
 perceptions of the width of a probability distribution to affect
-correlation estimates. \citep{hong_2021} found that the inclusion of
-larger or more opaque scatterplot points was able to bias estimates of
-positional means, but that the relative contributions (weights) of these
-visual features with regards to perception change as a function of the
-ranges of sizes/opacities used. It is clear from this evidence and the
-present study that the perceptual weights of point size and opacity are
-not the same.
+correlation estimates. Hong et al. \citep{hong_2021} found that the
+inclusion of larger or more opaque scatterplot points was able to bias
+estimates of positional means, but that the relative contributions
+(weights) of these visual features with regards to perception change as
+a function of the ranges of sizes/opacities used. It is clear from this
+evidence and the present study that the perceptual weights of point size
+and opacity are not the same.
 
 \hypertarget{sec-limitations}{%
 \subsection{Limitations}\label{sec-limitations}}
@@ -1331,19 +1332,20 @@ this.
 
 Channels such as point size, colour, opacity, and shape have been used
 in past work to encode variables beyond the standard two in scatterplots
-{[}\citet{hong_2021}; smart\_2019{]}. While we focus purely on
-correlation estimation in the present work, we acknowledge that the use
-of our techniques is likely to lead to incorrect interpretations. Given
-that there is evidence that size, shape, and colour and not entirely
-separable scatterplot features \citep{smart_2019}, there is the danger
-that viewers might assume that variations in point size/opacity
-correspond to additional encoded variables. As our contribution in this
-paper is providing evidence that changing certain visual features in
-systematic ways can alter viewer's estimates of correlation, we do not
-consider this to be problematic. If charts such as the ones we have
-presented were to appear in the wild, however, it would be necessary to
-clarify that such charts were designed to aid in the rapid and intuitive
-interpretation of correlation (and \emph{only} this).
+\citep{hong_2021, smart_2019}. While we focus purely on correlation
+estimation in the present work, we acknowledge that the use of our
+techniques is likely to lead to incorrect interpretations. Given that
+there is evidence that size, shape, and colour and not entirely
+separable scatterplot features \citep{smart_2019}, if viewers assume
+that variations in point size/opacity correspond to additional encoded
+variables, confounds in interpretations may be introduced. As our
+contribution in this paper is providing evidence that changing certain
+visual features in systematic ways can alter viewers' estimates of
+correlation, we do not consider this to be problematic. If charts such
+as the ones we have presented were to appear in the wild, however, it
+would be necessary to clarify that such charts were designed to aid in
+the rapid and intuitive interpretation of correlation (and \emph{only}
+this).
 
 While we put forward salience as the most likely driver of the effects
 on correlation estimation we observe when using point size/opacity
@@ -1362,7 +1364,7 @@ the scope of the current work.
 
 There is evidence that viewers overestimate correlation in negatively
 correlated scatterplots \citep{sher_2017}. Due to evidence that
-correlation perception in negatively correlation scatterplots functions
+correlation perception in negatively correlated scatterplots functions
 symmetrically to that of positively correlated scatterplots
 \citep{harrison_2014}, the techniques we have implemented in the current
 paper may be used in future (in a symmetrical manner) to address the

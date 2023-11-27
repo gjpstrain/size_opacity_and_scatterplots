@@ -371,7 +371,9 @@ VT <- size_and_opacity_exp_tidy %>%
 
 dot_pitch <- size_and_opacity_exp_tidy %>%
   summarise(mean_dp = mean(dot_pitch),
-            sd_dp = sd(dot_pitch))
+            sd_dp = sd(dot_pitch),
+            mean_width = median(width),
+            mean_height = median(height))
 ```
 
 ```{r}
@@ -928,14 +930,15 @@ support correlation estimation; despite only changing point opacity in a *unifor
 manner, the sheer number of points used in that study results
 in scatterplots that appear similar to those that reduce opacity as a function of residual
 error [@strain_2023]. That this technique has been shown to produce more accurate
-correlation estimates as compared to unadjusted scatterplots may explain
-the results of the optimization system employed in Micallef et al. [@micallef_2017].
+correlation estimates as compared to unadjusted scatterplots may explain why
+the optimization system employed in Micallef et al. [@micallef_2017] conferred benefits
+regarding correlation estimation.
 
 ## Point Size {#sec-point-size}
 
 For discriminability reasons, scatterplots visualizing large datasets tend also to
 have smaller points. Bubble charts are a subclass of scatterplot which use point
-size to describe a third variable, but what little experimental work there
+size to describe a third variable, but what experimental work there
 is on the impact of point size on correlation perception is inconclusive. Some work
 has found bias and variability in correlation perception to be invariant to changes in
 point size [@rensink_2012; @rensink_2014], while elsewhere a strong effect of
@@ -952,7 +955,7 @@ size decay function is used such that smaller points are located nearer the regr
 line, correlation estimation is significantly more accurate than when all points
 are the same size [@strain_2023b]. In this case it was suggested that the higher
 spatial uncertainty brought on by larger exterior points caused a perceptual downweighting
-during correlation estimation, which is in line with work suggesting our perceptual
+during correlation estimation, which is in line with work suggesting human perceptual
 systems make robust use of visuo-spatial information [@strain_2023b; @warren_2002; @warren_2004].
 This effect was small, meaning we do not take it into account when making
 our hypotheses. Our hypotheses do, however, take into account the wider 
@@ -961,11 +964,12 @@ body of evidence regarding stimulus size, perception, and attention. Hong et al.
 of global scatterplot means. Participants' estimates were significantly biased
 towards areas with larger points, especially when a wide range of point sizes 
 were used and there was a high correlation between point sizes and position.
+We formulate H3 according to this finding.
 
 ## Hypotheses
 
 We present a single experiment based on established effects of 
-adjusting point size and point opacity. In our study,
+adjusting point size and point opacity in scatterplots. In our study,
 we combine previously independently tested point size and point
 opacity decay functions in both typical orientation (opacity/size is reduced
 with residual magnitude) and inverted orientation (opacity/size is increased with
@@ -983,8 +987,8 @@ significant difference in correlation estimates between the two incongruent orie
 
 In this section we begin by discussing our general research methods, including our approach
 to crowdsourcing, our implementations of open research practices, and the modelling
-methods we use to test our hypotheses. We also discuss the particular issues that arise
-with regards to the use of these methods in our particular research paradigm. We
+methods we use to test our hypotheses. We also discuss the issues that arise
+regarding the use of these methods in our particular research paradigm. We
 then report on two additional pre-experimental tests that participants completed,
 point visibility testing and a screen scaling task to assess dot pitch. This
 section concludes by reporting on experimental procedure, participant recruitment
@@ -1043,10 +1047,10 @@ than work using fewer values. Scatterplot points were generated based on
 bivariate normal distributions with standard deviations of 1 in each direction. 
 In line with evidence that performance on correlation perception tasks is stable
 as long as the number of points remains above 48 [@rensink_2014] and to facilitate
-comparison with previous studies [@strain_2023; @strain_2023b]. Each scatterplot was
-created and presented using a 1:1 aspect ratio, in line with findings that this
-facilitates optimal performance on correlation estimation tasks [@micallef_2017].
-Scatterplots were generated as 1000 x 1000 pixel .png images,
+comparison with previous studies [@strain_2023; @strain_2023b], each scatterplot
+contained 128 data points. Each scatterplot was created and presented using a 1:1 aspect ratio,
+in line with findings that this facilitates optimal performance on correlation
+estimation tasks [@micallef_2017]. Scatterplots were generated as 1000 x 1000 pixel .png images,
 and were scaled up or down according to a participant's monitor such that they
 always occupied the same proportion of the screen. Note that this results in reductions
 in scatterplot point size in proportion with the size of the plot itself. Variations 
@@ -1068,7 +1072,7 @@ size in the present study is both visible and consistent with that of previous w
 that the present work builds upon, and it produces a curve approximating the
 inverse around the identity line of the underestimation curve reported in previous
 work [@rensink_2017; @strain_2023; @strain_2023b]. We acknowledge that there
-may be other, more suitable values of *b*, however extensive testing of these is
+may be other, more suitable values of *b*, however testing of these is
 outside the scope of the present work. We used this equation in typical and inverted
 orientation forms applied to point size and opacity in a factorial 2 x 2 design.
 Examples of the stimuli used can be seen in @fig-examples.
@@ -1146,9 +1150,9 @@ ggarrange(example_plots_L, example_plots_R, nrow = 1)
 
 Discussions about the size and opacity of particular scatterplot points are inherently
 difficult in the context of online, crowdsourced experiments; controlling the devices
-participants use to participate in these kinds of experiments, beyond insisting on laptop
+participants use to complete these kinds of experiments, beyond insisting on laptop
 or desktop computers, is impossible. While this may result in a lack of consistency
-in scatterplot point sizes, luminances, or contrast ratios between participants, it also provides results
+in scatterplot point sizes, opacities, or contrast ratios between participants, it also provides results
 that are more resilient to different viewing contexts than traditional lab-based 
 experimental work. In addition to measures
 implemented to ensure high quality participant data (see @sec-crowdsourcing), it is also key that we do not
@@ -1178,12 +1182,13 @@ until their sizes matched. We assumed a widescreen 16:9 aspect ratio and calcula
 dot pitch based on these measurements. Mean dot pitch was 
 `r printnum(dot_pitch$mean_dp, digits = 2)`mm ($SD$ = `r printnum(dot_pitch$sd_dp, digits = 2)`),
 corresponding to a physical on-screen size of `r printnum(dot_pitch$mean_dp*13)`mm
-on a 1920 x 1080 pixel monitor for the smallest points displayed. 
+on a 1920 x 1080 pixel monitor for the smallest points displayed on a hypothetical
+`r printnum(dot_pitch$mean_width)` x `r printnum(dot_pitch$mean_height)`cm monitor. 
 We include analyses with dot pitch as a fixed effect in @sec-add-analyses.
 
 ## Procedure {#sec-gen-procedure}
 
-Both experiments were built using PsychoPy [@pierce_2019] and hosted on Pavlovia.org.
+The experiment was built using PsychoPy [@pierce_2019] and hosted on Pavlovia.org.
 Participants were only permitted to complete the experiment on a desktop or laptop
 computer. Each participant was first shown the participant information sheet and provided
 consent through key presses in response to consent statements. They were asked to
@@ -1194,13 +1199,13 @@ point visibility task described in @sec-VT and the screen scale task described i
 of scatterplots with correlations of *r* = 0.2, 0.5, 0.8, and 0.95, as piloting of
 a previous experiment indicated some of the lay population may be unfamiliar
 with the visual character of scatterplots. @sec-add-analyses contains further
-analysis of the potential training effects of this. Two practice trials were
+analysis of the potential training effects of displaying these plots. Two practice trials were
 given before the experiment began. Participants worked through a randomly
 presented series of 180 experimental trials and were asked to
 use a slider to estimate correlation to 2 decimal places. Participants were
 asked to complete each trial as quickly and accurately as possible, although there
 were no time limits on individual trials. Visual masks were displayed 
-for 1 second in between each scatterplot presentations. Interspersed were 6 attention check trials which explicitly
+for 1 second in between each scatterplot presentation. Interspersed were 6 attention check trials which explicitly
 asked participants to ignore the scatterplot and set the slider to 0 or 1.
 
 ## Participants {#sec-participants}
@@ -1475,7 +1480,6 @@ size_and_opacity_exp_tidy %>%
   geom_point(alpha = 0.4, shape = 16) +
   geom_smooth(se = T, span = 0.5, colour = "black", size = 0.7,) +
   scale_x_continuous(breaks = seq(0,180, by = 20), limits = c(0, 180)) +
-  #scale_y_continuous(breaks = seq(0, 0.15, by = 0.02, limts = c(0, 0.15))) +
   geom_vline(xintercept = 0, linetype = 2) +
   geom_vline(xintercept = 90, linetype = 2) +
   geom_vline(xintercept = 180, linetype = 2) +
@@ -1497,7 +1501,7 @@ size_and_opacity_exp_tidy %>%
 # Discussion {#sec-discussion}
 
 The finding of a significant interaction between point size and opacity
-decay provides evidence that these functions interact
+decay provides evidence that these functions combine
 in non-additive ways. In addition, we provide further confirmatory evidence of what has been found
 previously. Namely, that while manipulations of both point size and opacity
 have significant effects, the effect of changing point size is stronger, and that
@@ -1651,7 +1655,7 @@ while leaving its shape intact (compare opacity manipulated and no manipulation
 present plots in @fig-est-multi-exp). Using size decay, however, changes both
 the amplitude and shape of the underestimation error curve (compare size manipulated
 and no manipulation present plots in @fig-est-multi-exp). When size and opacity decay functions are combined,
-however, the shape appears similar to that of size alone. This is in line with
+the shape appears similar to that of size alone. This is in line with
 previous work establishing size as a more potent channel for the manipulation
 of correlation estimates [@strain_2023b] and positional means [@hong_2021]. It would appear that the addition of
 the opacity curve moderates the effect of the size curve as a function of the
@@ -1702,7 +1706,7 @@ results in gross overestimation.
 #| label: fig-power-plot
 #| include: true
 #| out-width: "100%"
-#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the observed underestimation of correlation in scatterplots. The difference in area under the curve between the required and observed power is shown on each plot.
+#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the observed underestimation of correlation in scatterplots. The difference in areas-under-the-curve between the required and observed power is shown on each plot.
 
 # dataframe containing values from previous experiments and the current is included
 # in the data folder 
@@ -1796,7 +1800,7 @@ regards to the effects of size decay on correlation perception; our results
 neither confirm nor refute this, but instead provide further evidence for
 salience/perceptual weighting/dot density changing participants' perceptions
 of the width of a probability distribution to affect correlation estimates.
-[@hong_2021] found that the inclusion of larger
+Hong et al. [@hong_2021] found that the inclusion of larger
 or more opaque scatterplot points was able to bias estimates of positional means, but 
 that the relative contributions (weights) of these visual features with regards
 to perception change as a function of the ranges of sizes/opacities used. It is clear
@@ -1827,15 +1831,14 @@ populations renders our conclusions resilient to changes in viewing contexts,
 but further, in-person, experimentation is planned to confirm this.
 
 Channels such as point size, colour, opacity, and shape have been used in past
-work to encode variables beyond the standard two in scatterplots [@hong_2021; smart_2019].
+work to encode variables beyond the standard two in scatterplots [@hong_2021; @smart_2019].
 While we focus purely on correlation estimation in the present work, we acknowledge
 that the use of our techniques is likely to lead to incorrect interpretations. Given that
 there is evidence that size, shape, and colour and not entirely separable scatterplot 
-features [@smart_2019], there is the danger that viewers might
-assume that variations in point size/opacity correspond to additional
-encoded variables. As our contribution in this paper
+features [@smart_2019], if viewers assume that variations in point size/opacity correspond to additional
+encoded variables, confounds in interpretations may be introduced. As our contribution in this paper
 is providing evidence that changing certain visual features in systematic ways can
-alter viewer's estimates of correlation, we do not consider this to be problematic.
+alter viewers' estimates of correlation, we do not consider this to be problematic.
 If charts such as the ones we have presented were to appear in the wild, however,
 it would be necessary to clarify that such charts were designed to aid in the
 rapid and intuitive interpretation of correlation (and *only* this).
@@ -1854,7 +1857,7 @@ this is beyond the scope of the current work.
 
 There is evidence that viewers overestimate correlation in negatively correlated
 scatterplots [@sher_2017]. Due to evidence that correlation perception in negatively
-correlation scatterplots functions symmetrically to that of positively correlated
+correlated scatterplots functions symmetrically to that of positively correlated
 scatterplots [@harrison_2014], the techniques we have implemented in the current
 paper may be used in future (in a symmetrical manner) to address the overestimation bias.
 We found evidence that the influence of size and opacity decay functions changes according to the direction

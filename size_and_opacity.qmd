@@ -612,7 +612,7 @@ displayed in positively correlated scatterplots. This holds true for direct
 estimation [@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989;
 @collyer_1990; @meyer_1992] and estimation via bisection tasks [@rensink_2017], and
 is particularly pronounced for values of *r* between 0.2 and 0.6. The COVID-19 pandemic demonstrated
-that it is no long only professionals/scientists/office workers that are expected to 
+that it is no long only professionals and scientists that are expected to 
 use data visualizations. Lay populations are now expected to be able to use and accurately interpret data
 visualizations on a daily basis [@bbc_2022]. This expectation confers a responsibility on
 the part of data visualization designers to design in such ways that people with
@@ -622,7 +622,7 @@ apply this understanding to data visualization design, and
 test those designs in rigorous empirical work. Here, we present a fully-reproducible,
 crowdsourced online experiment in which we systematically alter visual features
 in scatterplots to correct for a well-known bias. We combine two techniques for
-correcting for correlation underestimation in scatterplots and show that the
+correcting correlation underestimation in scatterplots and show that the
 effects are stronger than what might be expected from simple additive combination. Building on this, we
 present a framework for visualization design informed from the ground up by human perception.
 
@@ -975,8 +975,7 @@ opacity decay functions in both typical orientation (opacity/size is reduced
 with residual magnitude) and inverted orientation (opacity/size is increased with
 residual magnitude). Throughout we refer to *congruent* and *incongruent* conditions
 with respect to the combination of orientations of size and opacity decay functions.
-Note that the use of this terminology is unrelated to the concept of redundant encoding
-[@nothelfer_2017]. We hypothesize that: (H1) an increased reduction in correlation estimation error will be
+We hypothesize that: (H1) an increased reduction in correlation estimation error will be
 observed when congruent typical orientation decay functions are used; (H2) the use of 
 congruent inverted orientation decay functions will produce 
 the least accurate estimates of correlation; and (H3) that owing to the greater strength
@@ -1085,7 +1084,7 @@ Examples of the stimuli used can be seen in @fig-examples.
 #| include: true
 #| fig-cap: Examples of the experimental stimuli used.
 
-example_plots_L <- ggarrange(plot_example_function(slopes,
+example_plots_congruent <- ggarrange(plot_example_function(slopes,
                                         (1-slopes$slope_0.25),
                                         (1-slopes$slope_0.25),
                                         "Typical Orientation Size\nTypical Orientation Opacity"),
@@ -1114,7 +1113,7 @@ example_plots_L <- ggarrange(plot_example_function(slopes,
            colour = "grey",
            arrow = arrow(length = unit(0.1, "cm"), angle = 90))
                    
-example_plots_R <- ggarrange(plot_example_function(slopes,
+example_plots_incongruent <- ggarrange(plot_example_function(slopes,
                                          (1-slopes$slope_inverted),
                                          (1-slopes$slope_0.25),
                                          "Inverted Orientation Size\nTypical Orientation Opacity"),
@@ -1143,7 +1142,7 @@ example_plots_R <- ggarrange(plot_example_function(slopes,
            colour = "grey",
            arrow = arrow(length = unit(0.1, "cm"), angle = 90))
 
-ggarrange(example_plots_L, example_plots_R, nrow = 1)
+ggarrange(example_plots_congruent, example_plots_incongruent, nrow = 1)
 ```
 
 ## Point Visibility Testing {#sec-VT}
@@ -1461,7 +1460,7 @@ against trial number. Variability in error, as represented by the ribbon in @fig
 stabilises quickly and remains stable for most of the experiment, only widening again
 around trial number 170. We suggest that this is a result of participants knowing
 that they were coming to the end of the experiment and being less vigilant as a result.
-Regardless of its significance, we do not consider this effect large enough to warrant
+Regardless of its statistical significance, we do not consider this effect large enough to warrant
 further analysis, although future work will take into account potential effects
 of experimental length.
 
@@ -1508,8 +1507,10 @@ have significant effects, the effect of changing point size is stronger, and tha
 while we can influence correlation estimates in either direction, typical
 orientation manipulations are more powerful than inverted ones [@strain_2023; @strain_2023b].
 As one would expect, we also see an effect of orientation congruency on the extent
-to which a manipulation can bias correlation estimates. 
-The lack of support for our third hypothesis, that there would be a
+to which a manipulation can bias correlation estimates; redundant 
+encoding, such as that present here in congruent conditions, is known to support 
+visual grouping and segmentation. We now provide evidence that redundancy can be exploited
+to change correlation perception. The lack of support for our third hypothesis, that there would be a
 difference in correlation estimates between incongruent conditions, was surprising
 given the greater strength of the size channel relative to opacity demonstrated
 in previous work [@strain_2023; @strain_2023b], although this may be a facet of the non-additive
@@ -1879,6 +1880,9 @@ use the major axis through the probability ellipse instead of the regression lin
 as a baseline to change point sizes and opacities; evidence that people often report
 the major axis when asked to visually estimate the regression line [@collyer_1990]
 suggests that this may produce a different pattern of results from those seen here.
+If changes in dot density are driving changes in correlation estimates, the congruent
+conditions here are an example of redundant encoding. Future work may explore using different
+channels to redundantly encode dot density, such as marker shape/orientation or colour.
 The present study opens the door for this future work, as it provides the necessary additional data to 
 previous experiments using only size [@strain_2023b] or opacity [@strain_2023] decay functions.
 Further testing of these manipulations in isolation and combination using

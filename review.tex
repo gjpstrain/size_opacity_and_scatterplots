@@ -1,7 +1,7 @@
 \documentclass[manuscript, review, anonymous, screen]{acmart}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL size_and_opacity_pre-review.tex   Tue Nov 21 10:47:52 2023
-%DIF ADD size_and_opacity.tex              Mon Nov 27 14:10:52 2023
+%DIF ADD size_and_opacity.tex              Wed Nov 29 17:14:31 2023
 
 
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -454,22 +454,21 @@ changing point size and \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \
 \section{Introduction}\label{introduction}}
 
 Scatterplots are \DIFdelbegin \DIFdel{common bivariate representations of data. They have
-been extensively studied and are }\DIFdelend used for a \DIFaddbegin \DIFadd{wide }\DIFaddend variety of communicative tasks\DIFdelbegin \DIFdel{. }\DIFdelend \DIFaddbegin \DIFadd{, both in
-academic and non-academic contexts. This ubiquity means they have been
-studied extensively. }\DIFaddend While most commonly used to represent linear
-correlation, or the degree of linear relatedness between two variables,
-they can also be used to represent different groups (clustering), to aid
-in the detection of outliers, to characterize distributions, and to
-visualize non-linear correlations. Figure~\ref{fig-tasks} contains
-examples of scatterplots optimized for different tasks. There is
-evidence that people generally interpret scatterplots in similar ways
-\citep{kay_2015}, and that they support the interpretation of
-correlation significantly better than \DIFdelbegin \DIFdel{other }\DIFdelend \DIFaddbegin \DIFadd{competing }\DIFaddend data visualizations
-\citep{li_2010}. Rapid interpretation by viewers \citep{rensink_2014},
-along with low levels of interindividual variance render scatterplots
-particularly suited for experimental work; they provide important
-insights into perception and visualization design while being simple to
-study \citep{rensink_2014}.
+been extensively studied and are }\DIFdelend used for a \DIFaddbegin \DIFadd{wide }\DIFaddend variety of communicative tasks\DIFaddbegin \DIFadd{, both in
+academic and non-academic contexts}\DIFaddend . While most commonly used to
+represent linear correlation, or the degree of linear relatedness
+between two variables, they can also be used to represent different
+groups (clustering), to aid in the detection of outliers, to
+characterize distributions, and to visualize non-linear correlations.
+Figure~\ref{fig-tasks} contains examples of scatterplots optimized for
+different tasks. There is evidence that people generally interpret
+scatterplots in similar ways \citep{kay_2015}, and that they support the
+interpretation of correlation significantly better than \DIFdelbegin \DIFdel{other }\DIFdelend \DIFaddbegin \DIFadd{competing }\DIFaddend data
+visualizations \citep{li_2010}. Rapid interpretation by viewers
+\citep{rensink_2014}, along with low levels of interindividual variance
+render scatterplots particularly suited for experimental work; they
+provide important insights into perception and visualization design
+while being simple to study \citep{rensink_2014}.
 
 While our interpretations of scatterplots are generally similar, the
 accuracy of those interpretations is generally poor. In particular,
@@ -482,16 +481,15 @@ estimation
 }\DIFdelend and estimation via bisection tasks \citep{rensink_2017}, and is
 particularly pronounced for values of \emph{r} between 0.2 and 0.6. The
 COVID-19 pandemic demonstrated that \DIFdelbegin \DIFdel{even outside of professional/office
-environments, lay }\DIFdelend \DIFaddbegin \DIFadd{it is no long only professionals and
-scientists that are expected to use data visualizations. Lay }\DIFaddend populations
-are now expected to be able to use and accurately interpret data
-visualizations on a daily basis \citep{bbc_2022}. This expectation
-confers a responsibility on the part of data visualization designers to
-design in such \DIFdelbegin \DIFdel{a way }\DIFdelend \DIFaddbegin \DIFadd{ways }\DIFaddend that people with \DIFdelbegin \DIFdel{little }\DIFdelend \DIFaddbegin \DIFadd{limited }\DIFaddend statistical or graph
-training can expect to be able to correctly interpret data
-visualizations. Doing this requires us to understand human perception\DIFdelbegin \DIFdel{and perceptual phenomena}\DIFdelend ,
-apply this understanding to data visualization design, and test those
-designs in rigorous empirical work. Here, we present a
+environments, lay populations}\DIFdelend \DIFaddbegin \DIFadd{lay populations, in addition to
+those who work with data professionally, }\DIFaddend are now expected to be able to
+use and accurately interpret data visualizations on a daily basis
+\citep{bbc_2022}. This expectation confers a responsibility on the part
+of data visualization designers to design in such \DIFdelbegin \DIFdel{a way }\DIFdelend \DIFaddbegin \DIFadd{ways }\DIFaddend that people with
+\DIFdelbegin \DIFdel{little }\DIFdelend \DIFaddbegin \DIFadd{limited }\DIFaddend statistical or graph training \DIFdelbegin \DIFdel{can expect to be }\DIFdelend \DIFaddbegin \DIFadd{are }\DIFaddend able to correctly interpret
+data visualizations. Doing this requires us to understand human
+perception\DIFdelbegin \DIFdel{and perceptual phenomena}\DIFdelend , apply this understanding to data visualization design, and
+test those designs in rigorous empirical work. Here, we present a
 fully-reproducible, crowdsourced online experiment in which we
 systematically alter visual features in scatterplots to correct for a
 \DIFdelbegin \DIFdel{historic }\DIFdelend \DIFaddbegin \DIFadd{well-known }\DIFaddend bias. We combine two techniques for correcting \DIFdelbegin \DIFdel{for }\DIFdelend correlation
@@ -612,7 +610,7 @@ inverted \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity 
 \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend of a point decreased the closer it was to the regression line,
 resulted in significantly lower and less accurate correlation estimates
 compared to uniformly \DIFdelbegin \DIFdel{full-contrast }\DIFdelend \DIFaddbegin \DIFadd{full-opacity }\DIFaddend plots with the same overall shape.
-This finding suggests that the lower \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend in the center of the
+This finding suggests that \DIFdelbegin \DIFdel{the lower contrast }\DIFdelend \DIFaddbegin \DIFadd{lower opacity }\DIFaddend in the center of the
 scatterplot biased viewers' perceptions down. When point \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend or size
 are reduced as a function of distance from the regression line
 \citep{strain_2023, strain_2023b}, viewers rate correlation as
@@ -696,9 +694,10 @@ contrast; instead we report the alpha value used. Given that our work
 aims to improve correlation perception without removing data from the
 scatterplot, we also incorporate point visibility testing (see
 Section~\ref{sec-VT}). Informal point visibility piloting suggested that
-our smallest, lowest \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend points had very low visibility. We
-therefore implemented an alpha = 0.2 floor for these points, which we
-judged as conferring a sufficient level of point visibility.
+our smallest, lowest \DIFdelbegin \DIFdel{contrast points had very }\DIFdelend \DIFaddbegin \DIFadd{opacity points had }\DIFaddend low visibility. We therefore
+implemented an alpha = 0.2 floor for these points, which we judged as
+conferring a sufficient level of point visibility \DIFaddbegin \DIFadd{for the range of point
+sizes we used}\DIFaddend .
 
 Previous work has found that lowering the \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend of \emph{all}
 scatterplot points relative to the background can increase the level of
@@ -743,22 +742,23 @@ tend also to have smaller points. Bubble charts are a subclass of
 scatterplot which use point size to describe a third variable, but what
 \DIFdelbegin \DIFdel{little }\DIFdelend experimental work there is on the impact of point size on correlation
 perception is inconclusive. Some work has found bias and variability in
-correlation perception to be invariant to changes in point size
-\citep{rensink_2012, rensink_2014}, while elsewhere a strong effect of
-changing point size as a function of distance from the regression line
-has been reported \citep{strain_2023b}. Evidence points towards a
-salience-dominant mechanism in the latter case, albeit with a small
-effect of spatial uncertainty. There is evidence that larger stimulus
-size is associated with lower levels of spatial certainty
-\citep{alais_2004}, but higher levels of salience \citep{healey_2011}\DIFaddbegin \DIFadd{,
-results which are supported by evidence that reaction times are slower
-to smaller stimuli \mbox{%DIFAUXCMD
+correlation perception to be invariant to \DIFaddbegin \DIFadd{both uniform and irregular
+}\DIFaddend changes in point size \citep{rensink_2012, rensink_2014}, while
+elsewhere a strong effect of changing point size as a function of
+distance from the regression line has been reported
+\citep{strain_2023b}. Evidence points towards a salience-dominant
+mechanism in the latter case, albeit with a small effect of spatial
+uncertainty. There is evidence that larger stimulus size is associated
+with lower levels of spatial certainty \citep{alais_2004}, but higher
+levels of salience \citep{healey_2011}\DIFaddbegin \DIFadd{, results which are supported by
+evidence that reaction times are slower to smaller stimuli
+\mbox{%DIFAUXCMD
 \citep{gramazio_2014, osaka_1976}}\hskip0pt%DIFAUXCMD
-}\DIFaddend . The predicted
-effects of these drivers on correlation perception work in the opposite
+}\DIFaddend . The predicted effects of \DIFdelbegin \DIFdel{these drivers }\DIFdelend \DIFaddbegin \DIFadd{spatial
+certainty and salience }\DIFaddend on correlation perception \DIFdelbegin \DIFdel{work }\DIFdelend \DIFaddbegin \DIFadd{operate }\DIFaddend in the opposite
 direction to one another, which has allowed researchers to provide
-evidence for the mechanistic dominance of salience when point size is
-used. When an inverted size decay function is used such that smaller
+evidence for the mechanistic dominance of salience when point size \DIFaddbegin \DIFadd{decay
+}\DIFaddend is used. When an inverted size decay function is used such that smaller
 points are located nearer the regression line, correlation estimation is
 significantly more accurate than when all points are the same size
 \citep{strain_2023b}. In this case it was suggested that the higher
@@ -790,18 +790,15 @@ functions in both \DIFdelbegin \DIFdel{standard orientation (contrast}\DIFdelend
 residual magnitude) and inverted orientation (\DIFdelbegin \DIFdel{contrast}\DIFdelend \DIFaddbegin \DIFadd{opacity}\DIFaddend /size is increased
 with residual magnitude). Throughout we refer to \emph{congruent} and
 \emph{incongruent} conditions with respect to the combination of
-orientations of size and \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend decay functions. \DIFaddbegin \DIFadd{Note that the use of
-this terminology is unrelated to the concept of redundant encoding
-\mbox{%DIFAUXCMD
-\citep{nothelfer_2017}}\hskip0pt%DIFAUXCMD
-. }\DIFaddend We hypothesize that: (H1) an increased reduction
-in correlation estimation error will be observed when congruent \DIFdelbegin \DIFdel{standard }\DIFdelend \DIFaddbegin \DIFadd{typical
-}\DIFaddend orientation decay functions are used; (H2) the use of congruent inverted
-orientation decay functions will produce the least accurate estimates of
-correlation; and (H3) that owing to the greater strength of the size
-channel observed in previous work \citep{strain_2023b}, there will be a
-significant difference in correlation estimates between the two
-incongruent orientation conditions.
+orientations of size and \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend decay functions. We hypothesize that:
+(H1) an increased reduction in correlation estimation error will be
+observed when congruent \DIFdelbegin \DIFdel{standard }\DIFdelend \DIFaddbegin \DIFadd{typical }\DIFaddend orientation decay functions are used;
+(H2) the use of congruent inverted orientation decay functions will
+produce the least accurate estimates of correlation; and (H3) that owing
+to the greater strength of the size channel observed in previous work
+\citep{strain_2023b}, there will be a significant difference in
+correlation estimates between the two incongruent orientation
+conditions.
 
 \hypertarget{sec-methods}{%
 \section{Methodology}\label{sec-methods}}
@@ -862,18 +859,21 @@ errors in correlation estimates. Models such as these allow us to
 compare differences in our IV across the full range of participant
 responses, as opposed to relying purely on aggregate data, as in ANOVA.
 These models also afford us the ability to include random effects for
-participants and items. As per our pre-registrations we preferred
-maximal models \mbox{%DIFAUXCMD
+participants and items, and are particularly resilient to a range of
+distributional assumption violations \mbox{%DIFAUXCMD
+\citep{schielzeth_2020}}\hskip0pt%DIFAUXCMD
+. As per our
+pre-registrations we preferred maximal models \mbox{%DIFAUXCMD
 \citep{barr_2013}}\hskip0pt%DIFAUXCMD
-, including random intercepts and slopes
-for participants and items. The structures of these models were
-identified using the }\textbf{\DIFadd{buildmer}} \DIFadd{package (version 2.10.1,
-\mbox{%DIFAUXCMD
+,
+including random intercepts and slopes for participants and items. The
+structures of these models were identified using the }\textbf{\DIFadd{buildmer}}
+\DIFadd{package (version 2.10.1, \mbox{%DIFAUXCMD
 \citep{voeten_buildmer}}\hskip0pt%DIFAUXCMD
-) in R. This package takes a maximal random
-effects structure and then identifies the most complex model that
-converges by dropping terms that fail to explain a significant amount of
-variance.
+) in R. This package
+takes a maximal random effects structure and then identifies the most
+complex model that converges by dropping terms that fail to explain a
+significant amount of variance.
 }
 
 \DIFaddend \hypertarget{sec-scatter-gen}{%
@@ -935,15 +935,16 @@ previous work \citep{strain_2023, strain_2023b}. \DIFdelbegin %DIFDELCMD <
 %DIFDELCMD < %%%
 \DIFdelend 0.25 was chosen as the
 value of \emph{b}. This value was used in previous studies that the
-present work builds upon, and it produces a curve approximating the
-inverse around the identity line of the underestimation curve reported
-in previous work \citep{rensink_2017, strain_2023, strain_2023b}. We
-acknowledge that there may be other, more suitable values of \emph{b},
-however \DIFdelbegin \DIFdel{extensive
-}\DIFdelend testing of these is outside the scope of the present work. We
-used this equation in \DIFdelbegin \DIFdel{standard }\DIFdelend \DIFaddbegin \DIFadd{typical }\DIFaddend and inverted orientation forms applied to
-point size and \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend in a factorial 2 x 2 design. Examples of the
-stimuli used can be seen in Figure~\ref{fig-examples}.
+present work builds upon, and it produces a curve approximating \DIFdelbegin \DIFdel{the inverse }\DIFdelend \DIFaddbegin \DIFadd{a
+reflection }\DIFaddend around the identity line of the underestimation curve
+reported in previous work
+\citep{rensink_2017, strain_2023, strain_2023b}. We acknowledge that
+there may be other, more suitable values of \emph{b}, however \DIFdelbegin \DIFdel{extensive
+}\DIFdelend testing of
+these is outside the scope of the present work. We used this equation in
+\DIFdelbegin \DIFdel{standard }\DIFdelend \DIFaddbegin \DIFadd{typical }\DIFaddend and inverted orientation forms applied to point size and \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity
+}\DIFaddend in a factorial 2 x 2 design. Examples of the stimuli used can be seen in
+Figure~\ref{fig-examples}.
 
 \begin{figure}
 
@@ -1007,9 +1008,9 @@ our small, low \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{op
 to low contrast between the point and background, as previous work
 \citep{strain_2023b} found point visibility largely invariant to size.
 We suggest this is due to differences in monitor specifications between
-participants. In reality minimum visible size and \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend would need to
-be calibrated on a per-monitor basis. We also include performance on the
-point visibility test as a fixed effect in
+participants. In reality minimum visible \DIFdelbegin \DIFdel{size and contrast }\DIFdelend \DIFaddbegin \DIFadd{point size and opacity }\DIFaddend would
+need to be calibrated on a per-monitor basis. We also include
+performance on the point visibility test as a fixed effect in
 Section~\ref{sec-add-analyses}.
 
 \hypertarget{sec-dot-pitch}{%
@@ -1073,8 +1074,8 @@ questions, and, as per pre-registration stipulations, were rejected from
 the study. Data from the remaining 150 participants were included in the
 full analysis (50.7\% male, 48.7\% female, and 0.7\% non-binary).
 Participants' mean age was 30.6 (\emph{SD} = 8.6). Participants' mean
-graph literacy score was 22.5 (\emph{SD} = 3.5). The average time taken
-to complete the experiment was 37 minutes (\emph{SD} = 12.3).
+graph literacy score was 22.5 (\emph{SD} = 3.5) \DIFdelbegin \DIFdel{. }\DIFdelend \DIFaddbegin \DIFadd{out of 30. }\DIFaddend The average
+time taken to complete the experiment was 37 minutes (\emph{SD} = 12.3).
 \DIFaddbegin \DIFadd{Section~\ref{sec-add-analyses} contains a discussion of the time taken
 to complete the experiment.
 }\DIFaddend 
@@ -1093,21 +1094,22 @@ hosted at (link removed for anon).
 \section{Results}\label{sec-results}}
 
 \DIFaddbegin \DIFadd{All analyses were conducted using R (version 4.3.1). Deviation coding
-was used for each of the experimental factors. We used the
-}\textbf{\DIFadd{buildmer}} \DIFadd{and }\textbf{\DIFadd{lme4}} \DIFadd{(version 1.1-34 \mbox{%DIFAUXCMD
+was used for each of the experimental factors, which allows us to
+compare means of }\emph{\DIFadd{r}} \DIFadd{estimation error for each fixed effect to the
+grand mean. We used the }\textbf{\DIFadd{buildmer}} \DIFadd{and }\textbf{\DIFadd{lme4}} \DIFadd{(version
+1.1-34 \mbox{%DIFAUXCMD
 \citep{lme4}}\hskip0pt%DIFAUXCMD
-)
-packages to build a linear mixed effects model where the difference
-between objective and rated }\emph{\DIFadd{r}} \DIFadd{value was predicted by the size and
-opacity decay functions used. Semi-partial R\textsuperscript{2} was
-calculated using the }\textbf{\DIFadd{r2glmm}} \DIFadd{package (version 0.1.2
-\mbox{%DIFAUXCMD
+) packages to build a linear mixed effects model
+where the difference between objective and rated }\emph{\DIFadd{r}} \DIFadd{value was
+predicted by the size and opacity decay functions used. Semi-partial
+R\textsuperscript{2} was calculated using the }\textbf{\DIFadd{r2glmm}} \DIFadd{package
+(version 0.1.2 \mbox{%DIFAUXCMD
 \citep{r2glmm}}\hskip0pt%DIFAUXCMD
-). The }\textbf{\DIFadd{emmeans}} \DIFadd{package (version 1.8.8
-\mbox{%DIFAUXCMD
+). The }\textbf{\DIFadd{emmeans}} \DIFadd{package (version
+1.8.8 \mbox{%DIFAUXCMD
 \citep{emmeans}}\hskip0pt%DIFAUXCMD
-) was used to calculate pairwise comparisons between
-levels of the size and opacity decay factor.
+) was used to calculate pairwise comparisons
+between levels of the size and opacity decay factors.
 }
 
 \DIFaddend Our first two hypotheses were fully supported in this experiment. The
@@ -1164,21 +1166,22 @@ experimental model has random intercepts for items and participants, and
 a random slope for the size decay factor with regards to participants.
 Due both to our use of a linear mixed model with an interaction term,
 and our lack of a comparative baseline condition (i.e no size or \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity
-}\DIFaddend function used), we do not report a \DIFaddbegin \DIFadd{traditional }\DIFaddend measure of effect size.
-Instead we report the amounts of variance explained by each fixed effect
-term and the interaction term as semi-partial R\textsuperscript{2}
-\citep{nakagawa_2013}\DIFdelbegin \DIFdel{. These values
+decay }\DIFaddend function used), we do not report a \DIFaddbegin \DIFadd{traditional }\DIFaddend measure of effect
+size. Instead we report the amounts of variance explained by each fixed
+effect term and the interaction term as semi-partial
+R\textsuperscript{2} \citep{nakagawa_2013}\DIFdelbegin \DIFdel{. These values
 were calculated using the }\textbf{\DIFdel{r2glmm}} %DIFAUXCMD
 \DIFdel{package (version 0.1.2
 \mbox{%DIFAUXCMD
 \citep{r2glmm}}\hskip0pt%DIFAUXCMD
-) and }\DIFdelend \DIFaddbegin \DIFadd{, which }\DIFaddend can be see in Table~\ref{tbl-sig} along
-with all model statistics. \DIFdelbegin \DIFdel{The }\textbf{\DIFdel{emmeans}} %DIFAUXCMD
+) and }\DIFdelend \DIFaddbegin \DIFadd{, which }\DIFaddend can be see in
+Table~\ref{tbl-sig} along with all model statistics. \DIFdelbegin \DIFdel{The }\textbf{\DIFdel{emmeans}} %DIFAUXCMD
 \DIFdel{package (version 1.8.8
 \mbox{%DIFAUXCMD
 \citep{emmeans}}\hskip0pt%DIFAUXCMD
-) was used to calculate pairwise }\DIFdelend \DIFaddbegin \DIFadd{Pairwise }\DIFaddend comparisons between levels of the
-size and \DIFdelbegin \DIFdel{contrast decay factor , and }\DIFdelend \DIFaddbegin \DIFadd{opacity decay factor }\DIFaddend can be seen in Table~\ref{tbl-contrasts}.
+) was used to calculate pairwise }\DIFdelend \DIFaddbegin \DIFadd{Pairwise
+}\DIFaddend comparisons between levels of the size and \DIFdelbegin \DIFdel{contrast decay factor , and }\DIFdelend \DIFaddbegin \DIFadd{opacity decay factor }\DIFaddend can be
+seen in Table~\ref{tbl-contrasts}.
 
 \begin{figure}
 
@@ -1203,7 +1206,7 @@ compared. }\tabularnewline
 \centering
 \begin{tabular}{lrl}
 \toprule
-Contrast & Z.ratio & \textit{p}\\
+Contrast & Z \DIFdelbeginFL \DIFdelFL{.}\DIFdelendFL ratio & \textit{p}\\
 \midrule
 \DIFdelbeginFL \DIFdelFL{SO }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{TO }\DIFaddendFL Size x IO \DIFdelbeginFL \DIFdelFL{Contrast }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{Opacity }\DIFaddendFL <-> IO Size x IO \DIFdelbeginFL \DIFdelFL{Contrast }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{Opacity }\DIFaddendFL & -10.95 & <0.001\\
 \DIFdelbeginFL \DIFdelFL{SO }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{TO }\DIFaddendFL Size x IO \DIFdelbeginFL \DIFdelFL{Contrast }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{Opacity }\DIFaddendFL <-> \DIFdelbeginFL \DIFdelFL{SO Size x SO Contrast }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{TO Size x TO Opacity }\DIFaddendFL & 72.29 & <0.001\\
@@ -1253,10 +1256,10 @@ represented by the ribbon in Figure~\ref{fig-time-plot}, stabilises
 quickly and remains stable for most of the experiment, only widening
 again around trial number 170. We suggest that this is a result of
 participants knowing that they were coming to the end of the experiment
-and being less vigilant as a result. Regardless of its significance, }\DIFaddend we
-do not consider \DIFdelbegin \DIFdel{it }\DIFdelend \DIFaddbegin \DIFadd{this effect }\DIFaddend large enough to warrant further \DIFdelbegin \DIFdel{discussion}\DIFdelend \DIFaddbegin \DIFadd{analysis,
-although future work will take into account potential effects of
-experimental length}\DIFaddend .
+and being less vigilant as a result. Regardless of its statistical
+significance, }\DIFaddend we do not consider \DIFdelbegin \DIFdel{it }\DIFdelend \DIFaddbegin \DIFadd{this effect }\DIFaddend large enough to warrant
+further \DIFdelbegin \DIFdel{discussion}\DIFdelend \DIFaddbegin \DIFadd{analysis, although future work will take into account potential
+effects of experiment length}\DIFaddend .
 
 \DIFaddbegin \begin{figure}
 
@@ -1284,8 +1287,11 @@ size is stronger, and that while we can influence correlation estimates
 in either direction, \DIFdelbegin \DIFdel{standard }\DIFdelend \DIFaddbegin \DIFadd{typical }\DIFaddend orientation manipulations are more powerful
 than inverted ones \citep{strain_2023, strain_2023b}. As one would
 expect, we also see an effect of orientation congruency on the extent to
-which a manipulation can bias correlation estimates. The lack of support
-for our third hypothesis, that there would be a difference in
+which a manipulation can bias correlation estimates\DIFdelbegin \DIFdel{. }\DIFdelend \DIFaddbegin \DIFadd{; redundant encoding,
+such as that present here in congruent conditions, is known to support
+visual grouping and segmentation. We now provide evidence that
+redundancy can be exploited to change correlation perception. }\DIFaddend The lack
+of support for our third hypothesis, that there would be a difference in
 correlation estimates between incongruent conditions, was surprising
 given the greater strength of the size channel relative to \DIFdelbegin \DIFdel{contrast
 }\DIFdelend \DIFaddbegin \DIFadd{opacity
@@ -1358,7 +1364,7 @@ with regards to influencing correlation estimates, the fact that this
 power depends on the direction the function is set causes incongruent
 functions to act against each other in ways we would not expect. Indeed,
 the incongruent condition that used a \DIFdelbegin \DIFdel{standard }\DIFdelend \DIFaddbegin \DIFadd{typical }\DIFaddend orientation size decay
-function did exhibit lower mean error than the one using inverted
+function \DIFdelbegin \DIFdel{did exhibit }\DIFdelend \DIFaddbegin \DIFadd{exhibited }\DIFaddend lower mean error than the one using inverted
 orientation size decay (see Figure~\ref{fig-diff-error-bars-plot}),
 however in each case the \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend decay appears to have blunted the power
 of the size decay function to the extent that the difference in errors
@@ -1402,9 +1408,10 @@ that used similar decay functions and experimental paradigms allows us
 to compare estimation curves for size decay and \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend decay in
 isolation and in combination. Figure~\ref{fig-est-multi-exp} shows
 correlation estimation error curves in the present experiment, in two
-previous studies that used decay functions applied solely to size or
-\DIFdelbegin \DIFdel{contrast}\DIFdelend \DIFaddbegin \DIFadd{opacity}\DIFaddend , and with no manipulations present. \DIFdelbegin \DIFdel{This final }\DIFdelend \DIFaddbegin \DIFadd{The ``no manipulations
-present'' }\DIFaddend plot is averaged over conditions from previous work.
+previous studies that \DIFaddbegin \DIFadd{the same }\DIFaddend used decay functions applied solely to
+size or \DIFdelbegin \DIFdel{contrast}\DIFdelend \DIFaddbegin \DIFadd{opacity}\DIFaddend , and with no manipulations present. \DIFdelbegin \DIFdel{This final }\DIFdelend \DIFaddbegin \DIFadd{The ``no
+manipulations present'' }\DIFaddend plot is averaged over conditions from \DIFdelbegin \DIFdel{previous work}\DIFdelend \DIFaddbegin \DIFadd{our
+previous works (references removed for anon)}\DIFaddend .
 
 \begin{figure}
 
@@ -1443,8 +1450,11 @@ making a case for the inclusion of both when tuning scatterplots for
 correlation estimation due to the complementary benefits each confers.
 Throughout the course of this section it should be noted that the
 analyses include data from several separate experiments. We argue that
-their methodological similarities render comparison appropriate, but we
-acknowledge the potential for overstated conclusions.
+their \DIFdelbegin \DIFdel{methodological similarities render comparison }\DIFdelend \DIFaddbegin \DIFadd{use of identical decay equations (albeit in isolation) and
+experimental paradigms render comparisons }\DIFaddend appropriate, but we
+acknowledge the potential for overstated conclusions. \DIFaddbegin \DIFadd{(references
+removed for anon).
+}\DIFaddend 
 
 Using \DIFdelbegin \DIFdel{a contrast }\DIFdelend \DIFaddbegin \DIFadd{an opacity }\DIFaddend decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the
@@ -1455,7 +1465,7 @@ Importantly, it also preserves the increase in correlation estimation
 precision \DIFaddbegin \DIFadd{with }\emph{\DIFadd{r}} \DIFaddend that we would expect to find during correlation
 estimation tasks. Using the size decay function in isolation has a more
 dramatic effect. The shape of the estimation curve is altered quite
-radically, and there is no increase in precision with the objective
+radically, and \DIFdelbegin \DIFdel{there is no increase in precision }\DIFdelend \DIFaddbegin \DIFadd{estimation precision does not increase }\DIFaddend with the objective
 \emph{r} value \citep{strain_2023b}. Size decay over-corrects at lower
 values of \emph{r}, leading to an overestimation effect, while at high
 values the curve begins to change direction, leading to a more severe
@@ -1486,7 +1496,12 @@ shows the power \DIFdelbegin \DIFdel{we would need }\DIFdelend \DIFaddbegin \DIF
 underestimation curve (see Figure~\ref{fig-underestimation-curve}). As
 we can see, size alone provides the closest to the requirement, and
 combining size and \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend decay functions results in gross
-overestimation.
+overestimation. \DIFaddbegin \DIFadd{Figure~\ref{fig-power-plot} also includes the integral
+of each power curve over }\emph{\DIFadd{r}}\DIFadd{, a measure of the total power of each
+curve. We also display the difference between this integral and the
+integral of each required power curve over }\emph{\DIFadd{r}}\DIFadd{, which shows to what
+extent the power we observed differs from what would be required.
+}\DIFaddend 
 
 \begin{figure}
 
@@ -1498,9 +1513,10 @@ overestimation.
 observed when a decay function/combination of decay functions is used
 and what is observed when no manipulation is used. The dashed line
 represents the power that would be required to correct for the observed
-underestimation of correlation in scatterplots. \DIFaddbeginFL \DIFaddFL{The difference in
-areas-under-the-curve between the required and observed power is shown
-on each plot.}\DIFaddendFL }
+underestimation of correlation in scatterplots. \DIFaddbeginFL \DIFaddFL{The integral of each
+power curve over }\textit{\DIFaddFL{r}} \DIFaddFL{is provided, as well as the difference
+between this integral and the integral of each required power curve over
+}\textit{\DIFaddFL{r}}\DIFaddFL{.}\DIFaddendFL }
 
 \end{figure}
 
@@ -1510,21 +1526,25 @@ on each plot.}\DIFaddendFL }
 Previous work has made the case for \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity }\DIFaddend and size decay acting
 primarily through salience/perceptual weighting \DIFaddbegin \DIFadd{regarding correlation
 estimation}\DIFaddend , with the caveat that spatial certainty also plays a small
-part in the mechanism behind size decay
-\citep{strain_2023, strain_2023b}. Our results are supportive of this
-notion, with our highest and lowest estimates being observed in the
-congruent \DIFdelbegin \DIFdel{standard }\DIFdelend \DIFaddbegin \DIFadd{typical }\DIFaddend and congruent inverted conditions respectively. These
-findings also support dot density \citep{yang_2023} and feature-based
-attentional bias accounts \citep{hong_2021, sun_2016}. As all of these
-mechanisms would be expected to operate in the same direction, making
-conclusions about the relative contributions of each is difficult. The
-body of evidence generally points to a high-level probability
-distribution account \citep{rensink_2017, rensink_2022}. On a lower
-level, numerous candidate mechanisms exist, which are mostly expected to
-act in the same direction. Previous work concluded that spatial
-certainty \citep{strain_2023b} may play a small role with regards to the
-effects of size decay on correlation perception; our results neither
-confirm nor refute this, but instead provide further evidence for
+part in the mechanism behind size decay \DIFdelbegin \DIFdel{\mbox{%DIFAUXCMD
+\citep{strain_2023, strain_2023b}}\hskip0pt%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{strain_2023b}}\hskip0pt%DIFAUXCMD
+}\DIFaddend . Our
+results are supportive of this notion, with our highest and lowest
+estimates being observed in the congruent \DIFdelbegin \DIFdel{standard }\DIFdelend \DIFaddbegin \DIFadd{typical }\DIFaddend and congruent inverted
+conditions respectively. These findings also support dot density
+\citep{yang_2023} and feature-based attentional bias accounts
+\citep{hong_2021, sun_2016}. As all of these mechanisms would be
+expected to operate in the same direction, making conclusions about the
+relative contributions of each is difficult. The body of evidence
+generally points to a high-level probability distribution account
+\citep{rensink_2017, rensink_2022}. On a lower level, numerous candidate
+mechanisms exist, which are mostly expected to act in the same
+direction. Previous work concluded that spatial certainty
+\citep{strain_2023b} may play a small role with regards to the effects
+of size decay on correlation perception; our results neither confirm nor
+refute this, but instead provide further evidence for
 salience/perceptual weighting/dot density changing participants'
 perceptions of the width of a probability distribution to affect
 correlation estimates. \DIFaddbegin \DIFadd{Hong et al. \mbox{%DIFAUXCMD
@@ -1561,33 +1581,42 @@ to size or \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacit
 linearly additive, but must suggest further work to define precisely
 each of their contributions. \DIFaddbegin \DIFadd{While our provision of dot pitch
 measurements is a step in the right direction, the present methodology
-leaves us unable to comment on variability in participants' viewing
+leaves us unable to comment on the variability in participants' viewing
 contexts. We argue that our large sample size and recruitment from lay
 populations renders our conclusions resilient to changes in viewing
 contexts, but further, in-person, experimentation is planned to confirm
 this.
 }\DIFaddend 
 
-\DIFaddbegin \DIFadd{Channels such as point size, colour, opacity, and shape have been used
+\DIFaddbegin \DIFadd{Due to our extensive previous testing of no-adjustment, size-only, and
+opacity-only manipulation scatterplots (references removed for anon), we
+choose not to include these as conditions in the present work. We did
+not consider the increased costs and experimental length worth the
+inclusion of three extra conditions, although we acknowledge that these
+would assist us in making claims about additivity and the relative
+contributions of point size and opacity decay.
+}
+
+\DIFadd{Channels such as point size, colour, opacity, and shape have been used
 in past work to encode variables beyond the standard two in scatterplots
 \mbox{%DIFAUXCMD
 \citep{hong_2021, smart_2019}}\hskip0pt%DIFAUXCMD
 . While we focus purely on correlation
 estimation in the present work, we acknowledge that the use of our
-techniques is likely to lead to incorrect interpretations. Given that
-there is evidence that size, shape, and colour and not entirely
-separable scatterplot features \mbox{%DIFAUXCMD
+techniques is likely to lead to incorrect interpretations, especially
+when scatterplots are designed with other tasks in mind. Given evidence
+that size, shape, and colour and not entirely separable scatterplot
+features \mbox{%DIFAUXCMD
 \citep{smart_2019}}\hskip0pt%DIFAUXCMD
-, if viewers assume
-that variations in point size/opacity correspond to additional encoded
-variables, confounds in interpretations may be introduced. As our
-contribution in this paper is providing evidence that changing certain
-visual features in systematic ways can alter viewers' estimates of
-correlation, we do not consider this to be problematic. If charts such
-as the ones we have presented were to appear in the wild, however, it
-would be necessary to clarify that such charts were designed to aid in
-the rapid and intuitive interpretation of correlation (and }\emph{\DIFadd{only}}
-\DIFadd{this).
+, if viewers assume that variations in point
+size/opacity correspond to additional encoded variables, confounds in
+interpretations may be introduced. As our contribution in this paper is
+providing evidence that changing certain visual features in systematic
+ways can alter viewers' estimates of correlation, we do not consider
+this to be problematic. If charts such as the ones we have presented
+were to appear in the wild, however, it would be necessary to clarify
+that such charts were designed to aid in the rapid and intuitive
+interpretation of correlation (and }\emph{\DIFadd{only}} \DIFadd{this).
 }
 
 \DIFadd{While we put forward salience as the most likely driver of the effects
@@ -1627,7 +1656,7 @@ decay function that require rigorous testing in order to produce
 concrete values of the contributions of each. The value of \emph{b} is
 one such parameter. We used the same value of \emph{b} (0.25) as in
 previous work \citep{strain_2023, strain_2023b}. Changing this value can
-increase or decrease the severity of the effect in question.
+increase or decrease the severity of the \DIFdelbegin \DIFdel{effect }\DIFdelend \DIFaddbegin \DIFadd{decay function }\DIFaddend in question.
 Additionally, we used a constant and a scaling factor with the size
 decay manipulation to ensure our points were visible. These values could
 also be changed. Aside from changing aspects of equation 1, there are
@@ -1641,9 +1670,13 @@ major axis when asked to visually estimate the regression line
 \mbox{%DIFAUXCMD
 \citep{collyer_1990} }\hskip0pt%DIFAUXCMD
 suggests that this may produce a different pattern
-of results from those seen here. The present study }\DIFaddend opens the door for
-this future work, as it provides the necessary additional data to
-previous experiments using only size \citep{strain_2023b} or \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity
+of results from those seen here. If changes in dot density are driving
+changes in correlation estimates, the congruent conditions here are an
+example of redundant encoding. Future work may explore using different
+channels to redundantly encode dot density, such as marker
+shape/orientation or colour. The present study }\DIFaddend opens the door for this
+future work, as it provides the necessary additional data to previous
+experiments using only size \citep{strain_2023b} or \DIFdelbegin \DIFdel{contrast }\DIFdelend \DIFaddbegin \DIFadd{opacity
 }\DIFaddend \citep{strain_2023} decay functions. Further testing of these
 manipulations in isolation and combination using different decay
 function parameters will allow researchers to build a more complete

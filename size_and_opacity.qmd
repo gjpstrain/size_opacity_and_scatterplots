@@ -594,8 +594,8 @@ set.seed(1234)
 # Introduction
 
 Scatterplots are used for a wide variety of communicative tasks, both in academic and
-non-academic contexts. This ubiquity means they have been studied extensively. While most commonly
-used to represent linear correlation, or the degree of linear relatedness between two variables,
+non-academic contexts. While most commonly used to represent linear correlation,
+or the degree of linear relatedness between two variables,
 they can also be used to represent different groups (clustering), to aid in the detection of outliers,
 to characterize distributions, and to visualize non-linear correlations.
 @fig-tasks contains examples of scatterplots optimized for different tasks. There
@@ -612,11 +612,11 @@ displayed in positively correlated scatterplots. This holds true for direct
 estimation [@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989;
 @collyer_1990; @meyer_1992] and estimation via bisection tasks [@rensink_2017], and
 is particularly pronounced for values of *r* between 0.2 and 0.6. The COVID-19 pandemic demonstrated
-that it is no long only professionals and scientists that are expected to 
-use data visualizations. Lay populations are now expected to be able to use and accurately interpret data
+that lay populations, in addition to those who work with data professionally,
+are now expected to be able to use and accurately interpret data
 visualizations on a daily basis [@bbc_2022]. This expectation confers a responsibility on
 the part of data visualization designers to design in such ways that people with
-limited  statistical or graph training can expect to be able to correctly interpret
+limited  statistical or graph training are able to correctly interpret
 data visualizations. Doing this requires us to understand human perception,
 apply this understanding to data visualization design, and
 test those designs in rigorous empirical work. Here, we present a fully-reproducible,
@@ -797,7 +797,7 @@ both point density and salience/perceptual weighting being drivers of correlatio
 The use of an inverted opacity decay function [@strain_2023], such that the opacity of a point
 decreased the closer it was to the regression line, resulted in significantly
 lower and less accurate correlation estimates compared to uniformly full-opacity plots
-with the same overall shape. This finding suggests that the lower opacity in the
+with the same overall shape. This finding suggests that lower opacity in the
 center of the scatterplot biased viewers' perceptions down. When point opacity
 or size are reduced as a function of distance from the regression line 
 [@strain_2023; @strain_2023b], viewers rate correlation as significantly higher
@@ -906,7 +906,7 @@ make any attempt to adopt a formal definition of contrast; instead we
 report the alpha value used. Given that our work aims to improve correlation perception
 without removing data from the scatterplot, we also incorporate point visibility testing 
 (see @sec-VT). Informal point visibility piloting suggested that our smallest,
-lowest opacity points had very low visibility. We therefore implemented an alpha = 0.2 floor
+lowest opacity points had low visibility. We therefore implemented an alpha = 0.2 floor
 for these points, which we judged as conferring a sufficient level of point visibility
 for the range of point sizes we used.
 
@@ -1594,9 +1594,9 @@ Incorporating data from previous work [@strain_2023; @strain_2023b] that used
 similar decay functions and experimental paradigms allows us to compare estimation
 curves for size decay and opacity decay in isolation and in combination. 
 @fig-est-multi-exp shows correlation estimation error curves in the present experiment,
-in two previous studies that used decay functions applied solely to size or
+in two previous studies that the same used decay functions applied solely to size or
 opacity, and with no manipulations present. The "no manipulations present"
-plot is averaged over conditions from previous work.
+plot is averaged over conditions from our previous works (references removed for anon).
 
 ```{r}
 #| label: fig-est-multi-exp
@@ -1671,8 +1671,9 @@ and the manipulations together, before making a case for the inclusion of both
 when tuning scatterplots for correlation estimation due to the complementary
 benefits each confers. Throughout the course of this section it should be noted
 that the analyses include data from several separate experiments. We argue that
-their methodological similarities render comparison appropriate, but we acknowledge
-the potential for overstated conclusions.
+their use of identical decay equations (albeit in isolation) and experimental paradigms
+render comparisons appropriate, but we acknowledge the potential for overstated conclusions.
+(references removed for anon).
 
 Using an opacity decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the underestimation
@@ -1706,13 +1707,16 @@ any manipulation present. We term this 'power'. The dotted line on each plot
 shows the power that would be needed to correct for the standard underestimation
 curve (see @fig-underestimation-curve). As we can see, size alone provides the 
 closest to the requirement, and combining size and opacity decay functions 
-results in gross overestimation.
+results in gross overestimation. @fig-power-plot also includes the integral of each
+power curve over *r*, a measure of the total power of each curve. We also display
+the difference between this integral and the integral of each required power curve over *r*,
+which shows to what extent the power we observed differs from what would be required.
 
 ```{r}
 #| label: fig-power-plot
 #| include: true
 #| out-width: "100%"
-#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the observed underestimation of correlation in scatterplots. The difference in areas-under-the-curve between the required and observed power is shown on each plot.
+#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the observed underestimation of correlation in scatterplots. The integral of each power curve over \textit{r} is provided, as well as the difference between this integral and the integral of each required power curve over \textit{r}.
 
 # dataframe containing values from previous experiments and the current is included
 # in the data folder 
@@ -1730,18 +1734,31 @@ necessary_power <- curves %>% select(c("my_rs", "standard_curve")) %>%
 
 int_df <- left_join(curves, necessary_power, by = "my_rs")
 
-area_opac <- round(AUC(int_df$my_rs, int_df$mirror) - AUC(int_df$my_rs, int_df$opacity_power), 3)
+area_opac <- round(AUC(int_df$my_rs, int_df$opacity_power) - AUC(int_df$my_rs, int_df$mirror), 3)
 
-area_size <- round(AUC(int_df$my_rs, int_df$mirror) - AUC(int_df$my_rs, int_df$size_power), 3)
+area_size <- round(AUC(int_df$my_rs, int_df$size_power) - AUC(int_df$my_rs, int_df$mirror), 3)
 
-area_combined <- round(AUC(int_df$my_rs, int_df$mirror) - AUC(int_df$my_rs, int_df$additive_power), 3)
+area_combined <- round(AUC(int_df$my_rs, int_df$additive_power) - AUC(int_df$my_rs, int_df$mirror), 3)
 
-# create area labels for facetted plots
+int_opac <- round(AUC(int_df$my_rs, int_df$opacity_power), 3)
+
+int_size <- round(AUC(int_df$my_rs, int_df$size_power), 3)
+
+int_combined <- round(AUC(int_df$my_rs, int_df$additive_power), 3)
+
+# create area and int labels for facetted plots
 
 area_labels <- tibble(
   label = c(substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1) == a), list(a = area_opac)),
             substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1) == a), list(a = area_size)),
             substitute(expression(integral(italic(f)(italic(x)) - italic(g)(italic(x))*italic(dx), 0.2, 1) == a), list(a = area_combined))),
+  factor = c("opacity_power", "size_power", "additive_power"),
+)
+
+int_labels <- tibble(
+  label = c(substitute(expression(integral(italic(f)(italic(x))*italic(dx), 0.2, 1) == a), list(a = int_opac)),
+            substitute(expression(integral(italic(f)(italic(x))*italic(dx), 0.2, 1) == a), list(a = int_size)),
+            substitute(expression(integral(italic(f)(italic(x))*italic(dx), 0.2, 1) == a), list(a = int_combined))),
   factor = c("opacity_power", "size_power", "additive_power"),
 )
 
@@ -1782,9 +1799,15 @@ area_labels <- tibble(
     geom_text(data = area_labels,
               parse = T,
               mapping = aes(x = -Inf, y = -Inf, label = gsub("^.(.*).$", "\\1", str_replace(label, "expression", ""))),
-              hjust = -0.1,
+              hjust = -0.4,
               vjust = -0.2,
-              size = 3)
+              size = 2.5) +
+       geom_text(data = int_labels,
+              parse = T,
+              mapping = aes(x = -Inf, y = -Inf, label = gsub("^.(.*).$", "\\1", str_replace(label, "expression", ""))),
+              hjust = -0.6,
+              vjust = -1.6,
+              size = 2.5)
 
 ```
 
@@ -1835,6 +1858,13 @@ the present methodology leaves us unable to comment on the variability in partic
 viewing contexts. We argue that our large sample size and recruitment from lay 
 populations renders our conclusions resilient to changes in viewing contexts,
 but further, in-person, experimentation is planned to confirm this.
+
+Due to our extensive previous testing of no-adjustment, size-only, and opacity-only
+manipulation scatterplots (references removed for anon), we choose not to include
+these as conditions in the present work. We did not consider the increased
+costs and experimental length worth the inclusion of three extra
+conditions, although we acknowledge that these would assist us in making
+claims about additivity and the relative contributions of point size and opacity decay.
 
 Channels such as point size, colour, opacity, and shape have been used in past
 work to encode variables beyond the standard two in scatterplots [@hong_2021; @smart_2019].

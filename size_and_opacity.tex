@@ -364,21 +364,20 @@ changing point size and opacity in scatterplots.
 \section{Introduction}\label{introduction}}
 
 Scatterplots are used for a wide variety of communicative tasks, both in
-academic and non-academic contexts. This ubiquity means they have been
-studied extensively. While most commonly used to represent linear
-correlation, or the degree of linear relatedness between two variables,
-they can also be used to represent different groups (clustering), to aid
-in the detection of outliers, to characterize distributions, and to
-visualize non-linear correlations. Figure~\ref{fig-tasks} contains
-examples of scatterplots optimized for different tasks. There is
-evidence that people generally interpret scatterplots in similar ways
-\citep{kay_2015}, and that they support the interpretation of
-correlation significantly better than competing data visualizations
-\citep{li_2010}. Rapid interpretation by viewers \citep{rensink_2014},
-along with low levels of interindividual variance render scatterplots
-particularly suited for experimental work; they provide important
-insights into perception and visualization design while being simple to
-study \citep{rensink_2014}.
+academic and non-academic contexts. While most commonly used to
+represent linear correlation, or the degree of linear relatedness
+between two variables, they can also be used to represent different
+groups (clustering), to aid in the detection of outliers, to
+characterize distributions, and to visualize non-linear correlations.
+Figure~\ref{fig-tasks} contains examples of scatterplots optimized for
+different tasks. There is evidence that people generally interpret
+scatterplots in similar ways \citep{kay_2015}, and that they support the
+interpretation of correlation significantly better than competing data
+visualizations \citep{li_2010}. Rapid interpretation by viewers
+\citep{rensink_2014}, along with low levels of interindividual variance
+render scatterplots particularly suited for experimental work; they
+provide important insights into perception and visualization design
+while being simple to study \citep{rensink_2014}.
 
 While our interpretations of scatterplots are generally similar, the
 accuracy of those interpretations is generally poor. In particular,
@@ -388,16 +387,15 @@ estimation
 \citep{strahan_1978, bobko_1979, cleveland_1982, lane_1985, lauer_1989, collyer_1990, meyer_1992}
 and estimation via bisection tasks \citep{rensink_2017}, and is
 particularly pronounced for values of \emph{r} between 0.2 and 0.6. The
-COVID-19 pandemic demonstrated that it is no long only professionals and
-scientists that are expected to use data visualizations. Lay populations
-are now expected to be able to use and accurately interpret data
-visualizations on a daily basis \citep{bbc_2022}. This expectation
-confers a responsibility on the part of data visualization designers to
-design in such ways that people with limited statistical or graph
-training can expect to be able to correctly interpret data
-visualizations. Doing this requires us to understand human perception,
-apply this understanding to data visualization design, and test those
-designs in rigorous empirical work. Here, we present a
+COVID-19 pandemic demonstrated that lay populations, in addition to
+those who work with data professionally, are now expected to be able to
+use and accurately interpret data visualizations on a daily basis
+\citep{bbc_2022}. This expectation confers a responsibility on the part
+of data visualization designers to design in such ways that people with
+limited statistical or graph training are able to correctly interpret
+data visualizations. Doing this requires us to understand human
+perception, apply this understanding to data visualization design, and
+test those designs in rigorous empirical work. Here, we present a
 fully-reproducible, crowdsourced online experiment in which we
 systematically alter visual features in scatterplots to correct for a
 well-known bias. We combine two techniques for correcting correlation
@@ -508,7 +506,7 @@ inverted opacity decay function \citep{strain_2023}, such that the
 opacity of a point decreased the closer it was to the regression line,
 resulted in significantly lower and less accurate correlation estimates
 compared to uniformly full-opacity plots with the same overall shape.
-This finding suggests that the lower opacity in the center of the
+This finding suggests that lower opacity in the center of the
 scatterplot biased viewers' perceptions down. When point opacity or size
 are reduced as a function of distance from the regression line
 \citep{strain_2023, strain_2023b}, viewers rate correlation as
@@ -580,10 +578,10 @@ contrast; instead we report the alpha value used. Given that our work
 aims to improve correlation perception without removing data from the
 scatterplot, we also incorporate point visibility testing (see
 Section~\ref{sec-VT}). Informal point visibility piloting suggested that
-our smallest, lowest opacity points had very low visibility. We
-therefore implemented an alpha = 0.2 floor for these points, which we
-judged as conferring a sufficient level of point visibility for the
-range of point sizes we used.
+our smallest, lowest opacity points had low visibility. We therefore
+implemented an alpha = 0.2 floor for these points, which we judged as
+conferring a sufficient level of point visibility for the range of point
+sizes we used.
 
 Previous work has found that lowering the opacity of \emph{all}
 scatterplot points relative to the background can increase the level of
@@ -1181,9 +1179,10 @@ that used similar decay functions and experimental paradigms allows us
 to compare estimation curves for size decay and opacity decay in
 isolation and in combination. Figure~\ref{fig-est-multi-exp} shows
 correlation estimation error curves in the present experiment, in two
-previous studies that used decay functions applied solely to size or
-opacity, and with no manipulations present. The ``no manipulations
-present'' plot is averaged over conditions from previous work.
+previous studies that the same used decay functions applied solely to
+size or opacity, and with no manipulations present. The ``no
+manipulations present'' plot is averaged over conditions from our
+previous works (references removed for anon).
 
 \begin{figure}
 
@@ -1220,8 +1219,10 @@ making a case for the inclusion of both when tuning scatterplots for
 correlation estimation due to the complementary benefits each confers.
 Throughout the course of this section it should be noted that the
 analyses include data from several separate experiments. We argue that
-their methodological similarities render comparison appropriate, but we
-acknowledge the potential for overstated conclusions.
+their use of identical decay equations (albeit in isolation) and
+experimental paradigms render comparisons appropriate, but we
+acknowledge the potential for overstated conclusions. (references
+removed for anon).
 
 Using an opacity decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the
@@ -1261,7 +1262,11 @@ shows the power that would be needed to correct for the standard
 underestimation curve (see Figure~\ref{fig-underestimation-curve}). As
 we can see, size alone provides the closest to the requirement, and
 combining size and opacity decay functions results in gross
-overestimation.
+overestimation. Figure~\ref{fig-power-plot} also includes the integral
+of each power curve over \emph{r}, a measure of the total power of each
+curve. We also display the difference between this integral and the
+integral of each required power curve over \emph{r}, which shows to what
+extent the power we observed differs from what would be required.
 
 \begin{figure}
 
@@ -1273,9 +1278,10 @@ overestimation.
 observed when a decay function/combination of decay functions is used
 and what is observed when no manipulation is used. The dashed line
 represents the power that would be required to correct for the observed
-underestimation of correlation in scatterplots. The difference in
-areas-under-the-curve between the required and observed power is shown
-on each plot.}
+underestimation of correlation in scatterplots. The integral of each
+power curve over \textit{r} is provided, as well as the difference
+between this integral and the integral of each required power curve over
+\textit{r}.}
 
 \end{figure}
 
@@ -1337,6 +1343,14 @@ contexts. We argue that our large sample size and recruitment from lay
 populations renders our conclusions resilient to changes in viewing
 contexts, but further, in-person, experimentation is planned to confirm
 this.
+
+Due to our extensive previous testing of no-adjustment, size-only, and
+opacity-only manipulation scatterplots (references removed for anon), we
+choose not to include these as conditions in the present work. We did
+not consider the increased costs and experimental length worth the
+inclusion of three extra conditions, although we acknowledge that these
+would assist us in making claims about additivity and the relative
+contributions of point size and opacity decay.
 
 Channels such as point size, colour, opacity, and shape have been used
 in past work to encode variables beyond the standard two in scatterplots

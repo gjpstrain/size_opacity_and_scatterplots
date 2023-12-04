@@ -21,7 +21,7 @@ execute:
   message: false
   include: false
 
-title: Novel Effects of Size and Opacity Adjustments in Scatterplots
+title: Effects of Point Size and Opacity Adjustments in Scatterplots
 
 # if short-title is defined, then it's used
 short-title: Size, Opacity, and Scatterplots
@@ -128,7 +128,8 @@ acm-metadata:
     - crowdsourced
 
 abstract: |
-  Changing the size and opacity of points on scatterplots can be used to systematically improve viewers' perceptions of correlation. Evidence points to these effects being similar with regards to the mechanisms behind them, so one may expect that their combination would produce a simple additive effect on correlation estimation. We present a fully-reproducible study in which we combine techniques for influencing correlation perception to show that in reality, effects of changing point size and opacity interact in a non-additive fashion. We show that there is a great deal of scope for using visual features to change viewers' perceptions of data visualizations. Additionally, we use our results to further interrogate the perceptual mechanisms at play when changing point size and opacity in scatterplots.
+  Systematically changing the size and opacity of points on scatterplots can be used to induce more accurate perceptions of correlation by viewers of scatterplots. Evidence points to the mechanisms behind these effects being similar, so one may expect their combination to be additive regarding their effects on correlation estimation. We present a fully-reproducible study in which we combine techniques for influencing correlation perception to show that in reality, effects of changing point size and opacity interact in a non-additive 
+  fashion. We show that there is a great deal of scope for using visual features to change viewers' perceptions of data visualizations. Additionally, we use our results to further interrogate the perceptual mechanisms at play when changing point size and opacity in scatterplots.
   
 ---
 ```{r}
@@ -620,7 +621,7 @@ limited  statistical or graph training are able to correctly interpret
 data visualizations. Doing this requires us to understand human perception,
 apply this understanding to data visualization design, and
 test those designs in rigorous empirical work. Here, we present a fully-reproducible,
-crowdsourced online experiment in which we systematically alter visual features
+crowdsourced online experiment in which we systematically change visual features
 in scatterplots to correct for a well-known bias. We combine two techniques for
 correcting correlation underestimation in scatterplots and show that the
 effects are stronger than what might be expected from simple additive combination. Building on this, we
@@ -738,9 +739,9 @@ The testing of linear correlation perception in scatterplots has a long and rich
 explored a wide variety of plot types, tasks, and modeling methods. Work 
 involving participants making discrimination judgements between scatterplots with different
 correlations [@pollack_1960; @doherty_2007] found that performance on such tasks became better
-as the objective *r* value increased. This performance on discrimination judgement
+as the objective *r* value increased. This performance
 tasks can also be modeled by deep neural networks [@yang_2023]. Extensive work throughout the 1970s to 1990s 
-focused primarily on having participants produce a numerical estimate of correlation,
+focused on participants' numerical estimates of correlation,
 and found evidence for a systematic *underestimation* for positive *r* values besides
 0 and 1. This underestimation was especially pronounced for 0.2 < *r* < 0.6
 [@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989; @collyer_1990; @meyer_1992]
@@ -756,8 +757,8 @@ the communication of correlation [@li_2010; @harrison_2014]. The current experim
 adapts techniques from previous work [@strain_2023; @strain_2023b] and 
 combines them to further push the envelope of how systematically adjusting visual
 features in scatterplots can radically alter people's perceptions of correlation.
-For this reason we use the same direct estimation paradigm  to collect responses.
-This paradigm allows for a large number of judgements to be collected,
+For this reason we use the same direct estimation paradigm  to collect responses;
+this allows for a large number of judgements to be collected,
 and is simple enough that participants need little to no training.
 
 ## Drivers of Correlation Perception {#sec-drivers}
@@ -781,7 +782,8 @@ distances from scatterplot points to the regression line is predictive of perfor
 on a correlation estimation task [@yang_2019]. Equations for both discrimination
 and magnitude estimation of correlation include a quantity that is small
 when *r* = 1 and increases as *r* approaches 0 [@rensink_2017]. This quantity is indifferent
-to the type of visualization used, and is functionally similar to that found
+to the type of visualization used (e.g. line graphs and bar charts [@harrison_2014] or
+augmented stripplots [@rensink_2017]), and is functionally similar to that found
 in work mentioned above [@cleveland_1982; @meyer_1997; @yang_2019]. Regarding
 scatterplots, this quantity represents the average distance between data points
 and the regression line, and can be thought of as closely approximating the width
@@ -801,7 +803,7 @@ with the same overall shape. This finding suggests that lower opacity in the
 center of the scatterplot biased viewers' perceptions down. When point opacity
 or size are reduced as a function of distance from the regression line 
 [@strain_2023; @strain_2023b], viewers rate correlation as significantly higher
-and are significantly more accurate. This supports a low-level data salience
+and are significantly more accurate. These findings support a low-level data salience
 account. Our aims are to test the impact of systematically altering visual features on correlation perception 
 and to provide empirically-derived tools for visualization designers to design better
 visualizations informed by the use of a simple, reproducible framework.
@@ -910,7 +912,7 @@ lowest opacity points had low visibility. We therefore implemented an alpha = 0.
 for these points, which we judged as conferring a sufficient level of point visibility
 for the range of point sizes we used.
 
-Previous work has found that lowering the opacity of *all* 
+Previous work has found that uniformly lowering the opacity of *all* 
 scatterplot points relative to the background can increase the level of
 underestimation error relative to full opacity, and that lowering point
 opacity *as a function of distance from the regression line* is able to bias
@@ -966,7 +968,7 @@ body of evidence regarding stimulus size, perception, and attention. Hong et al.
 of global scatterplot means. Participants' estimates were significantly biased
 towards areas with larger points, especially when a wide range of point sizes 
 were used and there was a high correlation between point sizes and position.
-We formulate H3 according to this finding.
+We formulate H3 according to these findings.
 
 ## Hypotheses
 
@@ -993,7 +995,7 @@ regarding the use of these methods in our particular research paradigm. We
 then report on two additional pre-experimental tests that participants completed,
 point visibility testing and a screen scaling task to assess dot pitch. This
 section concludes by reporting on experimental procedure, participant recruitment
-and characteristics, and the experimental design itself.
+and characteristics, and experimental design.
 
 ## Crowdsourcing {#sec-crowdsourcing}
 
@@ -1032,9 +1034,7 @@ functions and participants' errors in correlation estimates. Models such as thes
 allow us to compare differences in our IV across the full range of participant 
 responses, as opposed to relying purely on aggregate data, as in ANOVA. These models also afford us 
 the ability to include random effects for participants and items, and are particularly
-resilient to a range of distributional assumption violations [@schielzeth_2020]. As per our pre-registrations
-we preferred maximal models [@barr_2013], including random intercepts and slopes for participants
-and items. The structures of these models were identified using the **buildmer** package
+resilient to a range of distributional assumption violations [@schielzeth_2020]. As per our pre-registrations we preferred maximal models [@barr_2013], including random intercepts and slopes for participants and items. The structures of these models were identified using the **buildmer** package
 (version 2.10.1, [@voeten_buildmer]) in R. This package takes a maximal random effects
 structure and then identifies the most complex model that converges by dropping
 terms that fail to explain a significant amount of variance.
@@ -1159,7 +1159,7 @@ that are more resilient to different viewing contexts than traditional lab-based
 experimental work. In addition to measures
 implemented to ensure high quality participant data (see @sec-crowdsourcing), it is also key that we do not
 inadvertently remove data from scatterplots by including points whose size or opacity
-renders them invisible. We therefore included point visibility testing to check this. Participants
+renders them invisible. We therefore included point visibility testing. Participants
 viewed six scatterplots that were made up of a certain number of points between 2 and 7. These points
 were of the same size and opacity as the smallest and lowest opacity points used
 in the experimental items. Participants were asked to enter in a textbox how many points
@@ -1186,7 +1186,7 @@ dot pitch based on these measurements. Mean dot pitch was
 corresponding to a physical on-screen size of `r printnum(dot_pitch$mean_dp*13)`mm
 on a 1920 x 1080 pixel monitor for the smallest points displayed on a hypothetical
 `r printnum(dot_pitch$mean_width)` x `r printnum(dot_pitch$mean_height)`cm monitor. 
-We include analyses with dot pitch as a fixed effect in @sec-add-analyses.
+We include analysis with dot pitch as a fixed effect in @sec-add-analyses.
 
 ## Procedure {#sec-gen-procedure}
 
@@ -1230,7 +1230,7 @@ contains a discussion of the time taken to complete the experiment.
 
 ## Design {#sec-design}
 
-We used a fully repeated-measures 2 x 2 factorial design. Each participant
+We employed a fully repeated-measures 2 x 2 factorial design. Each participant
 saw each combination of size and opacity decay function plots for a total of 180
 experimental items. Participants viewed these experimental items, along with 6
 attention check items, in a fully randomized order. All experimental code, materials,
@@ -1241,8 +1241,7 @@ and instructions are hosted at (link removed for anon).
 All analyses were conducted using R (version `r paste0(R.version$major, ".", R.version$minor)`). 
 Deviation coding was used for each of the experimental factors, which allows us to
 compare means of *r* estimation error for each fixed effect to the grand mean.
-We used the **buildmer** and **lme4** (version 1.1-34 [@lme4]) packages to build a linear mixed effects model where the difference
-between objective and rated *r* value was predicted by the size and opacity decay
+We used the **buildmer** and **lme4** (version 1.1-34 [@lme4]) packages to build a linear mixed effects model where the difference between objective and rated *r* value was predicted by the size and opacity decay
 functions used. Semi-partial R^2^ was calculated using the **r2glmm** package 
 (version 0.1.2 [@r2glmm]). The **emmeans** package (version 1.8.8 [@emmeans])
 was used to calculate pairwise comparisons between levels of the size and opacity decay factors.
@@ -1456,7 +1455,7 @@ with participants rating correlation .01 lower during the second half. This may 
 that having more recently viewed the four training plots described in @sec-gen-procedure
 increased participants' estimates of correlation. To analyse the potential variability
 of participant responses in more detail, we build a model including trial number. As
-the presentation of experimental stimuli were randomised separately for each participant,
+the presentation order of experimental stimuli was randomised separately for each participant,
 this allows us to examine responses purely as a function of *when* they were made.
 We find a significant effect of trial number on participant's errors ($\chi^2$(`r in_paren(timing_model.df)`) = 
 `r printnum(timing_model.Chisq)`, *p* `r printp(timing_model.p, add_equals = TRUE)`).
@@ -1544,7 +1543,7 @@ provide recommendations to visualization designers and researchers:
 @fig-emm-plot and @fig-diff-error-bars-plot show how, on average, 
 the combination of typical orientation size and opacity decay functions
 results in an overestimation of *r* for the majority of values.
-While this does not directly solve the underestimation problem, it does demonstrate
+While this does not solve the underestimation problem, it does demonstrate
 that with regards to using point size and opacity to bias viewer's estimates
 of correlation in scatterplots, there would appear to be few limitations. If we
 can over-correct correlation estimates, then we certainly have the ability to
@@ -1591,19 +1590,19 @@ opacity decay function normalizes this to the point where precision is restored.
 ## Contributions of Size and Opacity Decay
 
 Incorporating data from previous work [@strain_2023; @strain_2023b] that used 
-similar decay functions and experimental paradigms allows us to compare estimation
+similar decay functions and the same experimental paradigms allows us to compare estimation
 curves for size decay and opacity decay in isolation and in combination. 
 @fig-est-multi-exp shows correlation estimation error curves in the present experiment,
-in two previous studies that the same used decay functions applied solely to size or
+in two previous studies that used decay functions applied solely to size or
 opacity, and with no manipulations present. The "no manipulations present"
-plot is averaged over conditions from our previous works (references removed for anon).
+plot is averaged over conditions from previous work [@strain_2023; @strain_2023b].
 
 ```{r}
 #| label: fig-est-multi-exp
 #| include: true
 #| out-width: "100%"
 #| fig-asp: 0.33
-#| fig-cap: Plotting *r* estimation error against the objective *r* value for opacity and size decay in isolation from previous work, and for their combination in the present study. The dashed line represents 0 error in correlation estimation, and standard deviations are shown as error bars. Note that these curves have been smoothed. Overestimation occurs above the dashed line. The plot line for the plot without manipulation was averaged from previous work.
+#| fig-cap: Plotting *r* estimation error against the objective *r* value for opacity and size decay in isolation from previous work, and for their combination in the present study. The dashed line represents 0 error in correlation estimation, and standard deviations are shown as error bars. Note that these curves have been smoothed. Overestimation occurs above the dashed line. The curve for the plot without manipulation was averaged from previous work.
 
 # dataframe containing values from previous work and the current is included
 # in the data folder 
@@ -1671,9 +1670,10 @@ and the manipulations together, before making a case for the inclusion of both
 when tuning scatterplots for correlation estimation due to the complementary
 benefits each confers. Throughout the course of this section it should be noted
 that the analyses include data from several separate experiments. We argue that
-their use of identical decay equations (albeit in isolation) and experimental paradigms
-render comparisons appropriate, but we acknowledge the potential for overstated conclusions.
-(references removed for anon).
+their use of near-identical decay equations (in isolation and without the
+use of an opacity floor) and experimental paradigms
+render comparisons appropriate, but we acknowledge the potential for overstated conclusions
+[@strain_2023; @strain_2023b].
 
 Using an opacity decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the underestimation
@@ -1707,7 +1707,7 @@ any manipulation present. We term this 'power'. The dotted line on each plot
 shows the power that would be needed to correct for the standard underestimation
 curve (see @fig-underestimation-curve). As we can see, size alone provides the 
 closest to the requirement, and combining size and opacity decay functions 
-results in gross overestimation. @fig-power-plot also includes the integral of each
+results in gross overestimation. @fig-power-plot includes the integral of each
 power curve over *r*, a measure of the total power of each curve. We also display
 the difference between this integral and the integral of each required power curve over *r*,
 which shows to what extent the power we observed differs from what would be required.
@@ -1847,9 +1847,9 @@ for many of our participants it will have appeared that we were removing data, w
 violates our intended aims. Solving this would require a by-participant calibration
 of point size and point opacity, which is beyond the scope of our current methodology,
 as it would require stimuli to be fully re-generated for each participant. We aim to
-implement this in the future, although it would require a different platform,
-such as a server-based instance of Rstudio being run in the background to re-generate
-stimuli per a calibration task completed by the participant. We cannot say precisely
+implement this in the future, although it would require the use of a platform
+such that experimental stimuli could be regenerated per a calibration task completed
+by the participant. We cannot say precisely
 what proportions of the observed effect in the typical orientation congruent condition
 were due to size or opacity decay. We can conclude that these effects are not linearly
 additive, but must suggest further work to define precisely each of their contributions.
@@ -1859,8 +1859,8 @@ viewing contexts. We argue that our large sample size and recruitment from lay
 populations renders our conclusions resilient to changes in viewing contexts,
 but further, in-person, experimentation is planned to confirm this.
 
-Due to our extensive previous testing of no-adjustment, size-only, and opacity-only
-manipulation scatterplots (references removed for anon), we choose not to include
+Due to extensive previous testing of no-adjustment, size-only, and opacity-only
+manipulation scatterplots [@strain_2023; @strain_2023b], we choose not to include
 these as conditions in the present work. We did not consider the increased
 costs and experimental length worth the inclusion of three extra
 conditions, although we acknowledge that these would assist us in making
@@ -1873,7 +1873,7 @@ that the use of our techniques is likely to lead to incorrect interpretations, e
 when scatterplots are designed with other tasks in mind. Given evidence that size,
 shape, and colour and not entirely separable scatterplot 
 features [@smart_2019], if viewers assume that variations in point size/opacity correspond to additional
-encoded variables, confounds in interpretations may be introduced. As our contribution in this paper
+encoded variables, confounds in interpretation may be introduced. As our contribution in this paper
 is providing evidence that changing certain visual features in systematic ways can
 alter viewers' estimates of correlation, we do not consider this to be problematic.
 If charts such as the ones we have presented were to appear in the wild, however,
@@ -1896,7 +1896,7 @@ There is evidence that viewers overestimate correlation in negatively correlated
 scatterplots [@sher_2017]. Due to evidence that correlation perception in negatively
 correlated scatterplots functions symmetrically to that of positively correlated
 scatterplots [@harrison_2014], the techniques we have implemented in the current
-paper may be used in future (in a symmetrical manner) to address the overestimation bias.
+paper may be used (in a symmetrical manner) to address the overestimation bias.
 We found evidence that the influence of size and opacity decay functions changes according to the direction
 they are operating in, meaning experimental work with negatively correlated
 scatterplots would be required, and results may differ significantly from
@@ -1918,7 +1918,7 @@ the major axis when asked to visually estimate the regression line [@collyer_199
 suggests that this may produce a different pattern of results from those seen here.
 If changes in dot density are driving changes in correlation estimates, the congruent
 conditions here are an example of redundant encoding. Future work may explore using different
-channels to redundantly encode dot density, such as marker shape/orientation or colour.
+channels to redundantly encode dot density, such as marker shape, orientation or colour.
 The present study opens the door for this future work, as it provides the necessary additional data to 
 previous experiments using only size [@strain_2023b] or opacity [@strain_2023] decay functions.
 Further testing of these manipulations in isolation and combination using

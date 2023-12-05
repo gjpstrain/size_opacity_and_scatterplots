@@ -1517,7 +1517,7 @@ visual grouping and segmentation. We now provide evidence that redundancy can be
 to change correlation perception. The lack of support for our third hypothesis, that there would be a
 difference in correlation estimates between incongruent conditions, was surprising
 given the greater strength of the size channel relative to opacity demonstrated
-in previous work [@strain_2023; @strain_2023b], although this may be a facet of the non-additive
+in previous work [@strain_2023; @strain_2023b; @hong_2021], although this may be a facet of the non-additive
 interaction between size and opacity manipulations we found. Despite the lack of support for
 this hypothesis, we did find that the size decay channel explained more variance (.104)
 in our model than opacity decay (.087) was able to.
@@ -1550,7 +1550,7 @@ can over-correct correlation estimates, then we certainly have the ability to
 correct appropriately. The issue here is not one of our *ability* to change 
 people's perceptions, but of *tuning* the use of these visual features to be able
 to change people's perceptions in systematic ways. We explore what further 
-work would need to be done to do this in @sec-future-work. Combining inverted 
+work would need to be done to achieve this in @sec-future-work. Combining inverted 
 size and opacity decay functions also had the predicted effect in this case,
 producing the lowest and least accurate estimates of correlation.
 Combining inverted manipulations did not, however, significantly change the shape
@@ -1564,7 +1564,7 @@ that this power depends on the direction the function is set causes incongruent
 functions to act against each other in ways we would not expect. Indeed, the 
 incongruent condition that used a typical orientation size decay function exhibited
 lower mean error than the one using inverted orientation size decay (see @fig-diff-error-bars-plot),
-however in each case the opacity decay appears to have blunted the power of the
+however in each case opacity decay appears to have blunted the power of the
 size decay function to the extent that the difference in errors is not statistically
 significant.
 
@@ -1572,8 +1572,9 @@ significant.
 
 Much previous work is consistent regarding the finding that *r* estimation
 precision increases with the objective *r* value [@rensink_2010; @rensink_2012; @rensink_2014;
-@rensink_2017; @doherty_2007]. More recent work using size or opacity decay
-functions similar to the ones used here [@strain_2023; @strain_2023b] has found
+@rensink_2017; @doherty_2007]. More recent work using the same size or opacity decay
+functions (albeit in isolation and without an
+opacity floor) [@strain_2023; @strain_2023b] found
 that in some cases, precision in *r* estimation is *constant* across the range of
 *r* values investigated. For example, the use of a size decay function, whether
 using typical/inverted orientation non-linear functions or a linear decay
@@ -1589,8 +1590,7 @@ opacity decay function normalizes this to the point where precision is restored.
 
 ## Contributions of Size and Opacity Decay
 
-Incorporating data from previous work [@strain_2023; @strain_2023b] that used 
-similar decay functions and the same experimental paradigms allows us to compare estimation
+Incorporating data from previous work [@strain_2023; @strain_2023b] allows us to compare estimation
 curves for size decay and opacity decay in isolation and in combination. 
 @fig-est-multi-exp shows correlation estimation error curves in the present experiment,
 in two previous studies that used decay functions applied solely to size or
@@ -1602,7 +1602,7 @@ plot is averaged over conditions from previous work [@strain_2023; @strain_2023b
 #| include: true
 #| out-width: "100%"
 #| fig-asp: 0.33
-#| fig-cap: Plotting *r* estimation error against the objective *r* value for opacity and size decay in isolation from previous work, and for their combination in the present study. The dashed line represents 0 error in correlation estimation, and standard deviations are shown as error bars. Note that these curves have been smoothed. Overestimation occurs above the dashed line. The curve for the plot without manipulation was averaged from previous work.
+#| fig-cap: Plotting *r* estimation error against the objective *r* value for opacity and size decay in isolation from previous work, and for their combination in the present study. The dashed line represents 0 error in correlation estimation, and standard deviations are shown as error bars. Note that these curves have been smoothed. Overestimation occurs above the dashed line.
 
 # dataframe containing values from previous work and the current is included
 # in the data folder 
@@ -1709,7 +1709,7 @@ curve (see @fig-underestimation-curve). As we can see, size alone provides the
 closest to the requirement, and combining size and opacity decay functions 
 results in gross overestimation. @fig-power-plot includes the integral of each
 power curve over *r*, a measure of the total power of each curve. We also display
-the difference between this integral and the integral of each required power curve over *r*,
+the difference between this integral and the integral of each required- power curve over *r*,
 which shows to what extent the power we observed differs from what would be required.
 
 ```{r}
@@ -1839,12 +1839,12 @@ and opacity are not the same.
 ## Limitations {#sec-limitations}
 
 Firstly, our participants' performance on the point visibility task was poor, with
-an average score of only `r printnum(VT$mean_VT_perc_correct)`%. 
+an average score of `r printnum(VT$mean_VT_perc_correct)`%. 
 It is clear from these results that for many participants, the smallest and lowest
 opacity points we used were simply not visible, although it would seem that this
 low visibility had no significant effect on correlation estimates. Regardless,
 for many of our participants it will have appeared that we were removing data, which
-violates our intended aims. Solving this would require a by-participant calibration
+violates our intended aims. Addressing this would require a by-participant calibration
 of point size and point opacity, which is beyond the scope of our current methodology,
 as it would require stimuli to be fully re-generated for each participant. We aim to
 implement this in the future, although it would require the use of a platform
@@ -1893,9 +1893,9 @@ this is beyond the scope of the current work.
 ## Future Work {#sec-future-work}
 
 There is evidence that viewers overestimate correlation in negatively correlated
-scatterplots [@sher_2017]. Due to evidence that correlation perception in negatively
+scatterplots [@sher_2017]. Findings that correlation perception in negatively
 correlated scatterplots functions symmetrically to that of positively correlated
-scatterplots [@harrison_2014], the techniques we have implemented in the current
+scatterplots [@harrison_2014] suggest that the techniques we have implemented in the current
 paper may be used (in a symmetrical manner) to address the overestimation bias.
 We found evidence that the influence of size and opacity decay functions changes according to the direction
 they are operating in, meaning experimental work with negatively correlated
@@ -1918,7 +1918,7 @@ the major axis when asked to visually estimate the regression line [@collyer_199
 suggests that this may produce a different pattern of results from those seen here.
 If changes in dot density are driving changes in correlation estimates, the congruent
 conditions here are an example of redundant encoding. Future work may explore using different
-channels to redundantly encode dot density, such as marker shape, orientation or colour.
+channels to redundantly encode dot density, such as marker shape, orientation, or color.
 The present study opens the door for this future work, as it provides the necessary additional data to 
 previous experiments using only size [@strain_2023b] or opacity [@strain_2023] decay functions.
 Further testing of these manipulations in isolation and combination using

@@ -1077,11 +1077,12 @@ redundancy can be exploited to change correlation perception. The lack
 of support for our third hypothesis, that there would be a difference in
 correlation estimates between incongruent conditions, was surprising
 given the greater strength of the size channel relative to opacity
-demonstrated in previous work \citep{strain_2023, strain_2023b},
-although this may be a facet of the non-additive interaction between
-size and opacity manipulations we found. Despite the lack of support for
-this hypothesis, we did find that the size decay channel explained more
-variance (.104) in our model than opacity decay (.087) was able to.
+demonstrated in previous work
+\citep{strain_2023, strain_2023b, hong_2021}, although this may be a
+facet of the non-additive interaction between size and opacity
+manipulations we found. Despite the lack of support for this hypothesis,
+we did find that the size decay channel explained more variance (.104)
+in our model than opacity decay (.087) was able to.
 
 Taking into account the present work, which manipulates point size and
 opacity together, and previous work manipulating the same visual
@@ -1123,7 +1124,7 @@ estimates, then we certainly have the ability to correct appropriately.
 The issue here is not one of our \emph{ability} to change people's
 perceptions, but of \emph{tuning} the use of these visual features to be
 able to change people's perceptions in systematic ways. We explore what
-further work would need to be done to do this in
+further work would need to be done to achieve this in
 Section~\ref{sec-future-work}. Combining inverted size and opacity decay
 functions also had the predicted effect in this case, producing the
 lowest and least accurate estimates of correlation. Combining inverted
@@ -1140,7 +1141,7 @@ function is set causes incongruent functions to act against each other
 in ways we would not expect. Indeed, the incongruent condition that used
 a typical orientation size decay function exhibited lower mean error
 than the one using inverted orientation size decay (see
-Figure~\ref{fig-diff-error-bars-plot}), however in each case the opacity
+Figure~\ref{fig-diff-error-bars-plot}), however in each case opacity
 decay appears to have blunted the power of the size decay function to
 the extent that the difference in errors is not statistically
 significant.
@@ -1151,30 +1152,29 @@ significant.
 Much previous work is consistent regarding the finding that \emph{r}
 estimation precision increases with the objective \emph{r} value
 \citep{rensink_2010, rensink_2012, rensink_2014, rensink_2017, doherty_2007}.
-More recent work using size or opacity decay functions similar to the
-ones used here \citep{strain_2023, strain_2023b} has found that in some
-cases, precision in \emph{r} estimation is \emph{constant} across the
-range of \emph{r} values investigated. For example, the use of a size
-decay function, whether using typical/inverted orientation non-linear
-functions or a linear decay function, results in \textbf{no} change in
-\emph{r} estimation precision \citep{strain_2023b}. When opacity is used
-in the same ways, only an inverted decay function \textbf{does not}
-exhibit the conventional increase in precision with \emph{r}. In the
-present work, precision in \emph{r} estimation increased whenever a
-typical orientation opacity decay function was used. We suggest this is
-part of the moderating effect of the point opacity decay function on the
-size decay function; the visual character of scatterplots with high
-\emph{r} values that use the size decay function eliminates the usual
-increase in precision we would expect, however the introduction of the
-opacity decay function normalizes this to the point where precision is
-restored.
+More recent work using the same size or opacity decay functions (albeit
+in isolation and without an opacity floor)
+\citep{strain_2023, strain_2023b} found that in some cases, precision in
+\emph{r} estimation is \emph{constant} across the range of \emph{r}
+values investigated. For example, the use of a size decay function,
+whether using typical/inverted orientation non-linear functions or a
+linear decay function, results in \textbf{no} change in \emph{r}
+estimation precision \citep{strain_2023b}. When opacity is used in the
+same ways, only an inverted decay function \textbf{does not} exhibit the
+conventional increase in precision with \emph{r}. In the present work,
+precision in \emph{r} estimation increased whenever a typical
+orientation opacity decay function was used. We suggest this is part of
+the moderating effect of the point opacity decay function on the size
+decay function; the visual character of scatterplots with high \emph{r}
+values that use the size decay function eliminates the usual increase in
+precision we would expect, however the introduction of the opacity decay
+function normalizes this to the point where precision is restored.
 
 \hypertarget{contributions-of-size-and-opacity-decay}{%
 \subsection{Contributions of Size and Opacity
 Decay}\label{contributions-of-size-and-opacity-decay}}
 
 Incorporating data from previous work \citep{strain_2023, strain_2023b}
-that used similar decay functions and the same experimental paradigms
 allows us to compare estimation curves for size decay and opacity decay
 in isolation and in combination. Figure~\ref{fig-est-multi-exp} shows
 correlation estimation error curves in the present experiment, in two
@@ -1194,8 +1194,7 @@ against the objective \emph{r} value for opacity and size decay in
 isolation from previous work, and for their combination in the present
 study. The dashed line represents 0 error in correlation estimation, and
 standard deviations are shown as error bars. Note that these curves have
-been smoothed. Overestimation occurs above the dashed line. The curve
-for the plot without manipulation was averaged from previous work.}
+been smoothed. Overestimation occurs above the dashed line.}
 
 \end{figure}
 
@@ -1264,8 +1263,8 @@ combining size and opacity decay functions results in gross
 overestimation. Figure~\ref{fig-power-plot} includes the integral of
 each power curve over \emph{r}, a measure of the total power of each
 curve. We also display the difference between this integral and the
-integral of each required power curve over \emph{r}, which shows to what
-extent the power we observed differs from what would be required.
+integral of each required- power curve over \emph{r}, which shows to
+what extent the power we observed differs from what would be required.
 
 \begin{figure}
 
@@ -1319,17 +1318,17 @@ and opacity are not the same.
 \subsection{Limitations}\label{sec-limitations}}
 
 Firstly, our participants' performance on the point visibility task was
-poor, with an average score of only 74.89\%. It is clear from these
-results that for many participants, the smallest and lowest opacity
-points we used were simply not visible, although it would seem that this
-low visibility had no significant effect on correlation estimates.
+poor, with an average score of 74.89\%. It is clear from these results
+that for many participants, the smallest and lowest opacity points we
+used were simply not visible, although it would seem that this low
+visibility had no significant effect on correlation estimates.
 Regardless, for many of our participants it will have appeared that we
-were removing data, which violates our intended aims. Solving this would
-require a by-participant calibration of point size and point opacity,
-which is beyond the scope of our current methodology, as it would
-require stimuli to be fully re-generated for each participant. We aim to
-implement this in the future, although it would require the use of a
-platform such that experimental stimuli could be regenerated per a
+were removing data, which violates our intended aims. Addressing this
+would require a by-participant calibration of point size and point
+opacity, which is beyond the scope of our current methodology, as it
+would require stimuli to be fully re-generated for each participant. We
+aim to implement this in the future, although it would require the use
+of a platform such that experimental stimuli could be regenerated per a
 calibration task completed by the participant. We cannot say precisely
 what proportions of the observed effect in the typical orientation
 congruent condition were due to size or opacity decay. We can conclude
@@ -1384,46 +1383,46 @@ the scope of the current work.
 \subsection{Future Work}\label{sec-future-work}}
 
 There is evidence that viewers overestimate correlation in negatively
-correlated scatterplots \citep{sher_2017}. Due to evidence that
-correlation perception in negatively correlated scatterplots functions
-symmetrically to that of positively correlated scatterplots
-\citep{harrison_2014}, the techniques we have implemented in the current
-paper may be used (in a symmetrical manner) to address the
-overestimation bias. We found evidence that the influence of size and
-opacity decay functions changes according to the direction they are
-operating in, meaning experimental work with negatively correlated
-scatterplots would be required, and results may differ significantly
-from findings related to the underestimation of correlation in
-positively correlated scatterplots. For size and opacity decay in the
-present work we used equation 1. Given our finding that the combination
-is non-additive, there are a multitude of adjustable parameters for each
-decay function that require rigorous testing in order to produce
-concrete values of the contributions of each. The value of \emph{b} is
-one such parameter. We used the same value of \emph{b} (0.25) as in
-previous work \citep{strain_2023, strain_2023b}. Changing this value can
-increase or decrease the severity of the decay function in question.
-Additionally, we used a constant and a scaling factor with the size
-decay manipulation to ensure our points were visible. These values could
-also be changed. Aside from changing aspects of equation 1, there are
-other equations that could be used, including ones that take into
-account objective \emph{r} value to change the values used to set point
-size or opacity. Future experimental work may use the major axis through
-the probability ellipse instead of the regression line as a baseline to
-change point sizes and opacities; evidence that people often report the
-major axis when asked to visually estimate the regression line
-\citep{collyer_1990} suggests that this may produce a different pattern
-of results from those seen here. If changes in dot density are driving
-changes in correlation estimates, the congruent conditions here are an
-example of redundant encoding. Future work may explore using different
-channels to redundantly encode dot density, such as marker shape,
-orientation or colour. The present study opens the door for this future
-work, as it provides the necessary additional data to previous
-experiments using only size \citep{strain_2023b} or opacity
-\citep{strain_2023} decay functions. Further testing of these
-manipulations in isolation and combination using different decay
-function parameters will allow researchers to build a more complete
-picture of how these visual features impact correlation estimation, and
-how we can exploit them to correct for well-known biases.
+correlated scatterplots \citep{sher_2017}. Findings that correlation
+perception in negatively correlated scatterplots functions symmetrically
+to that of positively correlated scatterplots \citep{harrison_2014}
+suggest that the techniques we have implemented in the current paper may
+be used (in a symmetrical manner) to address the overestimation bias. We
+found evidence that the influence of size and opacity decay functions
+changes according to the direction they are operating in, meaning
+experimental work with negatively correlated scatterplots would be
+required, and results may differ significantly from findings related to
+the underestimation of correlation in positively correlated
+scatterplots. For size and opacity decay in the present work we used
+equation 1. Given our finding that the combination is non-additive,
+there are a multitude of adjustable parameters for each decay function
+that require rigorous testing in order to produce concrete values of the
+contributions of each. The value of \emph{b} is one such parameter. We
+used the same value of \emph{b} (0.25) as in previous work
+\citep{strain_2023, strain_2023b}. Changing this value can increase or
+decrease the severity of the decay function in question. Additionally,
+we used a constant and a scaling factor with the size decay manipulation
+to ensure our points were visible. These values could also be changed.
+Aside from changing aspects of equation 1, there are other equations
+that could be used, including ones that take into account objective
+\emph{r} value to change the values used to set point size or opacity.
+Future experimental work may use the major axis through the probability
+ellipse instead of the regression line as a baseline to change point
+sizes and opacities; evidence that people often report the major axis
+when asked to visually estimate the regression line \citep{collyer_1990}
+suggests that this may produce a different pattern of results from those
+seen here. If changes in dot density are driving changes in correlation
+estimates, the congruent conditions here are an example of redundant
+encoding. Future work may explore using different channels to
+redundantly encode dot density, such as marker shape, orientation, or
+color. The present study opens the door for this future work, as it
+provides the necessary additional data to previous experiments using
+only size \citep{strain_2023b} or opacity \citep{strain_2023} decay
+functions. Further testing of these manipulations in isolation and
+combination using different decay function parameters will allow
+researchers to build a more complete picture of how these visual
+features impact correlation estimation, and how we can exploit them to
+correct for well-known biases.
 
 Through this work we also provide an example of an experimental
 framework that we argue should be employed to test a wider range of data

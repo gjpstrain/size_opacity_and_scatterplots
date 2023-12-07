@@ -740,13 +740,12 @@ explored a wide variety of plot types, tasks, and modeling methods. Work
 involving participants making discrimination judgements between scatterplots with different
 correlations [@pollack_1960; @doherty_2007] found that performance on such tasks became better
 as the objective *r* value increased. This performance
-tasks can also be modeled by deep neural networks [@yang_2023]. Extensive work throughout the 1970s to 1990s 
+can also be modeled by deep neural networks [@yang_2023]. Extensive work throughout the 1970s to 1990s 
 focused on participants' numerical estimates of correlation,
 and found evidence for a systematic *underestimation* for positive *r* values besides
 0 and 1. This underestimation was especially pronounced for 0.2 < *r* < 0.6
 [@strahan_1978; @bobko_1979; @cleveland_1982; @lane_1985; @lauer_1989; @collyer_1990; @meyer_1992]
-and is demonstrated using an equation relating objective to subjective correlation [@rensink_2017] in
-@fig-underestimation-curve. More recent work has attempted to model participants' 
+and is illustrated in @fig-underestimation-curve. More recent work has attempted to model participants' 
 correlation estimation performance by using a combination of a bisection task, in which participants are asked to adjust a
 plot until its correlation is halfway between that of two reference plots, and a
 staircase method task designed to produce Just Noticeable Differences between scatterplots such
@@ -800,7 +799,7 @@ The use of an inverted opacity decay function [@strain_2023], such that the opac
 decreased the closer it was to the regression line, resulted in significantly
 lower and less accurate correlation estimates compared to uniformly full-opacity plots
 with the same overall shape. This finding suggests that lower opacity in the
-center of the scatterplot biased viewers' perceptions down. When point opacity
+center of the scatterplot further biased participants towards underestimation. When point opacity
 or size are reduced as a function of distance from the regression line 
 [@strain_2023; @strain_2023b], viewers rate correlation as significantly higher
 and are significantly more accurate. These findings support a low-level data salience
@@ -928,7 +927,7 @@ predicting results in the same direction, previous work [@strain_2023] has
 been unable to determine the extent to which each is responsible for the 
 observed reduction in correlation estimation error.
 
-Micallef et al. [@micallef_2017] also found that "merging, dark dots" optimally
+Micallef et al. [@micallef_2017] also found that "merging, dark dots"
 support correlation estimation; despite only changing point opacity in a *uniform*
 manner, the sheer number of points used in that study results
 in scatterplots that appear similar to those that reduce opacity as a function of residual
@@ -1310,7 +1309,7 @@ than the null ($\chi^2$(`r in_paren(model.df)`) =
 `r printnum(model.Chisq)`, *p* `r printp(model.p, add_equals = TRUE)`). There
 were significant fixed effects of size decay and opacity decay, as well
 as a significant interaction between the two. The experimental model has random intercepts for items
-and participants, and a random slope for the size decay factor with regards to participants.
+and participants, and random slopes for participants with regards to the size decay factor.
 Due both to our use of a linear mixed model with an interaction
 term, and our lack of a comparative baseline condition (i.e no size or opacity decay function used),
 we do not report a traditional measure of effect size. Instead we report the amounts of variance
@@ -1520,7 +1519,7 @@ given the greater strength of the size channel relative to opacity demonstrated
 in previous work [@strain_2023; @strain_2023b; @hong_2021], although this may be a facet of the non-additive
 interaction between size and opacity manipulations we found. Despite the lack of support for
 this hypothesis, we did find that the size decay channel explained more variance (.104)
-in our model than opacity decay (.087) was able to.
+in our model than opacity decay (.087).
 
 Taking into account the present work, which manipulates point size and opacity
 together, and previous work manipulating the same visual features in isolation, we 
@@ -1697,13 +1696,14 @@ not represent an ideal tuning, as participants overestimated *r* for the majorit
 values, but this confirms that there is the scope to bias *r* estimates significantly
 using the functions supplied here. Further work would be required to obtain 
 precise measures of the contributions of each decay function when they are used together,
-as their combination is not linearly additive. Doing
+as their combination is not additive. Doing
 this would allow us to tune each function according to both objective *r* value
 and the tuning of the other function to facilitate more accurate correlation estimates.
 We can derive new curves that describe the effect
 that each manipulation and the combination of manipulations has on correlation estimates
 (@fig-power-plot) by comparing them to estimates without
-any manipulation present. We term this 'power'. The dotted line on each plot
+any manipulation present across the range of *r* values used.
+We term this 'power'. The dotted line on each plot
 shows the power that would be needed to correct for the standard underestimation
 curve (see @fig-underestimation-curve). As we can see, size alone provides the 
 closest to the requirement, and combining size and opacity decay functions 
@@ -1867,7 +1867,7 @@ conditions, although we acknowledge that these would assist us in making
 claims about additivity and the relative contributions of point size and opacity decay.
 
 Channels such as point size, colour, opacity, and shape have been used in past
-work to encode variables beyond the standard two in scatterplots [@hong_2021; @smart_2019].
+work to encode variables beyond the standard two typically used in scatterplots [@hong_2021; @smart_2019].
 While we focus purely on correlation estimation in the present work, we acknowledge
 that the use of our techniques is likely to lead to incorrect interpretations, especially
 when scatterplots are designed with other tasks in mind. Given evidence that size,
@@ -1877,7 +1877,7 @@ encoded variables, confounds in interpretation may be introduced. As our contrib
 is providing evidence that changing certain visual features in systematic ways can
 alter viewers' estimates of correlation, we do not consider this to be problematic.
 If charts such as the ones we have presented were to appear in the wild, however,
-it would be necessary to clarify that such charts were designed to aid in the
+it would be necessary to clarify that they were designed to aid in the
 rapid and intuitive interpretation of correlation (and *only* this).
 
 While we put forward salience as the most likely driver of the effects on correlation

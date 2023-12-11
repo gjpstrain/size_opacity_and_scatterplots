@@ -1020,7 +1020,7 @@ but has served the authors well in prior work.
 This study was conducted according to the principles of open and reproducible
 research [@ayris_2018]. All data and analysis code are available at (repository link removed for anon).
 This repository contains instructions for building a Docker container to fully reproduce the computational
-environment used. This allows for full replications of stimuli, analyses, and the paper
+environment used, allowing for full replications of stimuli, analyses, and the paper
 itself. Ethical approval was granted by (removed for anon). Hypotheses
 and analysis plans were pre-registered with the OSF (links removed for anon) and
 there were no deviations from them.
@@ -1072,7 +1072,7 @@ size in the present study is both visible and consistent with that of previous w
 0.25 was chosen as the value of *b*. This value was used in previous studies
 that the present work builds upon, and it produces a curve approximating a 
 reflection around the identity line of the underestimation curve reported in previous
-work [@rensink_2017; @strain_2023; @strain_2023b]. We acknowledge that there
+studies [@rensink_2017; @strain_2023; @strain_2023b]. We acknowledge that there
 may be other, more suitable values of *b*, however testing of these is
 outside the scope of the present work. We used this equation in typical and inverted
 orientation forms applied to point size and opacity in a factorial 2 x 2 design.
@@ -1084,7 +1084,7 @@ Examples of the stimuli used can be seen in @fig-examples.
 #| fig-asp: 0.29
 #| fig-align: "left"
 #| include: true
-#| fig-cap: Examples of the experimental stimuli used.
+#| fig-cap: Examples of the experimental stimuli used with an \textit{r} value of 0.6.
 
 example_plots_congruent <- ggarrange(plot_example_function(slopes,
                                         (1-slopes$slope_0.25),
@@ -1310,7 +1310,7 @@ than the null ($\chi^2$(`r in_paren(model.df)`) =
 were significant fixed effects of size decay and opacity decay, as well
 as a significant interaction between the two. The experimental model has random intercepts for items
 and participants, and random slopes for participants with regards to the size decay factor.
-Due both to our use of a linear mixed model with an interaction
+Due both to our use of a linear mixed effects model with an interaction
 term, and our lack of a comparative baseline condition (i.e no size or opacity decay function used),
 we do not report a traditional measure of effect size. Instead we report the amounts of variance
 explained by each fixed effect term and the interaction term as semi-partial
@@ -1341,6 +1341,7 @@ as_tibble(emmeans(model, pairwise ~ size * opacity)[[1]]) %>%
        x = " Size : Opacity") +
   theme(axis.text = element_text(size = 7),
         axis.title = element_text(size = 8)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
   coord_flip() +
   geom_abline(intercept = 0, slope = 0, linetype = 2) +
   annotate(geom = "segment",
@@ -1454,7 +1455,7 @@ with participants rating correlation .01 lower during the second half. This may 
 that having more recently viewed the four training plots described in @sec-gen-procedure
 increased participants' estimates of correlation. To analyse the potential variability
 of participant responses in more detail, we build a model including trial number. As
-the presentation order of experimental stimuli was randomised separately for each participant,
+the presentation order of experimental stimuli was randomized separately for each participant,
 this allows us to examine responses purely as a function of *when* they were made.
 We find a significant effect of trial number on participant's errors ($\chi^2$(`r in_paren(timing_model.df)`) = 
 `r printnum(timing_model.Chisq)`, *p* `r printp(timing_model.p, add_equals = TRUE)`).
@@ -1709,7 +1710,7 @@ curve (see @fig-underestimation-curve). As we can see, size alone provides the
 closest to the requirement, and combining size and opacity decay functions 
 results in gross overestimation. @fig-power-plot includes the integral of each
 power curve over *r*, a measure of the total power of each curve. We also display
-the difference between this integral and the integral of each required- power curve over *r*,
+the difference between this integral and the integral of each required-power curve over *r*,
 which shows to what extent the power we observed differs from what would be required.
 
 ```{r}
@@ -1905,7 +1906,7 @@ correlated scatterplots. For size and opacity decay in the present work we used 
 Given our finding that the combination is non-additive, there are a multitude of adjustable parameters 
 for each decay function that require rigorous testing
 in order to produce concrete values of the contributions of each. The value of 
-*b* is one such parameter. We used the same value of *b* (0.25) as in previous
+*b* is one such parameter. We used the same value of *b* (0.25) as previous
 work [@strain_2023; @strain_2023b]. Changing this value can increase or decrease
 the severity of the decay function in question. Additionally, we used a constant and a scaling factor
 with the size decay manipulation to ensure our points were visible. These values

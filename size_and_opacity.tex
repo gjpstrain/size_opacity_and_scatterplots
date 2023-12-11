@@ -714,7 +714,7 @@ This study was conducted according to the principles of open and
 reproducible research \citep{ayris_2018}. All data and analysis code are
 available at (repository link removed for anon). This repository
 contains instructions for building a Docker container to fully reproduce
-the computational environment used. This allows for full replications of
+the computational environment used, allowing for full replications of
 stimuli, analyses, and the paper itself. Ethical approval was granted by
 (removed for anon). Hypotheses and analysis plans were pre-registered
 with the OSF (links removed for anon) and there were no deviations from
@@ -780,7 +780,7 @@ previous work \citep{strain_2023, strain_2023b}. 0.25 was chosen as the
 value of \emph{b}. This value was used in previous studies that the
 present work builds upon, and it produces a curve approximating a
 reflection around the identity line of the underestimation curve
-reported in previous work
+reported in previous studies
 \citep{rensink_2017, strain_2023, strain_2023b}. We acknowledge that
 there may be other, more suitable values of \emph{b}, however testing of
 these is outside the scope of the present work. We used this equation in
@@ -792,7 +792,8 @@ Figure~\ref{fig-examples}.
 
 \includegraphics[width=1\textwidth,height=\textheight]{size_and_opacity_files/figure-pdf/fig-examples-1.pdf} \hfill{}
 
-\caption{\label{fig-examples}Examples of the experimental stimuli used.}
+\caption{\label{fig-examples}Examples of the experimental stimuli used
+with an \textit{r} value of 0.6.}
 
 \end{figure}
 
@@ -956,11 +957,11 @@ variance than the null (\(\chi^2\)(3) = 5,286.81, \emph{p} \textless{}
 decay, as well as a significant interaction between the two. The
 experimental model has random intercepts for items and participants, and
 random slopes for participants with regards to the size decay factor.
-Due both to our use of a linear mixed model with an interaction term,
-and our lack of a comparative baseline condition (i.e no size or opacity
-decay function used), we do not report a traditional measure of effect
-size. Instead we report the amounts of variance explained by each fixed
-effect term and the interaction term as semi-partial
+Due both to our use of a linear mixed effects model with an interaction
+term, and our lack of a comparative baseline condition (i.e no size or
+opacity decay function used), we do not report a traditional measure of
+effect size. Instead we report the amounts of variance explained by each
+fixed effect term and the interaction term as semi-partial
 R\textsuperscript{2} \citep{nakagawa_2013}, which can be see in
 Table~\ref{tbl-sig} along with all model statistics. Pairwise
 comparisons between levels of the size and opacity decay factor can be
@@ -996,7 +997,6 @@ TO Size x IO Opacity <-> TO Size x TO Opacity & 72.29 & <0.001\\
 TO Size x IO Opacity <-> IO Size x TO Opacity & -2.26 & 0.108\\
 IO Size x IO Opacity <-> TO Size x TO Opacity & 46.13 & <0.001\\
 IO Size x IO Opacity <-> IO Size x TO Opacity & 17.84 & <0.001\\
-\addlinespace
 TO Size x TO Opacity <-> IO Size x TO Opacity & -37.44 & <0.001\\
 \bottomrule
 \end{tabular}
@@ -1029,7 +1029,7 @@ four training plots described in Section~\ref{sec-gen-procedure}
 increased participants' estimates of correlation. To analyse the
 potential variability of participant responses in more detail, we build
 a model including trial number. As the presentation order of
-experimental stimuli was randomised separately for each participant,
+experimental stimuli was randomized separately for each participant,
 this allows us to examine responses purely as a function of \emph{when}
 they were made. We find a significant effect of trial number on
 participant's errors (\(\chi^2\)(1) = 29.31, \emph{p} \textless{} .001).
@@ -1263,8 +1263,8 @@ decay functions results in gross overestimation.
 Figure~\ref{fig-power-plot} includes the integral of each power curve
 over \emph{r}, a measure of the total power of each curve. We also
 display the difference between this integral and the integral of each
-required- power curve over \emph{r}, which shows to what extent the
-power we observed differs from what would be required.
+required-power curve over \emph{r}, which shows to what extent the power
+we observed differs from what would be required.
 
 \begin{figure}
 
@@ -1399,7 +1399,7 @@ equation 1. Given our finding that the combination is non-additive,
 there are a multitude of adjustable parameters for each decay function
 that require rigorous testing in order to produce concrete values of the
 contributions of each. The value of \emph{b} is one such parameter. We
-used the same value of \emph{b} (0.25) as in previous work
+used the same value of \emph{b} (0.25) as previous work
 \citep{strain_2023, strain_2023b}. Changing this value can increase or
 decrease the severity of the decay function in question. Additionally,
 we used a constant and a scaling factor with the size decay manipulation

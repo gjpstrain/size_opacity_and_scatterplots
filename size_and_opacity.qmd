@@ -63,27 +63,25 @@ author:
 # acm-specific metadata
 acm-metadata:
   # comment this out to make submission anonymous
-  # anonymous: true
+  anonymous: false
 
   # comment this out to build a draft version
   final: true
 
   # comment this out to specify detailed document options
-  acmart-options: manuscript, review, anonymous, screen  
+  acmart-options: sigconf
 
   # acm preamble information
   copyright-year: 2024
   acm-year: 2024
-  copyright: acmcopyright
-  doi: XXXXXXX.XXXXXXX
-  conference-acronym: "CHI"
+  copyright: rightsretained
+  doi: 10.1145/3613904.3642127
+  conference-acronym: "CHI'24"
   conference-name: |
-    Make sure to enter the correct
-    conference title from your rights confirmation email
-  conference-date: June 03--05, 2018
-  conference-location: Honolulu, HI
-  price: "15.00"
-  isbn: 978-1-4503-XXXX-X/18/06
+    Proceedings of the CHI Conference on Human Factors in Computing Systems
+  conference-date: May 11--16, 2024
+  conference-location: Honolulu, HI, USA
+  isbn: 979-8-4007-0330-0/24/05
 
   # if present, replaces the list of authors in the page header.
   shortauthors: Strain et al.
@@ -128,7 +126,7 @@ acm-metadata:
     - crowdsourced
 
 abstract: |
-  Systematically changing the size and opacity of points on scatterplots can be used to induce more accurate perceptions of correlation by viewers of scatterplots. Evidence points to the mechanisms behind these effects being similar, so one may expect their combination to be additive regarding their effects on correlation estimation. We present a fully-reproducible study in which we combine techniques for influencing correlation perception to show that in reality, effects of changing point size and opacity interact in a non-additive 
+  Systematically changing the size and opacity of points on scatterplots can be used to induce more accurate perceptions of correlation by viewers. Evidence points to the mechanisms behind these effects being similar, so one may expect their combination to be additive regarding their effects on correlation estimation. We present a fully-reproducible study in which we combine techniques for influencing correlation perception to show that in reality, effects of changing point size and opacity interact in a non-additive 
   fashion. We show that there is a great deal of scope for using visual features to change viewers' perceptions of data visualizations. Additionally, we use our results to further interrogate the perceptual mechanisms at play when changing point size and opacity in scatterplots.
   
 ---
@@ -619,7 +617,7 @@ visualizations on a daily basis [@bbc_2022]. This expectation confers a responsi
 the part of data visualization designers to design in such ways that people with
 limited  statistical or graph training are able to correctly interpret
 data visualizations. Doing this requires us to understand human perception,
-apply this understanding to data visualization design, and
+apply this understanding to visualization design, and
 test those designs in rigorous empirical work. Here, we present a fully-reproducible,
 crowdsourced online experiment in which we systematically change visual features
 in scatterplots to correct for a well-known bias. We combine two techniques for
@@ -629,6 +627,7 @@ present a framework for visualization design informed from the ground up by huma
 
 ```{r}
 #| label: fig-tasks
+#| fig-env: "figure*"
 #| include: true
 #| out-width: "100%"
 #| fig-asp: 0.25
@@ -802,7 +801,7 @@ with the same overall shape. This finding suggests that lower opacity in the
 center of the scatterplot further biased participants towards underestimation. When point opacity
 or size are reduced as a function of distance from the regression line 
 [@strain_2023; @strain_2023b], viewers rate correlation as significantly higher
-and are significantly more accurate. These findings support a low-level data salience
+and are significantly more accurate, findings that support a low-level data salience
 account. Our aims are to test the impact of systematically altering visual features on correlation perception 
 and to provide empirically-derived tools for visualization designers to design better
 visualizations informed by the use of a simple, reproducible framework.
@@ -923,11 +922,11 @@ associated with lower salience [@healey_2011], can bias judgements of mean point
 position [@hong_2021], increase error in positional judgements [@wehrhahn_1990],
 and can result in greater uncertainty in speed perception [@champion_2017]. Due 
 to mechanistic accounts of both salience/perceptual weighting and spatial uncertainty
-predicting results in the same direction, previous work [@strain_2023] has 
+predicting results in the same direction regarding opacity adjustments, previous work [@strain_2023] has 
 been unable to determine the extent to which each is responsible for the 
 observed reduction in correlation estimation error.
 
-Micallef et al. [@micallef_2017] also found that "merging, dark dots"
+Micallef et al. [@micallef_2017] found that "merging, dark dots"
 support correlation estimation; despite only changing point opacity in a *uniform*
 manner, the sheer number of points used in that study results
 in scatterplots that appear similar to those that reduce opacity as a function of residual
@@ -1004,8 +1003,8 @@ this work is valuable, especially to perception audiences, it can struggle
 to provide data that is resilient to different viewing contexts and the wide
 range of levels of statistical and graph experience present in lay populations.
 In addition, the ease and low-cost afforded to us by online, crowdsourced
-experimental work is unmatched. Given our intended HCI and design audience, we therefore
-choose to crowdsource all participants. We acknowledge however, that the 
+experimental work is unmatched. Given our intended HCI and design audiences, we therefore
+choose to crowdsource all participants. We acknowledge, however, that the 
 technique has been affected by low quality data and skewed demographics
 in the past [@chmielewski_2020; @charalambides_2021; @peer_2021]. In light of these
 issues we follow published guidelines [@peer_2021] to ensure the collection of high quality 
@@ -1013,17 +1012,21 @@ data. Namely, we use the Prolific.co platform [@prolific] with stringent pre-scr
 restrictions; participants were required to have completed at least 100 studies
 using Prolific, and were required to have a prolific score of 100, representing a 99%
 approval rate. This is more strict than the 95% suggested in previous work [@peer_2021],
-but has served the authors well in prior work. 
+but has served the authors well in previous work. 
 
 ## Open Research {#sec-open-research}
 
 This study was conducted according to the principles of open and reproducible
-research [@ayris_2018]. All data and analysis code are available at (repository link removed for anon).
-This repository contains instructions for building a Docker container to fully reproduce the computational
+research [@ayris_2018]. All data and analysis code are included in a GitHub repository[^1],
+which also contains instructions for building a Docker container to fully reproduce the computational
 environment used, allowing for full replications of stimuli, analyses, and the paper
-itself. Ethical approval was granted by (removed for anon). Hypotheses
-and analysis plans were pre-registered with the OSF (links removed for anon) and
+itself. Ethical approval was granted by the University of Manchester's Computer Science
+departmental ethics panel (Ref: 2022-14660-24397). Hypotheses
+and analysis plans were pre-registered with the OSF[^2] and
 there were no deviations from them.
+
+[^1]: https://github.com/gjpstrain/size_opacity_and_scatterplots
+[^2]: https://osf.io/j32sk
 
 ## Modeling {#sec-gen-modelling}
 
@@ -1031,11 +1034,14 @@ We use linear mixed effects models to model the relationships
 between the combination of size and opacity decay
 functions and participants' errors in correlation estimates. Models such as these
 allow us to compare differences in our IV across the full range of participant 
-responses, as opposed to relying purely on aggregate data, as in ANOVA. These models also afford us 
+responses, as opposed to relying purely on aggregate data as in ANOVA. These models also afford us 
 the ability to include random effects for participants and items, and are particularly
-resilient to a range of distributional assumption violations [@schielzeth_2020]. As per our pre-registrations we preferred maximal models [@barr_2013], including random intercepts and slopes for participants and items. The structures of these models were identified using the **buildmer** package
-(version 2.10.1, [@voeten_buildmer]) in R. This package takes a maximal random effects
-structure and then identifies the most complex model that converges by dropping
+resilient to a range of distributional assumption violations [@schielzeth_2020].
+As per our pre-registrations we preferred maximal models [@barr_2013],
+including random intercepts and slopes for participants and items. The structures 
+of these models were identified using the **buildmer** package
+(version 2.10.1, [@voeten_buildmer]) in R. This package takes a maximal random
+effects structure and then identifies the most complex model that converges by dropping
 terms that fail to explain a significant amount of variance.
 
 ## Stimuli {#sec-scatter-gen}
@@ -1080,6 +1086,7 @@ Examples of the stimuli used can be seen in @fig-examples.
 
 ```{r}
 #| label: fig-examples
+#| fig-env: "figure*"
 #| out-width: "100%"
 #| fig-asp: 0.29
 #| fig-align: "left"
@@ -1320,6 +1327,7 @@ in @tbl-contrasts.
 
 ```{r}
 #| label: fig-emm-plot
+#| fig-env: "figure*"
 #| include: true
 #| fig-asp: 0.4
 #| out-width: "100%"
@@ -1397,6 +1405,7 @@ kable(table_df, booktabs = TRUE, digits = c(0,2,3), escape = FALSE)
 
 ```{r}
 #| label: fig-diff-error-bars-plot
+#| fig-env: "figure*"
 #| include: true
 #| out-width: 100%
 #| fig-cap: Plots showing how participants' correlation estimation errors change as a function of the *r* value for each combination of size and opacity decay factors. Overestimation occurs above the dashed line.
@@ -1470,6 +1479,7 @@ of experiment length.
 
 ```{r}
 #| label: fig-time-plot
+#| fig-env: "figure*"
 #| include: true
 #| out-width: 100%
 #| fig-asp: 0.4
@@ -1513,7 +1523,7 @@ orientation manipulations are more powerful than inverted ones [@strain_2023; @s
 As one would expect, we also see an effect of orientation congruency on the extent
 to which a manipulation can bias correlation estimates; redundant 
 encoding, such as that present here in congruent conditions, is known to support 
-visual grouping and segmentation. We now provide evidence that redundancy can be exploited
+visual grouping and segmentation [@nothelfer_2017]. We now provide evidence that redundancy can be exploited
 to change correlation perception. The lack of support for our third hypothesis, that there would be a
 difference in correlation estimates between incongruent conditions, was surprising
 given the greater strength of the size channel relative to opacity demonstrated
@@ -1599,6 +1609,7 @@ plot is averaged over conditions from previous work [@strain_2023; @strain_2023b
 
 ```{r}
 #| label: fig-est-multi-exp
+#| fig-env: "figure*"
 #| include: true
 #| out-width: "100%"
 #| fig-asp: 0.33
@@ -1715,6 +1726,7 @@ which shows to what extent the power we observed differs from what would be requ
 
 ```{r}
 #| label: fig-power-plot
+#| fig-env: "figure*"
 #| include: true
 #| out-width: "100%"
 #| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the observed underestimation of correlation in scatterplots. The integral of each power curve over \textit{r} is provided, as well as the difference between this integral and the integral of each required power curve over \textit{r}.
@@ -1872,14 +1884,18 @@ work to encode variables beyond the standard two typically used in scatterplots 
 While we focus purely on correlation estimation in the present work, we acknowledge
 that the use of our techniques is likely to lead to incorrect interpretations, especially
 when scatterplots are designed with other tasks in mind. Given evidence that size,
-shape, and colour and not entirely separable scatterplot 
+shape, and colour are not entirely separable scatterplot 
 features [@smart_2019], if viewers assume that variations in point size/opacity correspond to additional
 encoded variables, confounds in interpretation may be introduced. As our contribution in this paper
 is providing evidence that changing certain visual features in systematic ways can
 alter viewers' estimates of correlation, we do not consider this to be problematic.
 If charts such as the ones we have presented were to appear in the wild, however,
 it would be necessary to clarify that they were designed to aid in the
-rapid and intuitive interpretation of correlation (and *only* this).
+rapid and intuitive interpretation of correlation (and *only* this). Irrespective
+of the potential for misinterpretation, we provide strong baseline evidence for 
+a perceptual effect of changing point size and opacity in scatterplots that may
+be expanded on and further exploited in future work.
+
 
 While we put forward salience as the most likely driver of the effects on correlation
 estimation we observe when using point size/opacity manipulations, the data we have

@@ -278,7 +278,7 @@
 \LoadClass[\ACM@fontsize, reqno]{amsart}
 \RequirePackage{microtype}
 \RequirePackage{etoolbox}
-\RequirePackage{booktabs}
+\RequirePackage{longtable}
 \RequirePackage{refcount}
 \RequirePackage{totpages}
 \RequirePackage{environ}

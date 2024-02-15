@@ -78,7 +78,7 @@ acm-metadata:
   doi: 10.1145/3613904.3642127
   conference-acronym: "CHI'24"
   conference-name: |
-    Proceedings of the CHI Conference on Human Factors in Computing Systems
+    the CHI Conference on Human Factors in Computing Systems
   conference-date: May 11--16, 2024
   conference-location: Honolulu, HI, USA
   isbn: 979-8-4007-0330-0/24/05
@@ -527,7 +527,7 @@ make_sig_table <- function (model) {
   
   sig_and_squared <- cbind(table_df, r_squared) %>% select(-c("Effect")) 
   
-  table <- kable(sig_and_squared, booktabs = TRUE, digits = c(2,3,2,2,2,2,3), escape = FALSE)
+  table <- kbl(sig_and_squared, booktabs = T, digits = c(2,3,2,2,2,2,3), escape = F)
   
   return(table)
 }
@@ -647,8 +647,8 @@ tasks_theme <- function() {
                plot.title = element_text(size = 7.5, hjust = 0, vjust = 1),
                axis.title = element_blank(),
                axis.line = element_line(linewidth = 0.25),
-               axis.ticks = element_line(linewidth = 0.25),
-               axis.ticks.length = unit(1.375, "pt"))
+               axis.ticks = element_blank())
+               #axis.ticks.length = unit(1.375, "pt"))
 }
 
 ## Create correlation plot
@@ -997,7 +997,7 @@ and characteristics, and experimental design.
 
 ## Crowdsourcing {#sec-crowdsourcing}
 
-Much prior work into correlation perception in scatterplots has taken place
+Much prior work on correlation perception in scatterplots has taken place
 in-person, most often with graduate students with experience in statistics. While
 this work is valuable, especially to perception audiences, it can struggle
 to provide data that is resilient to different viewing contexts and the wide
@@ -1010,7 +1010,7 @@ in the past [@chmielewski_2020; @charalambides_2021; @peer_2021]. In light of th
 issues we follow published guidelines [@peer_2021] to ensure the collection of high quality 
 data. Namely, we use the Prolific.co platform [@prolific] with stringent pre-screen
 restrictions; participants were required to have completed at least 100 studies
-using Prolific, and were required to have a prolific score of 100, representing a 99%
+using Prolific, and were required to have a Prolific score of 100, representing a 99%
 approval rate. This is more strict than the 95% suggested in previous work [@peer_2021],
 but has served the authors well in previous work. 
 
@@ -1018,7 +1018,7 @@ but has served the authors well in previous work.
 
 This study was conducted according to the principles of open and reproducible
 research [@ayris_2018]. All data and analysis code are included in a GitHub repository[^1],
-which also contains instructions for building a Docker container to fully reproduce the computational
+which also contains instructions for building a Docker container [@merkel_2014] to fully reproduce the computational
 environment used, allowing for full replications of stimuli, analyses, and the paper
 itself. Ethical approval was granted by the University of Manchester's Computer Science
 departmental ethics panel (Ref: 2022-14660-24397). Hypotheses
@@ -1034,7 +1034,7 @@ We use linear mixed effects models to model the relationships
 between the combination of size and opacity decay
 functions and participants' errors in correlation estimates. Models such as these
 allow us to compare differences in our IV across the full range of participant 
-responses, as opposed to relying purely on aggregate data as in ANOVA. These models also afford us 
+responses, as opposed to relying purely on aggregate data and ANOVA. These models also afford us 
 the ability to include random effects for participants and items, and are particularly
 resilient to a range of distributional assumption violations [@schielzeth_2020].
 As per our pre-registrations we preferred maximal models [@barr_2013],
@@ -1057,16 +1057,16 @@ as long as the number of points remains above 48 [@rensink_2014] and to facilita
 comparison with previous studies [@strain_2023; @strain_2023b], each scatterplot
 contained 128 data points. Each scatterplot was created and presented using a 1:1 aspect ratio,
 in line with findings that this facilitates optimal performance on correlation
-estimation tasks [@micallef_2017]. Scatterplots were generated as 1000 x 1000 pixel .png images,
+estimation tasks [@micallef_2017]. Scatterplots were generated as 1000 $\times$ 1000 pixel .png images,
 and were scaled up or down according to a participant's monitor such that they
-always occupied the same proportion of the screen. Note that this results in reductions
-in scatterplot point size in proportion with the size of the plot itself. Variations 
-in size such as these have been associated with lower levels of colour/opacity discriminability
+always occupied the same proportion of the screen. Note that this results in changes
+in scatterplot point sizes in proportion with the size of the plot itself. Variations 
+in size such as these have been associated with changing levels of colour/opacity discriminability
 [@szafir_2018; @smart_2019]. As we only allowed participants to complete
 the experiment on a desktop/laptop computer, we do not consider the variations in
 point size to be worthy of extended  discussion, especially as there was 
 little reported effect of dot pitch (see @sec-add-analyses).
-We used equation 1 to map residuals to size and opacity values:
+We used equation 1 to map residuals onto size and opacity values:
 
 \begin{equation}
   point_{size/opacity} = 1 - b^{residual}
@@ -1079,9 +1079,9 @@ size in the present study is both visible and consistent with that of previous w
 that the present work builds upon, and it produces a curve approximating a 
 reflection around the identity line of the underestimation curve reported in previous
 studies [@rensink_2017; @strain_2023; @strain_2023b]. We acknowledge that there
-may be other, more suitable values of *b*, however testing of these is
+may be other, more suitable values of *b*, however testing these is
 outside the scope of the present work. We used this equation in typical and inverted
-orientation forms applied to point size and opacity in a factorial 2 x 2 design.
+orientation forms applied to point size and opacity in a factorial 2 $\times$ 2 design.
 Examples of the stimuli used can be seen in @fig-examples.
 
 ```{r}
@@ -1181,17 +1181,17 @@ visibility test as a fixed effect in @sec-add-analyses.
 
 ## Dot Pitch {#sec-dot-pitch}
 
-We employed a method for obtaining the dot pitch of participants' monitors [@screenscale].
-We define dot pitch as the distance in millimetres between the centers of the pixels on a participants'
-monitor. Combining this with monitor resolution information allows us to calculate the physical on-screen
+We employed a method for obtaining the dot pitch, defined as the distance in millimetres
+between the centers of the pixels, of participants' monitors [@screenscale]. 
+Combining this with monitor resolution information allows us to calculate the physical on-screen
 size of scatterplot points. Participants were asked to hold a standard size
 credit/debit/ID card (ISO/IEC 7810 ID-1) up to their screen and resize an on-screen card
 until their sizes matched. We assumed a widescreen 16:9 aspect ratio and calculated
 dot pitch based on these measurements. Mean dot pitch was 
 `r printnum(dot_pitch$mean_dp, digits = 2)`mm ($SD$ = `r printnum(dot_pitch$sd_dp, digits = 2)`),
 corresponding to a physical on-screen size of `r printnum(dot_pitch$mean_dp*13)`mm
-on a 1920 x 1080 pixel monitor for the smallest points displayed on a hypothetical
-`r printnum(dot_pitch$mean_width)` x `r printnum(dot_pitch$mean_height)`cm monitor. 
+on a 1920 $\times$ 1080 pixel monitor for the smallest points displayed on a hypothetical
+`r printnum(dot_pitch$mean_width)` $\times$ `r printnum(dot_pitch$mean_height)`cm monitor. 
 We include analysis with dot pitch as a fixed effect in @sec-add-analyses.
 
 ## Procedure {#sec-gen-procedure}
@@ -1221,7 +1221,7 @@ asked participants to ignore the scatterplot and set the slider to 0 or 1.
 150 participants were recruited using the Prolific.co platform. Normal to 
 corrected-to-normal vision and English fluency were required for participation.
 In addition, participants who had completed any of our previous studies
-into correlation estimation in scatterplots (references removed for anon) 
+into correlation estimation in scatterplots [@strain_2023; strain_2023b]
 were prevented from participating. Data were collected from 158 participants. 
 8 failed more than 2 out of 6 attention
 check questions, and, as per pre-registration stipulations, were rejected from the
@@ -1302,14 +1302,15 @@ model_cmpr <- comparison(model)
 anova_results(model, model_cmpr)
 ```
 
+
 ```{r}
 #| label: tbl-sig
 #| include: true
 #| tbl-cap: Significances of fixed effects and the interaction between them. Semi-partial R^2^ for each fixed effect and the interaction term is also displayed in lieu of effect sizes.
 
 make_sig_table(model)
-```
 
+```
 A likelihood ratio test revealed that the model including point size
 and opacity decay conditions as fixed effects explained significantly more variance
 than the null ($\chi^2$(`r in_paren(model.df)`) = 
@@ -1388,6 +1389,8 @@ as_tibble(emmeans(model, pairwise ~ size * opacity)[[1]]) %>%
 #| include: true
 #| tbl-cap: Pairwise comparisons. TO = Typical Orientation, IO = Inverted Orientation. The interaction is driven by the non-additive nature of combining point size and contrast decay functions, and the only nonsignificant contrast is found when incongruent decay functions are compared.
 
+# have a look at replacing this table with something better - it is ugly
+
 table_df <- contrasts_extract(model) %>%
   mutate(p.value = scales::pvalue(p.value)) %>%
   rename("\\textit{p}" = "p.value",
@@ -1400,7 +1403,7 @@ table_df <- contrasts_extract(model) %>%
          "I I - I S" = "IO Size x IO Opacity <-> IO Size x TO Opacity",
          "S S - I S" = "TO Size x TO Opacity <-> IO Size x TO Opacity"))
 
-kable(table_df, booktabs = TRUE, digits = c(0,2,3), escape = FALSE)
+kbl(table_df, booktabs = TRUE, digits = c(0,2,3), escape = FALSE)
 ```
 
 ```{r}

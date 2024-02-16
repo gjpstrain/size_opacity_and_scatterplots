@@ -1040,7 +1040,7 @@ resilient to a range of distributional assumption violations [@schielzeth_2020].
 As per our pre-registrations we preferred maximal models [@barr_2013],
 including random intercepts and slopes for participants and items. The structures 
 of these models were identified using the **buildmer** package
-(version 2.10.1, [@voeten_buildmer]) in R. This package takes a maximal random
+(version 2.11, [@voeten_buildmer]) in R. This package takes a maximal random
 effects structure and then identifies the most complex model that converges by dropping
 terms that fail to explain a significant amount of variance.
 
@@ -1221,7 +1221,7 @@ asked participants to ignore the scatterplot and set the slider to 0 or 1.
 150 participants were recruited using the Prolific.co platform. Normal to 
 corrected-to-normal vision and English fluency were required for participation.
 In addition, participants who had completed any of our previous studies
-into correlation estimation in scatterplots [@strain_2023; strain_2023b]
+into correlation estimation in scatterplots [@strain_2023; @strain_2023b]
 were prevented from participating. Data were collected from 158 participants. 
 8 failed more than 2 out of 6 attention
 check questions, and, as per pre-registration stipulations, were rejected from the
@@ -1231,25 +1231,27 @@ and `r printnum(gender$NB, digits = 1)`% non-binary).
 Participants' mean age was `r printnum(age$mean, digits = 1)` (*SD* = `r printnum(age$sd, digits = 1)`).
 Participants' mean graph literacy score was `r printnum(literacy$mean, digits = 1)`
 (*SD* = `r printnum(literacy$sd, digits = 1)`) out of 30. The average
-time taken to complete the experiment was 37 minutes (*SD* = 12.3). @sec-add-analyses
-contains a discussion of the time taken to complete the experiment.
+time taken to complete the experiment was 37 minutes (*SD* = 12.3), and is 
+discussed further in @sec-add-analyses.
 
 ## Design {#sec-design}
 
-We employed a fully repeated-measures 2 x 2 factorial design. Each participant
+We employed a fully repeated-measures 2 $\times$ 2 factorial design. Each participant
 saw each combination of size and opacity decay function plots for a total of 180
 experimental items. Participants viewed these experimental items, along with 6
 attention check items, in a fully randomized order. All experimental code, materials,
-and instructions are hosted at (link removed for anon).
+and instructions are hosted on GitLab[^3].
+
+[^3]: https://gitlab.pavlovia.org/Strain/size_and_opacity_additive_exp
 
 # Results {#sec-results}
 
 All analyses were conducted using R (version `r paste0(R.version$major, ".", R.version$minor)`). 
 Deviation coding was used for each of the experimental factors, which allows us to
 compare means of *r* estimation error for each fixed effect to the grand mean.
-We used the **buildmer** and **lme4** (version 1.1-34 [@lme4]) packages to build a linear mixed effects model where the difference between objective and rated *r* value was predicted by the size and opacity decay
+We used the **buildmer** and **lme4** (version 1.1-35.1 [@lme4]) packages to build a linear mixed effects model where the difference between objective and rated *r* value was predicted by the size and opacity decay
 functions used. Semi-partial R^2^ was calculated using the **r2glmm** package 
-(version 0.1.2 [@r2glmm]). The **emmeans** package (version 1.8.8 [@emmeans])
+(version 0.1.2 [@r2glmm]). The **emmeans** package (version 1.10.0 [@emmeans])
 was used to calculate pairwise comparisons between levels of the size and opacity decay factors.
 
 Our first two hypotheses were fully supported in this experiment. The combination of 
@@ -1322,7 +1324,7 @@ Due both to our use of a linear mixed effects model with an interaction
 term, and our lack of a comparative baseline condition (i.e no size or opacity decay function used),
 we do not report a traditional measure of effect size. Instead we report the amounts of variance
 explained by each fixed effect term and the interaction term as semi-partial
-R^2^ [@nakagawa_2013], which can be see in @tbl-sig along with all model statistics.
+R^2^ [@nakagawa_2013], which can be seen in @tbl-sig along with all model statistics.
 Pairwise comparisons between levels of the size and opacity decay factor can be seen
 in @tbl-contrasts.
 
@@ -1396,12 +1398,12 @@ table_df <- contrasts_extract(model) %>%
   rename("\\textit{p}" = "p.value",
          "Z ratio" = "Z.ratio") %>%
   mutate('Contrast' = recode(Contrast,
-         "S I - I I" = "TO Size x IO Opacity <-> IO Size x IO Opacity",
-         "S I - S S" = "TO Size x IO Opacity <-> TO Size x TO Opacity",
-         "S I - I S" = "TO Size x IO Opacity <-> IO Size x TO Opacity",
-         "I I - S S" = "IO Size x IO Opacity <-> TO Size x TO Opacity",
-         "I I - I S" = "IO Size x IO Opacity <-> IO Size x TO Opacity",
-         "S S - I S" = "TO Size x TO Opacity <-> IO Size x TO Opacity"))
+         "S I - I I" = "TO Size x IO Opacity | IO Size x IO Opacity",
+         "S I - S S" = "TO Size x IO Opacity | TO Size x TO Opacity",
+         "S I - I S" = "TO Size x IO Opacity | IO Size x TO Opacity",
+         "I I - S S" = "IO Size x IO Opacity | TO Size x TO Opacity",
+         "I I - I S" = "IO Size x IO Opacity | IO Size x TO Opacity",
+         "S S - I S" = "TO Size x TO Opacity | IO Size x TO Opacity"))
 
 kbl(table_df, booktabs = TRUE, digits = c(0,2,3), escape = FALSE)
 ```
@@ -1473,7 +1475,7 @@ We find a significant effect of trial number on participant's errors ($\chi^2$(`
 `r printnum(timing_model.Chisq)`, *p* `r printp(timing_model.p, add_equals = TRUE)`).
 @fig-time-plot shows participants' unsigned mean errors in correlation estimation
 against trial number. Variability in error, as represented by the ribbon in @fig-time-plot,
-stabilises quickly and remains stable for most of the experiment, only widening again
+stabilizes quickly and remains stable for most of the experiment, only widening again
 around trial number 170. We suggest that this is a result of participants knowing
 that they were coming to the end of the experiment and being less vigilant as a result.
 Regardless of its statistical significance, we do not consider this effect large enough to warrant
@@ -1548,8 +1550,8 @@ provide recommendations to visualization designers and researchers:
  is small, it does significantly increase estimation accuracy.
  - There exists a combination of size and opacity decay functions that produces
  accurate correlation estimates while maintaining the increased *r* estimation
- precision that we would expect to see with high *r* values. Finding this will require
- extensive future testing.
+ precision that we would expect to see with high *r* values (see @sec-precision).
+ Finding this will require extensive future testing.
 
 ## Combining Manipulations {#sec-combining}
 
@@ -1570,7 +1572,7 @@ Combining inverted manipulations did not, however, significantly change the shap
 of the estimation curve (see @fig-diff-error-bars-plot). In addition to interacting
 non-additively, the effects we observe operate differently depending on the direction
 of the change induced in perception. This finding can also explain the lack of support
-found for our hypothesis that there would be a significant difference
+found for our hypothesis stating there would be a significant difference
 in *r* estimation error between the two incongruent conditions. Despite the size channel
 being more powerful with regards to influencing correlation estimates, the fact
 that this power depends on the direction the function is set causes incongruent
@@ -1581,7 +1583,7 @@ however in each case opacity decay appears to have blunted the power of the
 size decay function to the extent that the difference in errors is not statistically
 significant.
 
-## Estimation Precision
+## Estimation Precision {#sec-precision}
 
 Much previous work is consistent regarding the finding that *r* estimation
 precision increases with the objective *r* value [@rensink_2010; @rensink_2012; @rensink_2014;
@@ -1683,11 +1685,10 @@ In the following, we briefly discuss the effects of each manipulation in isolati
 and the manipulations together, before making a case for the inclusion of both
 when tuning scatterplots for correlation estimation due to the complementary
 benefits each confers. Throughout the course of this section it should be noted
-that the analyses include data from several separate experiments. We argue that
+that the analyses include data from several separate experiments [@strain_2023; @strain_2023b]. We argue that
 their use of near-identical decay equations (in isolation and without the
 use of an opacity floor) and experimental paradigms
-render comparisons appropriate, but we acknowledge the potential for overstated conclusions
-[@strain_2023; @strain_2023b].
+render comparisons appropriate, but we acknowledge the potential for overstated conclusions.
 
 Using an opacity decay function in isolation has a small effect on
 correlation estimation. It does little to change the shape of the underestimation
@@ -1723,7 +1724,7 @@ shows the power that would be needed to correct for the standard underestimation
 curve (see @fig-underestimation-curve). As we can see, size alone provides the 
 closest to the requirement, and combining size and opacity decay functions 
 results in gross overestimation. @fig-power-plot includes the integral of each
-power curve over *r*, a measure of the total power of each curve. We also display
+power curve over *r* as a measure of the total power of each curve. We also display
 the difference between this integral and the integral of each required-power curve over *r*,
 which shows to what extent the power we observed differs from what would be required.
 
@@ -1732,7 +1733,7 @@ which shows to what extent the power we observed differs from what would be requ
 #| fig-env: "figure*"
 #| include: true
 #| out-width: "100%"
-#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the observed underestimation of correlation in scatterplots. The integral of each power curve over \textit{r} is provided, as well as the difference between this integral and the integral of each required power curve over \textit{r}.
+#| fig-cap: Power is the difference between what is observed when a decay function/combination of decay functions is used and what is observed when no manipulation is used. The dashed line represents the power that would be required to correct for the observed underestimation of correlation in scatterplots. The integral of each power curve over \textit{r} is provided, as well as the difference between this integral and the integral of each required-power curve over \textit{r}.
 
 # dataframe containing values from previous experiments and the current is included
 # in the data folder 
@@ -1876,7 +1877,7 @@ populations renders our conclusions resilient to changes in viewing contexts,
 but further, in-person, experimentation is planned to confirm this.
 
 Due to extensive previous testing of no-adjustment, size-only, and opacity-only
-manipulation scatterplots [@strain_2023; @strain_2023b], we choose not to include
+manipulation scatterplots [@strain_2023; @strain_2023b], we chose not to include
 these as conditions in the present work. We did not consider the increased
 costs and experimental length worth the inclusion of three extra
 conditions, although we acknowledge that these would assist us in making
@@ -1892,7 +1893,7 @@ features [@smart_2019], if viewers assume that variations in point size/opacity 
 encoded variables, confounds in interpretation may be introduced. As our contribution in this paper
 is providing evidence that changing certain visual features in systematic ways can
 alter viewers' estimates of correlation, we do not consider this to be problematic.
-If charts such as the ones we have presented were to appear in the wild, however,
+If plots such as the ones we have presented were to appear in the wild, however,
 it would be necessary to clarify that they were designed to aid in the
 rapid and intuitive interpretation of correlation (and *only* this). Irrespective
 of the potential for misinterpretation, we provide strong baseline evidence for 
@@ -1907,7 +1908,7 @@ the shapes of the estimation error curves (see @fig-est-multi-exp). The context
 that the manipulation is used in (i.e. the *r* value of the scatterplot) interacts
 with point size and opacity manipulations in complex ways. To understand how point size/opacity
 manipulations operate in more detail, future work may wish to choose fewer *r* values
-and instead vary the type of decay equation/range of sizes/opacities, but
+and instead vary the type of decay equation or range of sizes/opacities, but
 this is beyond the scope of the current work.
 
 ## Future Work {#sec-future-work}
@@ -1949,7 +1950,7 @@ can exploit them to correct for well-known biases.
 Through this work we also provide an example of an experimental framework
 that we argue should be employed to test a wider range of data visualizations,
 statistical summaries, and task types. Our framework is fully open source, and
-can be easily adapted for other charts and modalities. Doing this furthers the 
+can be easily adapted for other charts and modalities. Doing so will further the 
 cause of empirically-informed data visualization design.
 
 # References {-}

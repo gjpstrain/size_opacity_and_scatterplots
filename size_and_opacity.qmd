@@ -916,7 +916,7 @@ underestimation error relative to full opacity, and that lowering point
 opacity *as a function of distance from the regression line* is able to bias
 correlation estimates upwards to partially correct for the underestimation 
 observed [@strain_2023]. Evidence suggests point salience/perceptual weighting or
-spatial uncertainty as drivers for this effect. Lower stimulus contrast, which for
+spatial uncertainty as drivers of this effect. Lower stimulus contrast, which for
 isolated stimuli is functionally identical to lower opacity, is 
 associated with lower salience [@healey_2011], can bias judgements of mean point
 position [@hong_2021], increase error in positional judgements [@wehrhahn_1990],
@@ -1297,7 +1297,7 @@ model_cmpr <- comparison(model)
 ```
 
 ```{r}
-#| label: anova
+#| label: anova0
 
 # runs ANOVA between experimental and comparison models
 

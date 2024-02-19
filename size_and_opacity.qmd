@@ -268,7 +268,6 @@ demographics <- anon_file %>%
 # split images column into item and condition columns
 # additionally create "condition_abs" column
 # this will be simpler to plot with later
-# and allows us to use wrangle function for both experiments
 
 anon_file <- anon_file %>%
   mutate(images = str_replace(images, pattern = "A", replacement = "-S-S")) %>%

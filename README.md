@@ -1,4 +1,4 @@
-# Novel Effects of Size and Opacity Adjustments in Scatterplots
+# Effects of Size and Opacity Adjustments in Scatterplots
 
 Files, data, and scripts required to fully recreate our study investigating how manipulating point size and opacity in scatterplots can influence viewers' performance in a correlation estimation task.
 

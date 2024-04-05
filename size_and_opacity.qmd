@@ -8,7 +8,7 @@ keep-tex: true
 bibliography: size-opacity.bib
 
 params:
-  eval_models: false
+  eval_models: true
   
 knitr:
   opts_chunk: 
@@ -154,6 +154,7 @@ library(ggtext)
 library(r2glmm)
 library(grid)
 library(DescTools)
+library(Matrix)
 
 # fix conflicts now using the conflicted package
 

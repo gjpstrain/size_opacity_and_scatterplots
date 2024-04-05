@@ -184,12 +184,15 @@
 %% values in them; it is your responsibility as an author to replace
 %% the commands and values with those provided to you when you
 %% complete the rights form.
+\setcopyright{rightsretained}
 \copyrightyear{2024}
 \acmYear{2024}
-\setcopyright{rightsretained}
-\acmConference[CHI '24]{Proceedings of the CHI Conference on Human Factors in Computing Systems}{May 11--16, 2024}{Honolulu, HI, USA}
-\acmBooktitle{Proceedings of the CHI Conference on Human Factors in Computing Systems (CHI '24), May 11--16, 2024, Honolulu, HI, USA}
 \acmDOI{10.1145/3613904.3642127}
+
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[CHI'24]{the CHI Conference on Human Factors in Computing
+Systems}{May 11--16, 2024}{Honolulu, HI, USA}
+\acmPrice{}
 \acmISBN{979-8-4007-0330-0/24/05}
 
 %% Submission ID.
@@ -231,7 +234,7 @@
 %%
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title{Effects of Point Size and
+\title[Size, Opacity, and Scatterplots]{Effects of Point Size and
 Opacity Adjustments in Scatterplots}
 
 %%
@@ -933,7 +936,7 @@ effect that provides evidence that the combination of size and opacity
 decay functions is not additive in nature.
 
 \hypertarget{tbl-sig}{}
-\begin{table*}
+\begin{table}
 \caption{\label{tbl-sig}Significances of fixed effects and the interaction between them.
 Semi-partial R\textsuperscript{2} for each fixed effect and the
 interaction term is also displayed in lieu of effect sizes. }\tabularnewline
@@ -949,7 +952,7 @@ Opacity Decay & 0.12 & 0.002 & 26327.21 & 63.71 & <0.001 & 0.087\\
 Size Decay x Opacity Decay & 0.15 & 0.004 & 26327.13 & 38.47 & <0.001 & 0.034\\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 
 A likelihood ratio test revealed that the model including point size and
 opacity decay conditions as fixed effects explained significantly more
@@ -998,6 +1001,7 @@ TO Size x IO Opacity | TO Size x TO Opacity & 72.29 & <0.001\\
 TO Size x IO Opacity | IO Size x TO Opacity & -2.26 & 0.108\\
 IO Size x IO Opacity | TO Size x TO Opacity & 46.13 & <0.001\\
 IO Size x IO Opacity | IO Size x TO Opacity & 17.84 & <0.001\\
+\addlinespace
 TO Size x TO Opacity | IO Size x TO Opacity & -37.44 & <0.001\\
 \bottomrule
 \end{tabular}

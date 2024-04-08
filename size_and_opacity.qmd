@@ -8,7 +8,7 @@ keep-tex: true
 bibliography: size-opacity.bib
 
 params:
-  eval_models: true
+  eval_models: false
   
 knitr:
   opts_chunk: 

@@ -30,7 +30,7 @@ Opening `size_and_opacity.qmd` and using the 'Render' button will allow you to r
 
 IMPORTANT: Models have been cached to increase performance. The cache will not be recognised automatically when using RStudio within the Docker container. eval_models must be set to FALSE in line 11 in order to use the cached models. This will prevent knitr from executing the code for each model, but will 'lazyload' all cached models so they can be used in manuscript generation. Setting eval_models to TRUE in line 11 will result in all models being re-generated.
 
-The manuscript was written using the ACM CHI template.
+The manuscript was written using the ACM CHI template. An issue with quarto/pandoc means that the tables are rendered partially outside of the pdf boundaries. I solved this by manually editing the resulting .tex file and re-running it. The source files in `chi24-238.zip` have had these changes implemented.
 
 Files and folders used in generating manuscript:
 
@@ -39,14 +39,16 @@ Files and folders used in generating manuscript:
  - `data`: folder containing collected, anonymized data
  - `size-opacity.bib` for referencing
  - `acmart.cls`: LaTeX class file required for building manuscript
- - `ACM-Reference-Format.bst`: reference formats needed for latex compilation
+ - `ACM-Reference-Format.bst`: reference format needed for latex compilation
  - `_extensions`: templates etc required for quarto to correctly render manuscript
 
-Knitting the manuscript may take some time depending on the performance of your computer.
+Knitting the manuscript may take some time depending on the performance of your computer, especially if models are being re-built.
 
 ### Other Files
 
  - `item_preparation`: folder containing scripts to generate all experimental items, practice items, and visual masks
+ - `floor_testing_plots`: contains plots that were used to visualise the opacity floor for experimental items
+ - `chi24-238.zip`: the source files submitted - a barebones way to produce the paper
 
 ## Experiment Code and Materials
 

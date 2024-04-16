@@ -36,3 +36,5 @@ RUN R -e "devtools::install_version('ggtext', version = '0.1.2', dependencies = 
 RUN R -e "devtools::install_version('r2glmm', version = '0.1.2', dependencies = T)"
 RUN R -e "devtools::install_version('DescTools', version = '0.99.54', dependencies = T)"
 RUN R -e "devtools::install_version('lme4', version = '1.1-35.0', dependencies = T)"
+
+# note lme4 version was not latest to fix incompatibility with Matrix package

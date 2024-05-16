@@ -2,7 +2,7 @@
 
 Files, data, and scripts required to fully recreate our study investigating how manipulating point size and opacity in scatterplots can influence viewers' performance in a correlation estimation task.
 
-A video presentation for this paper can be found [here](https://www.youtube.com/watch?v=hZEZFJSlmtU). Warning: while the in-person presentation was lively, the pre-recorded version is a little dry. The ACM Digital Library entry for this paper, is [here](https://dl.acm.org/doi/10.1145/3613904.3642127).
+A video presentation for this paper can be found here: [YouTube link](https://www.youtube.com/watch?v=hZEZFJSlmtU). Warning: while the in-person presentation was lively, the pre-recorded version is a little dry. The ACM Digital Library entry for this paper, is here: [ACM DL](https://dl.acm.org/doi/10.1145/3613904.3642127).
 
 ## Data
 

@@ -2,6 +2,8 @@
 
 Files, data, and scripts required to fully recreate our study investigating how manipulating point size and opacity in scatterplots can influence viewers' performance in a correlation estimation task.
 
+A video presentation for this paper can be found [here](https://www.youtube.com/watch?v=hZEZFJSlmtU). Warning: while the in-person presentation was lively, the pre-recorded version is a little dry.
+
 ## Data
 
 Raw data (.csv format) is located in the `data` folder. The R script `data_processing_for_payment.R` takes raw data straight from pavlovia.org, and writes a .csv file with a list of passed and failed participants to the `data` folder.

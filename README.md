@@ -22,7 +22,7 @@ To begin, clone this repository to your local machine. With Docker running in th
 
 If you're using a machine with an ARM processor, such as Apple Silicon, use the following command to build an image:
 
-```docker buildx build --platform linux/amd64 -t size_and_opacity```
+```docker buildx build --platform linux/amd64 -t size_and_opacity .```
 
 Then, type:
 

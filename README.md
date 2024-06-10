@@ -20,6 +20,10 @@ To begin, clone this repository to your local machine. With Docker running in th
 
 ```docker build -t size_and_opacity .```
 
+If you're using a machine with an ARM processor, such as Apple Silicon, use the following command to build an image:
+
+```docker buildx build --platform linux/amd64 -t size_and_opacity```
+
 Then, type:
 
 ```docker run --rm -p 8787:8787 -e PASSWORD=password size_and_opacity```

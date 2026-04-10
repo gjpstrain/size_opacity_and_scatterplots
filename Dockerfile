@@ -12,11 +12,11 @@ RUN R -e "install.packages('renv')"
 RUN R -e "renv::restore(prompt = FALSE)"
 
 # Add our files to container
-ADD data/ ./data/
-ADD size_and_opacity.qmd ./
-ADD item_preparation/ ./item_preparation/
-ADD size_and_opacity_cache/ ./size_and_opacity_cache/
-ADD _extensions/ ./_extensions/
-ADD ACM-Reference-Format.bst ./
-ADD size-opacity.bib ./
-ADD acmart.cls ./
+COPY data/ ./data/
+COPY size_and_opacity.qmd ./
+COPY item_preparation/ ./item_preparation/
+COPY size_and_opacity_cache/ ./size_and_opacity_cache/
+COPY _extensions/ ./_extensions/
+COPY ACM-Reference-Format.bst ./
+COPY size-opacity.bib ./
+COPY acmart.cls ./
